@@ -1,18 +1,28 @@
 %pyproject_wheel() %{expand:\\\
-	CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" \\\
-	%{__python3} -m pip wheel --no-deps --use-pep517 --no-build-isolation --disable-pip-version-check --progress-bar off --verbose .
+CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" \\\
+%{__python3} -m pip wheel --no-deps --use-pep517 --no-build-isolation --disable-pip-version-check --progress-bar off --verbose .
 }
 
 
 %pyproject_install() %{expand:\\\
 %{__python3} -m pip install   --root %{buildroot}  --strip-file-prefix %{buildroot} --no-deps  --disable-pip-version-check --progress-bar off --verbose --ignore-installed --no-warn-script-location ./*.whl
-if [ -e %{buildroot}%{_bindir} ]; then
+if [ -d %{buildroot}%{_bindir} ]; then
   pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{buildroot}%{_bindir}/*
 fi
-if [ -e %{buildroot}%{python3_sitelib}]; then
-  sed -i -e 's/pip/rpm/g' %{buildroot}%{python3_sitelib}/*.dist-info/INSTALLER
+if [ -d %{buildroot}%{python3_sitelib} ]; then
+  sed -i 's/pip/rpm/' %{buildroot}%{python3_sitelib}/*.dist-info/INSTALLER
 fi
-if [ -e %{buildroot}{python3_sitearch}]; then
-  sed -i -e 's/pip/rpm/g' %{buildroot}%{python3_sitearch}/*.dist-info/INSTALLER
+if [ -d %{buildroot}%{python3_sitearch} ]; then
+  sed -i 's/pip/rpm/' %{buildroot}%{python3_sitearch}/*.dist-info/INSTALLER
+fi
+}
+
+%pyproject_buildrequires() %{expand:\\\
+echo 'python3-devel'
+echo 'python3dist(packaging)'
+echo 'python3dist(pip) >= 19'
+echo 'python3dist(pytoml)'
+if [ -f %{__python3} ]; then
+  %{__python3} -I %{_rpmconfigdir}/redhat/pyproject_buildrequires.py
 fi
 }

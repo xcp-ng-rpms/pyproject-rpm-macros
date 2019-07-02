@@ -1,17 +1,17 @@
-%global pypi_name pytest
+%global pypi_name entrypoints
 Name:           python-%{pypi_name}
-Version:        4.4.2
+Version:        0.3
 Release:        0%{?dist}
-Summary:        Simple powerful testing with Python
+Summary:        Discover and load entry points from installed packages
 License:        MIT
-URL:            https://pytest.org
+URL:            https://entrypoints.readthedocs.io/
 Source0:        %{pypi_source}
 
 BuildArch:      noarch
 BuildRequires:  pyproject-rpm-macros
 
 %description
-py.test provides simple, yet powerful testing for Python.
+Discover and load entry points from installed packages.
 
 
 %package -n python3-%{pypi_name}
@@ -19,7 +19,7 @@ Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description -n python3-%{pypi_name}
-py.test provides simple, yet powerful testing for Python.
+Discover and load entry points from installed packages.
 
 
 %prep
@@ -40,11 +40,7 @@ py.test provides simple, yet powerful testing for Python.
 
 %files -n python3-%{pypi_name}
 %doc README.rst
-%doc CHANGELOG.rst
 %license LICENSE
-%{_bindir}/pytest
-%{_bindir}/py.test
-%{python3_sitelib}/pytest-*.dist-info/
-%{python3_sitelib}/_pytest/
-%{python3_sitelib}/pytest.py
-%{python3_sitelib}/__pycache__/pytest.*
+%{python3_sitelib}/entrypoints-*.dist-info/
+%{python3_sitelib}/entrypoints.py
+%{python3_sitelib}/__pycache__/entrypoints.*
