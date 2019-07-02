@@ -31,7 +31,7 @@ And install the wheel in %install:
 Limitations
 -----------
 
-`%pyproject_install` currently installs all wheels in `%_builddir`. We are working on a more explicit solution.
+`%pyproject_install` currently installs all wheels in `$PWD`. We are working on a more explicit solution.
 
 This macro changes shebang lines of every Python script in `%{buildroot}%{_bindir}` to `#! %{__python3} %{py3_shbang_opt}` (`#! /usr/bin/python -s`).
 We plan to preserve exisiting Python flags in shebangs, but the work is not yet finished.
