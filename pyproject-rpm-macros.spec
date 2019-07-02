@@ -5,6 +5,7 @@ License:        MIT
 Source0:        macros.pyproject
 Source1:        README.md
 Source2:        LICENSE
+URL:            https://src.fedoraproject.org/rpms/pyproject-rpm-macros
 BuildArch:      noarch
 Summary:        RPM macros for PEP 517 Python packages
 

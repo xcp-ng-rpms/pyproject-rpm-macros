@@ -1,0 +1,8 @@
+# this dependency is on purpose
+addFilter(r'devel-dependency python3-devel')
+
+# RPM macros, this is expected
+addFilter(r'only-non-binary-in-usr-lib')
+
+# spelling errors
+addFilter(r'spelling-error .* en_US (toml|setuptools) ')
