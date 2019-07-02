@@ -1,6 +1,6 @@
 Name:           pyproject-rpm-macros
 Version:        0
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        MIT
 Source0:        macros.pyproject
 Source1:        README.md
@@ -37,6 +37,9 @@ install -m 644 %{SOURCE0} %{buildroot}/%{_rpmmacrodir}/
 %license LICENSE
 
 %changelog
+* Tue Jul 02 2019 Miro Hrončok <mhroncok@redhat.com> - 0-2
+- Fix shell syntax errors in %%pyproject_install
+- Drop PATH warning in %%pyproject_install
 
 * Fri Jun 28 2019 Patrik Kopkan <pkopkan@redhat.com> - 0-1
 - created package
