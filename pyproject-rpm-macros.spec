@@ -20,15 +20,17 @@ pyproject.toml file, which specifies the package's build dependencies
 (including the build system, such as setuptools, flit or poetry).
 
 %prep
-cp -p %{SOURCE1} %{_builddir}
-cp -p %{SOURCE2} %{_builddir}
+# Not strictly necessary but allows working on file names instead
+# of source numbers in install section
+%setup -c -T
+cp -p %{sources} .
 
 %build
 # nothing to do, sources are not buildable
 
 %install
 mkdir -p %{buildroot}/%{_rpmmacrodir}
-install -m 644 %{SOURCE0} %{buildroot}/%{_rpmmacrodir}/
+install -m 644 macros.pyproject %{buildroot}/%{_rpmmacrodir}/
 
 %files
 %{_rpmmacrodir}/macros.pyproject
