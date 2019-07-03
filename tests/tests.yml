@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  tags:
+    - classic
+  tasks:
+    - dnf:
+        name: "*"
+        state: latest
+
+- hosts: localhost
+  roles:
+  - role: standard-test-basic
+    tags:
+    - classic
+    tests:
+    - pytest:
+        dir: .
+        run: ./mocktest.sh python-pytest
+    - entrypoints:
+        dir: .
+        run: ./mocktest.sh python-entrypoints
+    required_packages:
+    - mock
+    - rpmdevtools
+    - rpm-build
