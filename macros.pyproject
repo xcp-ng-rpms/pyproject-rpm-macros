@@ -17,12 +17,14 @@ if [ -d %{buildroot}%{python3_sitearch} ]; then
 fi
 }
 
-%pyproject_buildrequires() %{expand:\\\
+%pyproject_buildrequires(r) %{expand:\\\
 echo 'python3-devel'
 echo 'python3dist(packaging)'
 echo 'python3dist(pip) >= 19'
 echo 'python3dist(pytoml)'
+# setuptools assumes no pre-existing dist-info
+rm -rfv *.dist-info/
 if [ -f %{__python3} ]; then
-  %{__python3} -I %{_rpmconfigdir}/redhat/pyproject_buildrequires.py %{?*}
+  %{__python3} -I %{_rpmconfigdir}/redhat/pyproject_buildrequires.py %{?**}
 fi
 }

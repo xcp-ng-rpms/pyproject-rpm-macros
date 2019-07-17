@@ -27,7 +27,7 @@ py.test provides simple, yet powerful testing for Python.
 
 
 %generate_buildrequires
-%pyproject_buildrequires
+%pyproject_buildrequires -r
 
 
 %build

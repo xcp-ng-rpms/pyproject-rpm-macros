@@ -27,7 +27,8 @@ Discover and load entry points from installed packages.
 
 
 %generate_buildrequires
-%pyproject_buildrequires
+rm -rfv *.dist-info/
+%pyproject_buildrequires -r
 
 
 %build

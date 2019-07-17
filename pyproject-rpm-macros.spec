@@ -34,6 +34,8 @@ BuildRequires: python3dist(pyyaml)
 BuildRequires: python3dist(packaging)
 BuildRequires: python3dist(pytoml)
 BuildRequires: python3dist(pip)
+BuildRequires: python3dist(setuptools)
+BuildRequires: python3dist(wheel)
 %endif
 
 

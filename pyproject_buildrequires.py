@@ -8,6 +8,7 @@ from io import StringIO
 import subprocess
 import pathlib
 import re
+import email.parser
 
 print_err = functools.partial(print, file=sys.stderr)
 
@@ -83,7 +84,6 @@ class Requirements:
             key=lambda s: (s.operator, s.version),
         ):
             version = canonicalize_version(specifier.version)
-            print_err(version)
             if not VERSION_RE.fullmatch(str(specifier.version)):
                 raise ValueError(
                     f'Unknown character in version: {specifier.version}. '
@@ -154,6 +154,22 @@ def generate_build_requirements(backend, requirements):
         requirements.extend(new_reqs, source='get_requires_for_build_wheel')
 
 
+def generate_run_requirements(backend, requirements):
+    prepare_metadata = getattr(backend, "prepare_metadata_for_build_wheel", None)
+    if not prepare_metadata:
+        raise ValueError(
+            'build backend cannot provide build metadata '
+            + '(incl. runtime requirements) before buld'
+        )
+    with hook_call():
+        dir_basename = prepare_metadata('.')
+    with open(dir_basename + '/METADATA') as f:
+        message = email.parser.Parser().parse(f, headersonly=True)
+    for key in 'Requires', 'Requires-Dist':
+        requires = message.get_all(key, ())
+        requirements.extend(requires, source=f'wheel metadata: {key}')
+
+
 def python3dist(name, op=None, version=None):
     if op is None:
         if version is not None:
@@ -163,12 +179,14 @@ def python3dist(name, op=None, version=None):
         return f'python3dist({name}) {op} {version}'
 
 
-def generate_requires(freeze_output):
+def generate_requires(freeze_output, *, include_runtime=False, toxenv=None):
     requirements = Requirements(freeze_output)
 
     try:
         backend = get_backend(requirements)
         generate_build_requirements(backend, requirements)
+        if include_runtime:
+            generate_run_requirements(backend, requirements)
     except EndPass:
         return
 
@@ -178,11 +196,11 @@ def main(argv):
         description='Generate BuildRequires for a Python project.'
     )
     parser.add_argument(
-        '--runtime', action='store_true',
+        '-r', '--runtime', action='store_true',
         help='Generate run-time requirements (not implemented)',
     )
     parser.add_argument(
-        '--toxenv', metavar='TOXENVS',
+        '-t', '--toxenv', metavar='TOXENVS',
         help='generate test tequirements from tox environment '
             + '(not implemented; implies --runtime)',
     )
@@ -190,8 +208,7 @@ def main(argv):
     args = parser.parse_args(argv)
     if args.toxenv:
         args.runtime = True
-    if args.runtime:
-        print_err('--runtime is not implemented')
+        print_err('--toxenv is not implemented')
         exit(1)
 
     freeze_output = subprocess.run(
@@ -202,7 +219,7 @@ def main(argv):
     ).stdout
 
     try:
-        generate_requires(freeze_output)
+        generate_requires(freeze_output, include_runtime=args.runtime)
     except Exception as e:
         # Log the traceback explicitly (it's useful debug info)
         traceback.print_exc()

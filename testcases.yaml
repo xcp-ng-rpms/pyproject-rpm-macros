@@ -99,7 +99,7 @@ Build system dependencies in pyproject.toml:
     python3dist(wheel)
   result: 0
 
-Default build system, dependencies in setup.py:
+Default build system, build dependencies in setup.py:
   freeze_output: |
     setuptools==50
     wheel==1
@@ -109,6 +109,7 @@ Default build system, dependencies in setup.py:
         name='test',
         version='0.1',
         setup_requires=['foo', 'bar!=2'],
+        install_requires=['inst'],
     )
   expected: |
     python3dist(setuptools) >= 40.8
@@ -116,4 +117,27 @@ Default build system, dependencies in setup.py:
     python3dist(wheel)
     python3dist(foo)
     (python3dist(bar) < 2 or python3dist(bar) > 2.0)
+  result: 0
+
+Default build system, run dependencies in setup.py:
+  freeze_output: |
+    setuptools==50
+    wheel==1
+    pyyaml==1
+  include_runtime: true
+  setup.py: |
+    from setuptools import setup
+    setup(
+        name='test',
+        version='0.1',
+        setup_requires=['pyyaml'],  # nb. setuptools will try to install this
+        install_requires=['inst > 1', 'inst2 < 3'],
+    )
+  expected: |
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+    python3dist(wheel)
+    python3dist(pyyaml)
+    python3dist(inst) > 1
+    python3dist(inst2) < 3
   result: 0
