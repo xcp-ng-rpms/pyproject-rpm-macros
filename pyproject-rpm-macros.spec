@@ -2,6 +2,8 @@ Name:           pyproject-rpm-macros
 Summary:        RPM macros for PEP 517 Python packages
 License:        MIT
 
+%bcond_without tests
+
 # Keep the version at zero and increment only release
 Version:        0
 Release:        3%{?dist}
@@ -26,12 +28,13 @@ BuildArch:      noarch
 Requires: python3-pip >= 19
 Requires: python3-devel
 
-# Test dependencies
+%if %{with tests}
 BuildRequires: python3dist(pytest)
 BuildRequires: python3dist(pyyaml)
 BuildRequires: python3dist(packaging)
 BuildRequires: python3dist(pytoml)
 BuildRequires: python3dist(pip)
+%endif
 
 
 %description
@@ -56,8 +59,10 @@ mkdir -p %{buildroot}%{_rpmconfigdir}/redhat
 install -m 644 macros.pyproject %{buildroot}%{_rpmmacrodir}/
 install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
 
+%if %{with tests}
 %check
 %{__python3} -m pytest -vv
+%endif
 
 
 %files
