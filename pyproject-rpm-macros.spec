@@ -12,6 +12,9 @@ Source1:        pyproject_buildrequires.py
 Source8:        README.md
 Source9:        LICENSE
 
+Source10:       test_pyproject_buildrequires.py
+Source11:       testcases.yaml
+
 URL:            https://src.fedoraproject.org/rpms/pyproject-rpm-macros
 
 BuildArch:      noarch
@@ -22,6 +25,14 @@ BuildArch:      noarch
 # in order to be removable in the future
 Requires: python3-pip >= 19
 Requires: python3-devel
+
+# Test dependencies
+BuildRequires: python3dist(pytest)
+BuildRequires: python3dist(pyyaml)
+BuildRequires: python3dist(packaging)
+BuildRequires: python3dist(pytoml)
+BuildRequires: python3dist(pip)
+
 
 %description
 This is a provisional implementation of pyproject RPM macros for Fedora 30+.
@@ -44,6 +55,10 @@ mkdir -p %{buildroot}%{_rpmmacrodir}
 mkdir -p %{buildroot}%{_rpmconfigdir}/redhat
 install -m 644 macros.pyproject %{buildroot}%{_rpmmacrodir}/
 install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
+
+%check
+%{__python3} -m pytest -vv
+
 
 %files
 %{_rpmmacrodir}/macros.pyproject

@@ -23,6 +23,6 @@ echo 'python3dist(packaging)'
 echo 'python3dist(pip) >= 19'
 echo 'python3dist(pytoml)'
 if [ -f %{__python3} ]; then
-  %{__python3} -I %{_rpmconfigdir}/redhat/pyproject_buildrequires.py
+  %{__python3} -I %{_rpmconfigdir}/redhat/pyproject_buildrequires.py %{?*}
 fi
 }

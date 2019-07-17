@@ -1,0 +1,119 @@
+No pyproject.toml, nothing installed:
+  freeze_output: |
+    # empty
+  expected: |
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+  result: 0
+
+Nothing installed yet:
+  freeze_output: |
+    # empty
+  pyproject.toml: |
+    # empty
+  expected: |
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+  result: 0
+
+Insufficient version of setuptools:
+  freeze_output: |
+    setuptools==5
+    wheel==1
+  pyproject.toml: |
+    # empty
+  expected: |
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+  result: 0
+
+Empty pyproject.toml, empty setup.py:
+  freeze_output: |
+    setuptools==50
+    wheel==1
+  setup.py: |
+  expected: |
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+    python3dist(wheel)
+  result: 0
+
+Default build system, empty setup.py:
+  freeze_output: |
+    setuptools==50
+    wheel==1
+  pyproject.toml: |
+    # empty
+  setup.py: |
+  expected: |
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+    python3dist(wheel)
+  result: 0
+
+Erroring setup.py:
+  freeze_output: |
+    setuptools==50
+    wheel==1
+  setup.py: |
+    exit(77)
+  result: 77
+
+Bad character in version:
+  freeze_output: |
+  pyproject.toml: |
+    [build-system]
+    requires = ["pkg == 0.$.^.*"]
+  except: ValueError
+
+Build system dependencies in pyproject.toml:
+  freeze_output: |
+    setuptools==50
+    wheel==1
+  pyproject.toml: |
+    [build-system]
+    requires = [
+        "foo",
+        "ne!=1",
+        "ge>=1.2",
+        "le <= 1.2.3",
+        "lt < 1.2.3.4      ",
+        "    gt > 1.2.3.4.5",
+        "combo >2, <5, != 3.0.0",
+        "invalid!!ignored",
+        "py2 ; python_version < '2.7'",
+        "py3 ; python_version > '3.0'",
+        "pkg [extra-currently-ignored]",
+    ]
+  expected: |
+    python3dist(foo)
+    (python3dist(ne) < 1 or python3dist(ne) > 1.0)
+    python3dist(ge) >= 1.2
+    python3dist(le) <= 1.2.3
+    python3dist(lt) < 1.2.3.4
+    python3dist(gt) > 1.2.3.4.5
+    ((python3dist(combo) < 3 or python3dist(combo) > 3.0) and python3dist(combo) < 5 and python3dist(combo) > 2)
+    python3dist(py3)
+    python3dist(pkg)
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+  result: 0
+
+Default build system, dependencies in setup.py:
+  freeze_output: |
+    setuptools==50
+    wheel==1
+  setup.py: |
+    from setuptools import setup
+    setup(
+        name='test',
+        version='0.1',
+        setup_requires=['foo', 'bar!=2'],
+    )
+  expected: |
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+    python3dist(wheel)
+    python3dist(foo)
+    (python3dist(bar) < 2 or python3dist(bar) > 2.0)
+  result: 0

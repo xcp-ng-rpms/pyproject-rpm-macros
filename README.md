@@ -45,6 +45,10 @@ We plan to preserve existing Python flags in shebangs, but the work is not yet f
 The PEPs don't (yet) define a way to specify test dependencies and test runners.
 That means you still need to handle test dependencies and `%check` on your own.
 
+Extras are currently ignored.
+
+Some valid Python version specifiers are not supported.
+
 
 [PEP 517]: https://www.python.org/dev/peps/pep-0517/
 [PEP 518]: https://www.python.org/dev/peps/pep-0518/
