@@ -170,7 +170,7 @@ def generate_requires(freeze_output):
         backend = get_backend(requirements)
         generate_build_requirements(backend, requirements)
     except EndPass:
-        return 0
+        return
 
 
 def main(argv):
