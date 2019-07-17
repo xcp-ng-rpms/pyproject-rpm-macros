@@ -186,10 +186,6 @@ def main(argv):
         help='generate test tequirements from tox environment '
             + '(not implemented; implies --runtime)',
     )
-    parser.add_argument(
-        '--pyproject-file', default='pyproject.toml',
-        help='override project file (default: pyproject.toml)',
-    )
 
     args = parser.parse_args(argv)
     if args.toxenv:
