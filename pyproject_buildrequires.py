@@ -195,7 +195,8 @@ def main(argv):
         exit(1)
 
     freeze_output = subprocess.run(
-        ['pip', 'freeze', '--all'],
+        [sys.executable, '-I', '-m', 'pip', 'freeze', '--all'],
+        encoding='utf-8',
         stdout=subprocess.PIPE,
         check=True,
     ).stdout
