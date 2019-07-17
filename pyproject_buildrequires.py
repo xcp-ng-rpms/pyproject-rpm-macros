@@ -1,4 +1,5 @@
 import sys
+import importlib
 
 try:
     import pytoml
@@ -10,19 +11,15 @@ except ImportError:
 
 
 try:
-    with open("pyproject.toml") as f:
-        pyproject_data = pytoml.load(f)
+    f = open("pyproject.toml") as f
 except FileNotFoundError:
     pyproject_data = {}
-except Exception as e:
-    sys.exit(e)
 else:
-    import importlib
+    with f:
+        pyproject_data = pytoml.load(f)
 
     try:
-        backend = importlib.import_module(
-            pyproject_data["build-system"]["build-backend"]
-        )
+        backend_name = pyproject_data["build-system"]["build-backend"]
     except KeyError:
         try:
             import setuptools.build_meta
@@ -32,8 +29,11 @@ else:
             sys.exit(0)
 
         backend = setuptools.build_meta
-    except ImportError:
-        backend = None
+    else:
+        try:
+            backend = importlib.import_module(backend_name)
+        except ImportError:
+            backend = None
 
 
 requirements = set()
@@ -51,19 +51,14 @@ def add_requirement(requirement):
 
 
 if "requires" in pyproject_data.get("build-system", {}):
-    try:
-        for requirement in pyproject_data["build-system"]["requires"]:
-            add_requirement(requirement)
-    except Exception as e:
-        sys.exit(e)
+    for requirement in pyproject_data["build-system"]["requires"]:
+        add_requirement(requirement)
 
 
-if hasattr(backend, "get_requires_for_build_wheel"):
-    try:
-        for requirement in backend.get_requires_for_build_wheel():
-            add_requirement(requirement)
-    except Exception as e:
-        sys.exit(e)
+get_requires = getattr(backend, "get_requires_for_build_wheel", None)
+if get_requires:
+    for requirement in get_requires():
+        add_requirement(requirement)
 
 for requirement in requirements:
     name = canonicalize_name(requirement.name)
