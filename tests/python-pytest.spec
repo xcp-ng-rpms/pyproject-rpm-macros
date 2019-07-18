@@ -27,7 +27,7 @@ py.test provides simple, yet powerful testing for Python.
 
 
 %generate_buildrequires
-%pyproject_buildrequires -r
+%pyproject_buildrequires -r -x testing
 
 
 %build
@@ -36,6 +36,12 @@ py.test provides simple, yet powerful testing for Python.
 
 %install
 %pyproject_install
+
+%check
+# Only run one test (which uses a test-only dependency, hypothesis).
+# (Unfortunately, some other tests still fail.)
+export PYTHONPATH=%{buildroot}%{python3_sitelib}
+%{__python3} -m pytest -k metafunc
 
 
 %files -n python3-%{pypi_name}

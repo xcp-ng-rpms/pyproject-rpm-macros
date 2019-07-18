@@ -42,7 +42,7 @@ def hook_call():
 
 class Requirements:
     """Requirement printer"""
-    def __init__(self, freeze_output):
+    def __init__(self, freeze_output, extras=''):
         self.installed_packages = {}
         for line in freeze_output.splitlines():
             line = line.strip()
@@ -50,6 +50,8 @@ class Requirements:
                 continue
             name, version = line.split('==')
             self.installed_packages[name.strip()] = Version(version)
+
+        self.marker_env = {'extra': extras}
 
         self.missing_requirements = False
 
@@ -68,7 +70,7 @@ class Requirements:
 
         name = canonicalize_name(requirement.name)
         if (requirement.marker is not None
-            and not requirement.marker.evaluate(environment={'extra': ''})
+            and not requirement.marker.evaluate(environment=self.marker_env)
         ):
             print_err(f'Ignoring alien requirement:', requirement_str)
             return
@@ -181,8 +183,10 @@ def python3dist(name, op=None, version=None):
         return f'python3dist({name}) {op} {version}'
 
 
-def generate_requires(freeze_output, *, include_runtime=False, toxenv=None):
-    requirements = Requirements(freeze_output)
+def generate_requires(
+    freeze_output, *, include_runtime=False, toxenv=None, extras='',
+):
+    requirements = Requirements(freeze_output, extras=extras)
 
     try:
         backend = get_backend(requirements)
@@ -206,6 +210,11 @@ def main(argv):
         help='generate test tequirements from tox environment '
             + '(not implemented; implies --runtime)',
     )
+    parser.add_argument(
+        '-x', '--extras', metavar='EXTRAS', default='',
+        help='comma separated list of "extras" for runtime requirements '
+            + '(e.g. -x testing,feature-x)',
+    )
 
     args = parser.parse_args(argv)
     if args.toxenv:
@@ -224,7 +233,11 @@ def main(argv):
     ).stdout
 
     try:
-        generate_requires(freeze_output, include_runtime=args.runtime)
+        generate_requires(
+            freeze_output,
+            include_runtime=args.runtime,
+            extras=args.extras,
+        )
     except Exception as e:
         # Log the traceback explicitly (it's useful debug info)
         traceback.print_exc()

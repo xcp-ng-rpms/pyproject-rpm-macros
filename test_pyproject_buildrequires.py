@@ -29,6 +29,7 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
         generate_requires(
             case['freeze_output'],
             include_runtime=case.get('include_runtime', False),
+            extras=case.get('extras', ''),
         )
     except SystemExit as e:
         assert e.code == case['result']

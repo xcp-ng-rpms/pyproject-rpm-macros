@@ -142,13 +142,13 @@ Default build system, run dependencies in setup.py:
     python3dist(inst2) < 3
   result: 0
 
-Run dependencies with extras:
+Run dependencies with extras (not selected):
   freeze_output: |
     setuptools==50
     wheel==1
     pyyaml==1
   include_runtime: true
-  setup.py: |
+  setup.py: &pytest_setup_py |
         # slightly abriged copy of pytest's setup.py
         from setuptools import setup
 
@@ -197,4 +197,30 @@ Run dependencies with extras:
     python3dist(atomicwrites) >= 1
     python3dist(pluggy) >= 0.11
     python3dist(more-itertools) >= 4
+  result: 0
+
+Run dependencies with extras (selected):
+  freeze_output: |
+    setuptools==50
+    wheel==1
+    pyyaml==1
+  include_runtime: true
+  extras: testing
+  setup.py: *pytest_setup_py
+  expected: |
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+    python3dist(wheel)
+    python3dist(setuptools) >= 40
+    python3dist(py) >= 1.5
+    python3dist(six) >= 1.10
+    python3dist(setuptools)
+    python3dist(attrs) >= 17.4
+    python3dist(atomicwrites) >= 1
+    python3dist(pluggy) >= 0.11
+    python3dist(more-itertools) >= 4
+    python3dist(argcomplete)
+    python3dist(hypothesis) >= 3.56
+    python3dist(nose)
+    python3dist(requests)
   result: 0
