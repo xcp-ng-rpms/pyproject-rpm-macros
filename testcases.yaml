@@ -141,3 +141,60 @@ Default build system, run dependencies in setup.py:
     python3dist(inst) > 1
     python3dist(inst2) < 3
   result: 0
+
+Run dependencies with extras:
+  freeze_output: |
+    setuptools==50
+    wheel==1
+    pyyaml==1
+  include_runtime: true
+  setup.py: |
+        # slightly abriged copy of pytest's setup.py
+        from setuptools import setup
+
+        INSTALL_REQUIRES = [
+            "py>=1.5.0",
+            "six>=1.10.0",
+            "setuptools",
+            "attrs>=17.4.0",
+            'more-itertools>=4.0.0,<6.0.0;python_version<="2.7"',
+            'more-itertools>=4.0.0;python_version>"2.7"',
+            "atomicwrites>=1.0",
+            'funcsigs>=1.0;python_version<"3.0"',
+            'pathlib2>=2.2.0;python_version<"3.6"',
+            'colorama;sys_platform=="win32"',
+            "pluggy>=0.11",
+        ]
+
+        def main():
+            setup(
+                setup_requires=["setuptools>=40.0"],
+                # fmt: off
+                extras_require={
+                    "testing": [
+                        "argcomplete",
+                        "hypothesis>=3.56",
+                        "nose",
+                        "requests",
+                        "mock;python_version=='2.7'",
+                    ],
+                },
+                # fmt: on
+                install_requires=INSTALL_REQUIRES,
+            )
+
+        if __name__ == "__main__":
+            main()
+  expected: |
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+    python3dist(wheel)
+    python3dist(setuptools) >= 40
+    python3dist(py) >= 1.5
+    python3dist(six) >= 1.10
+    python3dist(setuptools)
+    python3dist(attrs) >= 17.4
+    python3dist(atomicwrites) >= 1
+    python3dist(pluggy) >= 0.11
+    python3dist(more-itertools) >= 4
+  result: 0

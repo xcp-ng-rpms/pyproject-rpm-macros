@@ -67,7 +67,9 @@ class Requirements:
             return
 
         name = canonicalize_name(requirement.name)
-        if requirement.marker is not None and not requirement.marker.evaluate():
+        if (requirement.marker is not None
+            and not requirement.marker.evaluate(environment={'extra': ''})
+        ):
             print_err(f'Ignoring alien requirement:', requirement_str)
             return
 
