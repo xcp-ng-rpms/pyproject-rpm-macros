@@ -19,6 +19,9 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
     cwd.mkdir()
     monkeypatch.chdir(cwd)
 
+    if case.get('xfail'):
+        pytest.xfail(case.get('xfail'))
+
     if 'pyproject.toml' in case:
         cwd.joinpath('pyproject.toml').write_text(case['pyproject.toml'])
 

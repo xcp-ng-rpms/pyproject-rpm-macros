@@ -212,8 +212,10 @@ def main(argv):
     )
     parser.add_argument(
         '-x', '--extras', metavar='EXTRAS', default='',
-        help='comma separated list of "extras" for runtime requirements '
-            + '(e.g. -x testing,feature-x)',
+        help='extra for runtime requirements (e.g. -x testing)',
+        # XXX: a comma-separated list should be possible here
+        #help='comma separated list of "extras" for runtime requirements '
+        #    + '(e.g. -x testing,feature-x)',
     )
 
     args = parser.parse_args(argv)

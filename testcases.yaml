@@ -224,3 +224,31 @@ Run dependencies with extras (selected):
     python3dist(nose)
     python3dist(requests)
   result: 0
+
+Run dependencies with multiple extras:
+  xfail: requirement.marker.evaluate seems to not support multiple extras
+  freeze_output: |
+    setuptools==50
+    wheel==1
+    pyyaml==1
+  include_runtime: true
+  extras: testing,more-testing, even-more-testing , cool-feature
+  setup.py: |
+    from setuptools import setup
+    setup(
+        extras_require={
+            'testing': ['dep1'],
+            'more-testing': ['dep2'],
+            'even-more-testing': ['dep3'],
+            'cool-feature': ['dep4'],
+        },
+    )
+  expected: |
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+    python3dist(wheel)
+    python3dist(dep1)
+    python3dist(dep2)
+    python3dist(dep3)
+    python3dist(dep4)
+  result: 0
