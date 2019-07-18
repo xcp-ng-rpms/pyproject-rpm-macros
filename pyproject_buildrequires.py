@@ -199,7 +199,7 @@ def main(argv):
     )
     parser.add_argument(
         '-r', '--runtime', action='store_true',
-        help='Generate run-time requirements (not implemented)',
+        help='Generate run-time requirements',
     )
     parser.add_argument(
         '-t', '--toxenv', metavar='TOXENVS',
@@ -210,7 +210,10 @@ def main(argv):
     args = parser.parse_args(argv)
     if args.toxenv:
         args.runtime = True
-        print_err('--toxenv is not implemented')
+        print_err('-t (--toxenv) is not implemented')
+        exit(1)
+    if args.extras and not args.runtime:
+        print_err('-x (--extras) are only useful with -r (--runtime)')
         exit(1)
 
     freeze_output = subprocess.run(
