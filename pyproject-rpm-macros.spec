@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        3%{?dist}
+Release:        4%{?dist}
 
 Source0:        macros.pyproject
 Source1:        pyproject_buildrequires.py
@@ -75,6 +75,9 @@ install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
 %license LICENSE
 
 %changelog
+* Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Tue Jul 02 2019 Miro Hrončok <mhroncok@redhat.com> - 0-3
 - Add %%pyproject_buildrequires
 
