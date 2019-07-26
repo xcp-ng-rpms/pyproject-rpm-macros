@@ -40,8 +40,7 @@ Summary:        %{summary}
 
 
 %check
-export PYTHONPATH=%{buildroot}%{python3_sitelib}
-%{__python3} -m pytest
+%tox
 
 
 %files -n python3-%{pypi_name}

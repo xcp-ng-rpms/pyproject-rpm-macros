@@ -17,7 +17,8 @@ if [ -d %{buildroot}%{python3_sitearch} ]; then
 fi
 }
 
-%toxenv py%{python3_version_nodots}
+%default_toxenv py%{python3_version_nodots}
+%toxenv %{default_toxenv}
 
 %pyproject_buildrequires(rx:t:) %{expand:\\\
 %{-t:%{expand:%global toxenv %{-t*}}}
@@ -30,4 +31,11 @@ rm -rfv *.dist-info/
 if [ -f %{__python3} ]; then
   %{__python3} -I %{_rpmconfigdir}/redhat/pyproject_buildrequires.py %{?**}
 fi
+}
+
+%tox(e:) %{expand:\\\
+TOX_TESTENV_PASSENV="${TOX_TESTENV_PASSENV:-*}" \\
+PATH="%{buildroot}%{_bindir}:$PATH" \\
+PYTHONPATH="${PYTHONPATH:-%{buildroot}%{python3_sitearch}:%{buildroot}%{python3_sitelib}}" \\
+tox --current-env -q --recreate -e "%{-e:%{-e*}}%{!-e:%{toxenv}}" %{?*}
 }
