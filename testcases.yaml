@@ -252,3 +252,34 @@ Run dependencies with multiple extras:
     python3dist(dep3)
     python3dist(dep4)
   result: 0
+
+Tox depndencies:
+  freeze_output: |
+    setuptools==50
+    wheel==1
+  toxenv: py3
+  setup.py: |
+    from setuptools import setup
+    setup(
+        name='test',
+        version='0.1',
+        install_requires=['inst'],
+    )
+  tox.ini: |
+    [tox]
+    envlist = py36,py37,py38
+    [testenv]
+    deps =
+        toxdep1
+        toxdep2
+    commands =
+        true
+  expected: |
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+    python3dist(wheel)
+    python3dist(tox-current-env)
+    python3dist(toxdep1)
+    python3dist(toxdep2)
+    python3dist(inst)
+  result: 0

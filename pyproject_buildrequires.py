@@ -174,6 +174,19 @@ def generate_run_requirements(backend, requirements):
         requirements.extend(requires, source=f'wheel metadata: {key}')
 
 
+def generate_tox_requirements(toxenv, requirements):
+    requirements.extend(['tox-current-env'], source='tox itself')
+    tox_output = subprocess.run(
+        ['tox', '--print-deps-only', '-qre', toxenv],
+        encoding='utf-8',
+        stdout=subprocess.PIPE,
+        check=True,
+    ).stdout
+    lines = tox_output.splitlines()
+    summary = lines.index(35 * '_' + ' summary ' + 36 * '_')
+    requirements.extend(lines[:summary], source=f'tox --print-deps-only: {toxenv}')
+
+
 def python3dist(name, op=None, version=None):
     if op is None:
         if version is not None:
@@ -191,6 +204,9 @@ def generate_requires(
     try:
         backend = get_backend(requirements)
         generate_build_requirements(backend, requirements)
+        if toxenv is not None:
+            include_runtime = True
+            generate_tox_requirements(toxenv, requirements)
         if include_runtime:
             generate_run_requirements(backend, requirements)
     except EndPass:
@@ -207,8 +223,8 @@ def main(argv):
     )
     parser.add_argument(
         '-t', '--toxenv', metavar='TOXENVS',
-        help='generate test tequirements from tox environment '
-            + '(not implemented; implies --runtime)',
+        help=('generate test tequirements from tox environment '
+              '(implies --runtime)'),
     )
     parser.add_argument(
         '-x', '--extras', metavar='EXTRAS', default='',
@@ -219,10 +235,6 @@ def main(argv):
     )
 
     args = parser.parse_args(argv)
-    if args.toxenv:
-        args.runtime = True
-        print_err('-t (--toxenv) is not implemented')
-        exit(1)
     if args.extras and not args.runtime:
         print_err('-x (--extras) are only useful with -r (--runtime)')
         exit(1)
@@ -238,6 +250,7 @@ def main(argv):
         generate_requires(
             freeze_output,
             include_runtime=args.runtime,
+            toxenv=args.toxenv,
             extras=args.extras,
         )
     except Exception as e:

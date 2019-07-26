@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        4%{?dist}
+Release:        5%{?dist}
 
 Source0:        macros.pyproject
 Source1:        pyproject_buildrequires.py
@@ -35,6 +35,7 @@ BuildRequires: python3dist(packaging)
 BuildRequires: python3dist(pytoml)
 BuildRequires: python3dist(pip)
 BuildRequires: python3dist(setuptools)
+BuildRequires: python3dist(tox-current-env)
 BuildRequires: python3dist(wheel)
 %endif
 
@@ -75,6 +76,9 @@ install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
 %license LICENSE
 
 %changelog
+* Fri Jul 26 2019 Miro Hrončok <mhroncok@redhat.com> - 0-5
+- Allow to fetch test dependencies from tox
+
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 

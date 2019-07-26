@@ -22,17 +22,16 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
     if case.get('xfail'):
         pytest.xfail(case.get('xfail'))
 
-    if 'pyproject.toml' in case:
-        cwd.joinpath('pyproject.toml').write_text(case['pyproject.toml'])
-
-    if 'setup.py' in case:
-        cwd.joinpath('setup.py').write_text(case['setup.py'])
+    for filename in 'pyproject.toml', 'setup.py', 'tox.ini':
+        if filename in case:
+            cwd.joinpath(filename).write_text(case[filename])
 
     try:
         generate_requires(
             case['freeze_output'],
             include_runtime=case.get('include_runtime', False),
             extras=case.get('extras', ''),
+            toxenv=case.get('toxenv', None),
         )
     except SystemExit as e:
         assert e.code == case['result']

@@ -19,6 +19,9 @@
     - entrypoints:
         dir: .
         run: ./mocktest.sh python-entrypoints
+    - pluggy:
+        dir: .
+        run: ./mocktest.sh python-pluggy
     required_packages:
     - mock
     - rpmdevtools

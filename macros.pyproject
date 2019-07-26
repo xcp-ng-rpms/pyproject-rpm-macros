@@ -17,7 +17,7 @@ if [ -d %{buildroot}%{python3_sitearch} ]; then
 fi
 }
 
-%pyproject_buildrequires(rx:) %{expand:\\\
+%pyproject_buildrequires(rx:t:) %{expand:\\\
 echo 'python3-devel'
 echo 'python3dist(packaging)'
 echo 'python3dist(pip) >= 19'
