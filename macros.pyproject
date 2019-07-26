@@ -17,7 +17,10 @@ if [ -d %{buildroot}%{python3_sitearch} ]; then
 fi
 }
 
+%toxenv py%{python3_version_nodots}
+
 %pyproject_buildrequires(rx:t:) %{expand:\\\
+%{-t:%{expand:%global toxenv %{-t*}}}
 echo 'python3-devel'
 echo 'python3dist(packaging)'
 echo 'python3dist(pip) >= 19'

@@ -28,7 +28,7 @@ Summary:        %{summary}
 
 
 %generate_buildrequires
-%pyproject_buildrequires -t py%{python3_version_nodots}-pytestrelease
+%pyproject_buildrequires -t %{toxenv}-pytestrelease
 
 
 %build
