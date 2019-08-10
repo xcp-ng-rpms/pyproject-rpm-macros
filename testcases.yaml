@@ -1,5 +1,5 @@
 No pyproject.toml, nothing installed:
-  freeze_output: |
+  installed:
     # empty
   expected: |
     python3dist(setuptools) >= 40.8
@@ -7,7 +7,7 @@ No pyproject.toml, nothing installed:
   result: 0
 
 Nothing installed yet:
-  freeze_output: |
+  installed:
     # empty
   pyproject.toml: |
     # empty
@@ -17,9 +17,9 @@ Nothing installed yet:
   result: 0
 
 Insufficient version of setuptools:
-  freeze_output: |
-    setuptools==5
-    wheel==1
+  installed:
+    setuptools: 5
+    wheel: 1
   pyproject.toml: |
     # empty
   expected: |
@@ -28,9 +28,9 @@ Insufficient version of setuptools:
   result: 0
 
 Empty pyproject.toml, empty setup.py:
-  freeze_output: |
-    setuptools==50
-    wheel==1
+  installed:
+    setuptools: 50
+    wheel: 1
   setup.py: |
   expected: |
     python3dist(setuptools) >= 40.8
@@ -39,9 +39,9 @@ Empty pyproject.toml, empty setup.py:
   result: 0
 
 Default build system, empty setup.py:
-  freeze_output: |
-    setuptools==50
-    wheel==1
+  installed:
+    setuptools: 50
+    wheel: 1
   pyproject.toml: |
     # empty
   setup.py: |
@@ -52,24 +52,24 @@ Default build system, empty setup.py:
   result: 0
 
 Erroring setup.py:
-  freeze_output: |
-    setuptools==50
-    wheel==1
+  installed:
+    setuptools: 50
+    wheel: 1
   setup.py: |
     exit(77)
   result: 77
 
 Bad character in version:
-  freeze_output: |
+  installed: {}
   pyproject.toml: |
     [build-system]
     requires = ["pkg == 0.$.^.*"]
   except: ValueError
 
 Build system dependencies in pyproject.toml:
-  freeze_output: |
-    setuptools==50
-    wheel==1
+  installed:
+    setuptools: 50
+    wheel: 1
   pyproject.toml: |
     [build-system]
     requires = [
@@ -100,9 +100,9 @@ Build system dependencies in pyproject.toml:
   result: 0
 
 Default build system, build dependencies in setup.py:
-  freeze_output: |
-    setuptools==50
-    wheel==1
+  installed:
+    setuptools: 50
+    wheel: 1
   setup.py: |
     from setuptools import setup
     setup(
@@ -120,10 +120,10 @@ Default build system, build dependencies in setup.py:
   result: 0
 
 Default build system, run dependencies in setup.py:
-  freeze_output: |
-    setuptools==50
-    wheel==1
-    pyyaml==1
+  installed:
+    setuptools: 50
+    wheel: 1
+    pyyaml: 1
   include_runtime: true
   setup.py: |
     from setuptools import setup
@@ -143,10 +143,10 @@ Default build system, run dependencies in setup.py:
   result: 0
 
 Run dependencies with extras (not selected):
-  freeze_output: |
-    setuptools==50
-    wheel==1
-    pyyaml==1
+  installed:
+    setuptools: 50
+    wheel: 1
+    pyyaml: 1
   include_runtime: true
   setup.py: &pytest_setup_py |
         # slightly abriged copy of pytest's setup.py
@@ -200,10 +200,10 @@ Run dependencies with extras (not selected):
   result: 0
 
 Run dependencies with extras (selected):
-  freeze_output: |
-    setuptools==50
-    wheel==1
-    pyyaml==1
+  installed:
+    setuptools: 50
+    wheel: 1
+    pyyaml: 1
   include_runtime: true
   extras: testing
   setup.py: *pytest_setup_py
@@ -227,10 +227,10 @@ Run dependencies with extras (selected):
 
 Run dependencies with multiple extras:
   xfail: requirement.marker.evaluate seems to not support multiple extras
-  freeze_output: |
-    setuptools==50
-    wheel==1
-    pyyaml==1
+  installed:
+    setuptools: 50
+    wheel: 1
+    pyyaml: 1
   include_runtime: true
   extras: testing,more-testing, even-more-testing , cool-feature
   setup.py: |
@@ -246,19 +246,18 @@ Run dependencies with multiple extras:
   expected: |
     python3dist(setuptools) >= 40.8
     python3dist(wheel)
-    python3dist(wheel)
     python3dist(dep1)
     python3dist(dep2)
     python3dist(dep3)
     python3dist(dep4)
   result: 0
 
-Tox depndencies:
-  freeze_output: |
-    setuptools==50
-    wheel==1
-    tox==3.5.3
-    tox-current-env==0.0.2
+Tox dependencies:
+  installed:
+    setuptools: 50
+    wheel: 1
+    tox: 3.5.3
+    tox-current-env: 0.0.2
   toxenv: py3
   setup.py: |
     from setuptools import setup

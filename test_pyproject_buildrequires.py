@@ -6,6 +6,11 @@ import yaml
 
 from pyproject_buildrequires import generate_requires
 
+try:
+    import importlib.metadata as importlib_metadata
+except ImportError:
+    import importlib_metadata
+
 testcases = {}
 with Path(__file__).parent.joinpath('testcases.yaml').open() as f:
     testcases = yaml.safe_load(f)
@@ -26,9 +31,17 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
         if filename in case:
             cwd.joinpath(filename).write_text(case[filename])
 
+    def get_installed_version(dist_name):
+        try:
+            return str(case['installed'][dist_name])
+        except (KeyError, TypeError):
+            raise importlib_metadata.PackageNotFoundError(
+                f'info not found for {dist_name}'
+            )
+
     try:
         generate_requires(
-            case['freeze_output'],
+            get_installed_version=get_installed_version,
             include_runtime=case.get('include_runtime', False),
             extras=case.get('extras', ''),
             toxenv=case.get('toxenv', None),

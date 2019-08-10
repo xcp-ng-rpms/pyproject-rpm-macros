@@ -26,7 +26,10 @@ try:
     from packaging.requirements import Requirement, InvalidRequirement
     from packaging.version import Version
     from packaging.utils import canonicalize_name, canonicalize_version
-    import pip
+    try:
+        import importlib.metadata as importlib_metadata
+    except ImportError:
+        import importlib_metadata
 except ImportError as e:
     print_err('Import error:', e)
     # already echoed by the %pyproject_buildrequires macro
@@ -44,14 +47,8 @@ def hook_call():
 
 class Requirements:
     """Requirement printer"""
-    def __init__(self, freeze_output, extras=''):
-        self.installed_packages = {}
-        for line in freeze_output.splitlines():
-            line = line.strip()
-            if line.startswith('#'):
-                continue
-            name, version = line.split('==')
-            self.installed_packages[name.strip()] = Version(version)
+    def __init__(self, get_installed_version, extras=''):
+        self.get_installed_version = get_installed_version
 
         self.marker_env = {'extra': extras}
 
@@ -77,7 +74,11 @@ class Requirements:
             print_err(f'Ignoring alien requirement:', requirement_str)
             return
 
-        installed = self.installed_packages.get(requirement.name)
+        try:
+            installed = self.get_installed_version(requirement.name)
+        except importlib_metadata.PackageNotFoundError:
+            print_err(f'Requirement not satisfied: {requirement_str}')
+            installed = None
         if installed and installed in requirement.specifier:
             print_err(f'Requirement satisfied: {requirement_str}')
             print_err(f'   (installed: {requirement.name} {installed})')
@@ -203,9 +204,14 @@ def python3dist(name, op=None, version=None):
 
 
 def generate_requires(
-    freeze_output, *, include_runtime=False, toxenv=None, extras='',
+    *, include_runtime=False, toxenv=None, extras='',
+    get_installed_version=importlib_metadata.version,  # for dep injection
 ):
-    requirements = Requirements(freeze_output, extras=extras)
+    """Generate the BuildRequires for the project in the current directory
+
+    This is the main Python entry point.
+    """
+    requirements = Requirements(get_installed_version, extras=extras)
 
     try:
         backend = get_backend(requirements)
@@ -259,16 +265,8 @@ def main(argv):
         print_err('-x (--extras) are only useful with -r (--runtime)')
         exit(1)
 
-    freeze_output = subprocess.run(
-        [sys.executable, '-I', '-m', 'pip', 'freeze', '--all'],
-        encoding='utf-8',
-        stdout=subprocess.PIPE,
-        check=True,
-    ).stdout
-
     try:
         generate_requires(
-            freeze_output,
             include_runtime=args.runtime,
             toxenv=args.toxenv,
             extras=args.extras,
