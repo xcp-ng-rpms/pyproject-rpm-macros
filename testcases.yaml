@@ -278,7 +278,7 @@ Tox depndencies:
     python3dist(setuptools) >= 40.8
     python3dist(wheel)
     python3dist(wheel)
-    python3dist(tox-current-env)
+    python3dist(tox-current-env) >= 0.0.2
     python3dist(toxdep1)
     python3dist(toxdep2)
     python3dist(inst)

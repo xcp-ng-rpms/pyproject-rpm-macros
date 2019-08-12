@@ -8,6 +8,7 @@ from io import StringIO
 import subprocess
 import pathlib
 import re
+import tempfile
 import email.parser
 
 print_err = functools.partial(print, file=sys.stderr)
@@ -175,16 +176,15 @@ def generate_run_requirements(backend, requirements):
 
 
 def generate_tox_requirements(toxenv, requirements):
-    requirements.extend(['tox-current-env'], source='tox itself')
-    tox_output = subprocess.run(
-        ['tox', '--print-deps-only', '-qre', toxenv],
-        encoding='utf-8',
-        stdout=subprocess.PIPE,
-        check=True,
-    ).stdout
-    lines = tox_output.splitlines()
-    summary = lines.index(35 * '_' + ' summary ' + 36 * '_')
-    requirements.extend(lines[:summary], source=f'tox --print-deps-only: {toxenv}')
+    requirements.extend(['tox-current-env >= 0.0.2'], source='tox itself')
+    with tempfile.NamedTemporaryFile('r') as depfile:
+        with hook_call():
+            subprocess.run(
+                ['tox', '--print-deps-to-file', depfile.name, '-qre', toxenv],
+                check=True,
+            )
+        requirements.extend(depfile.read().splitlines(),
+                            source=f'tox --print-deps-only: {toxenv}')
 
 
 def python3dist(name, op=None, version=None):
