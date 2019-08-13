@@ -235,6 +235,8 @@ def main(argv):
     )
 
     args = parser.parse_args(argv)
+    if args.toxenv:
+        args.runtime = True
     if args.extras and not args.runtime:
         print_err('-x (--extras) are only useful with -r (--runtime)')
         exit(1)
