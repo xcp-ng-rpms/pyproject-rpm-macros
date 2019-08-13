@@ -1,3 +1,4 @@
+import os
 import sys
 import importlib
 import argparse
@@ -176,13 +177,18 @@ def generate_run_requirements(backend, requirements):
 
 
 def generate_tox_requirements(toxenv, requirements):
-    requirements.extend(['tox-current-env >= 0.0.2'], source='tox itself')
+    requirements.add('tox-current-env >= 0.0.2', source='tox itself')
+    requirements.check(source='tox itself')
     with tempfile.NamedTemporaryFile('r') as depfile:
-        with hook_call():
-            subprocess.run(
-                ['tox', '--print-deps-to-file', depfile.name, '-qre', toxenv],
-                check=True,
-            )
+        r = subprocess.run(
+            ['tox', '--print-deps-to-file', depfile.name, '-qre', toxenv],
+            check=True,
+            encoding='utf-8',
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+        )
+        if r.stdout:
+            print_err(r.stdout)
         requirements.extend(depfile.read().splitlines(),
                             source=f'tox --print-deps-only: {toxenv}')
 
@@ -222,7 +228,12 @@ def main(argv):
         help='Generate run-time requirements',
     )
     parser.add_argument(
-        '-t', '--toxenv', metavar='TOXENVS',
+        '-e', '--toxenv', metavar='TOXENVS', default=None,
+        help=('specify tox environments'
+              '(implies --tox)'),
+    )
+    parser.add_argument(
+        '-t', '--tox', action='store_true',
         help=('generate test tequirements from tox environment '
               '(implies --runtime)'),
     )
@@ -235,8 +246,15 @@ def main(argv):
     )
 
     args = parser.parse_args(argv)
+
     if args.toxenv:
+        args.tox = True
+
+    if args.tox:
         args.runtime = True
+        args.toxenv = (args.toxenv or os.getenv('RPM_TOXENV') or
+                       f'py{sys.version_info.major}{sys.version_info.minor}')
+
     if args.extras and not args.runtime:
         print_err('-x (--extras) are only useful with -r (--runtime)')
         exit(1)
@@ -255,7 +273,7 @@ def main(argv):
             toxenv=args.toxenv,
             extras=args.extras,
         )
-    except Exception as e:
+    except Exception:
         # Log the traceback explicitly (it's useful debug info)
         traceback.print_exc()
         exit(1)

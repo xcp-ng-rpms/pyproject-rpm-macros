@@ -257,6 +257,8 @@ Tox depndencies:
   freeze_output: |
     setuptools==50
     wheel==1
+    tox==3.5.3
+    tox-current-env==0.0.2
   toxenv: py3
   setup.py: |
     from setuptools import setup

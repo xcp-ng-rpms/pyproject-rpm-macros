@@ -35,7 +35,7 @@ BuildRequires: python3dist(packaging)
 BuildRequires: python3dist(pytoml)
 BuildRequires: python3dist(pip)
 BuildRequires: python3dist(setuptools)
-BuildRequires: python3dist(tox-current-env)
+BuildRequires: python3dist(tox-current-env) >= 0.0.2
 BuildRequires: python3dist(wheel)
 %endif
 

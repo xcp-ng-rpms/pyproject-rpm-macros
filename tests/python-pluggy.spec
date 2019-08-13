@@ -28,7 +28,7 @@ Summary:        %{summary}
 
 
 %generate_buildrequires
-%pyproject_buildrequires -t %{toxenv}-pytestrelease
+%pyproject_buildrequires -e %{toxenv}-pytestrelease
 
 
 %build
