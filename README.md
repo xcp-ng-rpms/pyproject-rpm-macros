@@ -108,7 +108,7 @@ By using the `-e` flag, you can use a different tox environment(s):
     %check
     %tox
     %if %{with integration_test}
-    %tox -e % {default_toxenv}-integration
+    %tox -e %{default_toxenv}-integration
     %endif
 
 If you wish to provide custom `tox` flags or arguments, add them after `--`:
