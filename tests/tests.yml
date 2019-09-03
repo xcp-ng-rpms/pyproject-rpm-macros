@@ -22,6 +22,9 @@
     - pluggy:
         dir: .
         run: ./mocktest.sh python-pluggy
+    - clikit:
+        dir: .
+        run: ./mocktest.sh python-clikit
     required_packages:
     - mock
     - rpmdevtools
