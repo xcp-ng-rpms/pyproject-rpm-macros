@@ -1,6 +1,6 @@
 %global pypi_name pluggy
 Name:           python-%{pypi_name}
-Version:        0.12.0
+Version:        0.13.0
 Release:        1%{?dist}
 Summary:        The plugin manager stripped of pytest specific details
 
@@ -28,7 +28,7 @@ Summary:        %{summary}
 
 
 %generate_buildrequires
-%pyproject_buildrequires -e %{toxenv}-pytestrelease
+%pyproject_buildrequires -t
 
 
 %build
