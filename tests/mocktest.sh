@@ -23,14 +23,17 @@ spectool -g -R ${1}.spec
 rpmbuild -bs ${1}.spec
 
 # build the SRPM in mock
+res=0
 mock -r $config --enablerepo=local init
-mock -r $config --enablerepo=local ~/rpmbuild/SRPMS/${1}-*.src.rpm
+mock -r $config --enablerepo=local ~/rpmbuild/SRPMS/${1}-*.src.rpm || res=$?
 
 # move the results to the artifacts directory, so we can examine them
 artifacts=${TEST_ARTIFACTS:-/tmp/artifacts}
 pushd /var/lib/mock/fedora-rawhide-x86_64/result
-mv *.rpm ${artifacts}/
+mv *.rpm ${artifacts}/ || :
 for log in *.log; do
  mv ${log} ${artifacts}/${1}-${log}
 done
 popd
+
+exit $res
