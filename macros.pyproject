@@ -5,7 +5,7 @@ CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" \\\
 
 
 %pyproject_install() %{expand:\\\
-%{__python3} -m pip install   --root %{buildroot}  --strip-file-prefix %{buildroot} --no-deps  --disable-pip-version-check --progress-bar off --verbose --ignore-installed --no-warn-script-location ./*.whl
+%{__python3} -m pip install --root %{buildroot} --no-deps --disable-pip-version-check --progress-bar off --verbose --ignore-installed --no-warn-script-location ./*.whl
 if [ -d %{buildroot}%{_bindir} ]; then
   pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{buildroot}%{_bindir}/*
 fi
