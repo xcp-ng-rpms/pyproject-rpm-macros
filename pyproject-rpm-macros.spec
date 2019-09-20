@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        5%{?dist}
+Release:        6%{?dist}
 
 Source0:        macros.pyproject
 Source1:        pyproject_buildrequires.py
@@ -87,6 +87,9 @@ install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
 %license LICENSE
 
 %changelog
+* Fri Jul 26 2019 Petr Viktorin <pviktori@redhat.com> - 0-6
+- Use importlib_metadata rather than pip freeze
+
 * Fri Jul 26 2019 Miro Hrončok <mhroncok@redhat.com> - 0-5
 - Allow to fetch test dependencies from tox
 - Add %%tox macro to invoke tests
