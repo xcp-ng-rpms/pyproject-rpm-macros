@@ -15,11 +15,11 @@ config="/tmp/fedora-${fedora}-x86_64-ci.cfg"
 # TODO: check if it has precedence if the release was not bumped in tested PR
 if [ ! -f $config ]; then
   original="/etc/mock/fedora-${fedora}-x86_64.cfg"
-  split=$(sed -n '/\[fedora\]/=' $original | head -n1)
-  head -n$(($split-1)) $original > $config
+  cp $original $config
+
+  echo -e '\n\nconfig_opts["yum.conf"] += """' >> $config
   cat /etc/yum.repos.d/test-pyproject-rpm-macros.repo >> $config
-  echo >> $config
-  tail -n +$split $original >> $config
+  echo -e '\n"""\n' >> $config
 fi
 
 # prepare the rpmbuild folders, make sure nothing relevant is there
