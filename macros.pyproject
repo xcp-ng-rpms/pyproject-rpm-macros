@@ -26,7 +26,7 @@ echo 'python3-devel'
 echo 'python3dist(packaging)'
 echo 'python3dist(pytoml)'
 # setuptools assumes no pre-existing dist-info
-rm -rfv *.dist-info/
+rm -rfv *.dist-info/ >&2
 if [ -f %{__python3} ]; then
   RPM_TOXENV="%{toxenv}" %{__python3} -I %{_rpmconfigdir}/redhat/pyproject_buildrequires.py %{?**}
 fi
