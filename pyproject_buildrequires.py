@@ -7,7 +7,6 @@ import traceback
 import contextlib
 from io import StringIO
 import subprocess
-import pathlib
 import re
 import tempfile
 import email.parser
@@ -18,13 +17,14 @@ print_err = functools.partial(print, file=sys.stderr)
 # Whitelist characters we can handle.
 VERSION_RE = re.compile('[a-zA-Z0-9.-]+')
 
+
 class EndPass(Exception):
     """End current pass of generating requirements"""
+
 
 try:
     import pytoml
     from packaging.requirements import Requirement, InvalidRequirement
-    from packaging.version import Version
     from packaging.utils import canonicalize_name, canonicalize_version
     try:
         import importlib.metadata as importlib_metadata
@@ -62,15 +62,14 @@ class Requirements:
             requirement = Requirement(requirement_str)
         except InvalidRequirement as e:
             print_err(
-                f'"WARNING: Skipping invalid requirement: {requirement_str}\n'
+                f'WARNING: Skipping invalid requirement: {requirement_str}\n'
                 + f'    {e}',
             )
             return
 
         name = canonicalize_name(requirement.name)
-        if (requirement.marker is not None
-            and not requirement.marker.evaluate(environment=self.marker_env)
-        ):
+        if (requirement.marker is not None and
+                not requirement.marker.evaluate(environment=self.marker_env)):
             print_err(f'Ignoring alien requirement:', requirement_str)
             return
 
@@ -96,11 +95,11 @@ class Requirements:
                     f'Unknown character in version: {specifier.version}. '
                     + '(This is probably a bug in pyproject-rpm-macros.)',
                 )
-            if specifier.operator == "!=":
+            if specifier.operator == '!=':
                 lower = python3dist(name, '<', version)
                 higher = python3dist(name, '>', f'{version}.0')
                 together.append(
-                    f"({lower} or {higher})"
+                    f'({lower} or {higher})'
                 )
             else:
                 together.append(python3dist(name, specifier.operator, version))
@@ -122,6 +121,7 @@ class Requirements:
         for req_str in requirement_strs:
             self.add(req_str, source=source)
 
+
 def get_backend(requirements):
     try:
         f = open('pyproject.toml')
@@ -131,16 +131,16 @@ def get_backend(requirements):
         with f:
             pyproject_data = pytoml.load(f)
 
-    buildsystem_data = pyproject_data.get("build-system", {})
+    buildsystem_data = pyproject_data.get('build-system', {})
     requirements.extend(
-        buildsystem_data.get("requires", ()),
+        buildsystem_data.get('requires', ()),
         source='build-system.requires',
     )
 
     backend_name = buildsystem_data.get('build-backend')
     if not backend_name:
-        requirements.add("setuptools >= 40.8", source='default build backend')
-        requirements.add("wheel", source='default build backend')
+        requirements.add('setuptools >= 40.8', source='default build backend')
+        requirements.add('wheel', source='default build backend')
 
         backend_name = 'setuptools.build_meta'
 
@@ -154,7 +154,7 @@ def get_backend(requirements):
 
 
 def generate_build_requirements(backend, requirements):
-    get_requires = getattr(backend, "get_requires_for_build_wheel", None)
+    get_requires = getattr(backend, 'get_requires_for_build_wheel', None)
     if get_requires:
         with hook_call():
             new_reqs = get_requires()
@@ -162,7 +162,8 @@ def generate_build_requirements(backend, requirements):
 
 
 def generate_run_requirements(backend, requirements):
-    prepare_metadata = getattr(backend, "prepare_metadata_for_build_wheel", None)
+    hook_name = 'prepare_metadata_for_build_wheel'
+    prepare_metadata = getattr(backend, hook_name, None)
     if not prepare_metadata:
         raise ValueError(
             'build backend cannot provide build metadata '
@@ -248,7 +249,7 @@ def main(argv):
         '-x', '--extras', metavar='EXTRAS', default='',
         help='extra for runtime requirements (e.g. -x testing)',
         # XXX: a comma-separated list should be possible here
-        #help='comma separated list of "extras" for runtime requirements '
+        # help='comma separated list of "extras" for runtime requirements '
         #    + '(e.g. -x testing,feature-x)',
     )
 
