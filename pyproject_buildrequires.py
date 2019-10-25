@@ -183,13 +183,14 @@ def generate_tox_requirements(toxenv, requirements):
     with tempfile.NamedTemporaryFile('r') as depfile:
         r = subprocess.run(
             ['tox', '--print-deps-to-file', depfile.name, '-qre', toxenv],
-            check=True,
+            check=False,
             encoding='utf-8',
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
         )
         if r.stdout:
-            print_err(r.stdout)
+            print_err(r.stdout, end='')
+        r.check_returncode()
         requirements.extend(depfile.read().splitlines(),
                             source=f'tox --print-deps-only: {toxenv}')
 

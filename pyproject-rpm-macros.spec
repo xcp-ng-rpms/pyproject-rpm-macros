@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        7%{?dist}
+Release:        8%{?dist}
 
 Source0:        macros.pyproject
 Source1:        pyproject_buildrequires.py
@@ -87,6 +87,9 @@ install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
 %license LICENSE
 
 %changelog
+* Fri Oct 25 2019 Miro Hrončok <mhroncok@redhat.com> - 0-8
+- When tox fails, print tox output before failing
+
 * Tue Oct 08 2019 Miro Hrončok <mhroncok@redhat.com> - 0-7
 - Move a verbose line of %%pyproject_buildrequires from stdout to stderr
 
