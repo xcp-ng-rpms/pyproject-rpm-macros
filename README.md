@@ -33,6 +33,8 @@ And install the wheel in `%install` with `%pyproject_install`:
     %install
     %pyproject_install
 
+`%pyproject_install` installs all wheels in `$PWD/pyproject-macros-wheeldir/`. If you would like to save wheels somewhere else redefine `%{_pyproject_wheeldir}`.
+
 
 Adding run-time and test-time dependencies
 ------------------------------------------
@@ -131,7 +133,6 @@ in `%generate_buildrequires`. If not, you need to add:
 Limitations
 -----------
 
-`%pyproject_install` currently installs all wheels in `$PWD`. We are working on a more explicit solution.
 
 This macro changes shebang lines of every Python script in `%{buildroot}%{_bindir}` to `#! %{__python3} %{py3_shbang_opt}` (`#! /usr/bin/python3 -s`).
 We plan to preserve existing Python flags in shebangs, but the work is not yet finished.

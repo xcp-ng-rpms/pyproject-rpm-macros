@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        9%{?dist}
+Release:        10%{?dist}
 
 Source0:        macros.pyproject
 Source1:        pyproject_buildrequires.py
@@ -87,6 +87,10 @@ install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
 %license LICENSE
 
 %changelog
+* Fri Nov 15 2019 Patrik Kopkan <pkopkan@redhat.com> - 0-10
+- Install wheel in '$PWD/pyproject-macros-wheeldir' to have more explicit path from which we install.
+- The path can be changed by redefining %%_pyproject_wheeldir.
+
 * Wed Nov 13 2019 Anna Khaitovich <akhaitov@redhat.com> - 0-9
 - Remove stray __pycache__ directory from /usr/bin when running %%pyproject_install
 
