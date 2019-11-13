@@ -8,6 +8,7 @@ CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" \\\
 %{__python3} -m pip install --root %{buildroot} --no-deps --disable-pip-version-check --progress-bar off --verbose --ignore-installed --no-warn-script-location ./*.whl
 if [ -d %{buildroot}%{_bindir} ]; then
   pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{buildroot}%{_bindir}/*
+  rm -rfv %{buildroot}%{_bindir}/__pycache__
 fi
 if [ -d %{buildroot}%{python3_sitelib} ]; then
   sed -i 's/pip/rpm/' %{buildroot}%{python3_sitelib}/*.dist-info/INSTALLER

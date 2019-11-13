@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        8%{?dist}
+Release:        9%{?dist}
 
 Source0:        macros.pyproject
 Source1:        pyproject_buildrequires.py
@@ -87,6 +87,9 @@ install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
 %license LICENSE
 
 %changelog
+* Wed Nov 13 2019 Anna Khaitovich <akhaitov@redhat.com> - 0-9
+- Remove stray __pycache__ directory from /usr/bin when running %%pyproject_install
+
 * Fri Oct 25 2019 Miro Hrončok <mhroncok@redhat.com> - 0-8
 - When tox fails, print tox output before failing
 
