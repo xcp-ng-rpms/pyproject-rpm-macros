@@ -25,6 +25,9 @@
     - clikit:
         dir: .
         run: ./mocktest.sh python-clikit
+    - tldr:
+        dir: .
+        run: ./mocktest.sh tldr
     required_packages:
     - mock
     - rpmdevtools
