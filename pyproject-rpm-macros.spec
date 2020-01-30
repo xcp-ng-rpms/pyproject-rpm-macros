@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        10%{?dist}
+Release:        11%{?dist}
 
 Source0:        macros.pyproject
 Source1:        pyproject_buildrequires.py
@@ -87,6 +87,9 @@ install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
 %license LICENSE
 
 %changelog
+* Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Fri Nov 15 2019 Patrik Kopkan <pkopkan@redhat.com> - 0-10
 - Install wheel in '$PWD/pyproject-macros-wheeldir' to have more explicit path from which we install.
 - The path can be changed by redefining %%_pyproject_wheeldir.
