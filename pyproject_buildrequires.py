@@ -139,10 +139,15 @@ def get_backend(requirements):
 
     backend_name = buildsystem_data.get('build-backend')
     if not backend_name:
+        # https://www.python.org/dev/peps/pep-0517/:
+        # If the pyproject.toml file is absent, or the build-backend key is
+        # missing, the source tree is not using this specification, and tools
+        # should revert to the legacy behaviour of running setup.py
+        # (either directly, or by implicitly invoking the [following] backend).
+        backend_name = 'setuptools.build_meta:__legacy__'
+
         requirements.add('setuptools >= 40.8', source='default build backend')
         requirements.add('wheel', source='default build backend')
-
-        backend_name = 'setuptools.build_meta'
 
     requirements.check(source='build backend')
 
@@ -150,7 +155,13 @@ def get_backend(requirements):
     if backend_path:
         sys.path.insert(0, backend_path)
 
-    return importlib.import_module(backend_name)
+    module_name, _, object_name = backend_name.partition(":")
+    backend_module = importlib.import_module(module_name)
+
+    if object_name:
+        return getattr(backend_module, object_name)
+
+    return backend_module
 
 
 def generate_build_requirements(backend, requirements):

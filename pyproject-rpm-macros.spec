@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        11%{?dist}
+Release:        12%{?dist}
 
 Source0:        macros.pyproject
 Source1:        pyproject_buildrequires.py
@@ -87,6 +87,10 @@ install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
 %license LICENSE
 
 %changelog
+* Wed Feb 05 2020 Miro Hrončok <mhroncok@redhat.com> - 0-12
+- Fallback to setuptools.build_meta:__legacy__ backend instead of setuptools.build_meta
+- Properly handle backends with colon
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
