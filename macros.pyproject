@@ -9,7 +9,7 @@ CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" \\\
 %pyproject_install() %{expand:\\\
 %{__python3} -m pip install --root %{buildroot} --no-deps --disable-pip-version-check --progress-bar off --verbose --ignore-installed --no-warn-script-location %{_pyproject_wheeldir}/*.whl
 if [ -d %{buildroot}%{_bindir} ]; then
-  pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{buildroot}%{_bindir}/*
+  pathfix.py -pni "%{__python3}" -k%{?py3_shbang_opts: -a%{py3_shbang_opts_nodash}} %{buildroot}%{_bindir}/*
   rm -rfv %{buildroot}%{_bindir}/__pycache__
 fi
 if [ -d %{buildroot}%{python3_sitelib} ]; then

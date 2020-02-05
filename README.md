@@ -133,9 +133,13 @@ in `%generate_buildrequires`. If not, you need to add:
 Limitations
 -----------
 
-
-This macro changes shebang lines of every Python script in `%{buildroot}%{_bindir}` to `#! %{__python3} %{py3_shbang_opt}` (`#! /usr/bin/python3 -s`).
-We plan to preserve existing Python flags in shebangs, but the work is not yet finished.
+`%pyproject_install` changes shebang lines of every Python script in `%{buildroot}%{_bindir}` to `#!%{__python3} %{py3_shbang_opt}` (`#!/usr/bin/python3 -s`).
+Existing Python flags in shebangs are preserved.
+For example `#!/usr/bin/python3 -Ru` will be updated to `#!/usr/bin/python3 -sRu`.
+Sometimes, this can interfere with tests that run such scripts directly by name,
+because in tests we usually rely on `PYTHONPATH` (and `-s` ignores that).
+Would this behavior be undesired for any reason,
+undefine `%{py3_shbang_opt}` to turn it of.
 
 Extras are currently ignored.
 

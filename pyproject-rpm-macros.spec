@@ -90,6 +90,7 @@ install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
 * Wed Feb 05 2020 Miro Hrončok <mhroncok@redhat.com> - 0-12
 - Fallback to setuptools.build_meta:__legacy__ backend instead of setuptools.build_meta
 - Properly handle backends with colon
+- Preserve existing flags in shebangs of Python files in /usr/bin
 
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild

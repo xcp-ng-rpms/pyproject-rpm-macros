@@ -27,6 +27,7 @@ BuildRequires:  pyproject-rpm-macros
 
 %check
 test ! -d %{buildroot}%{_bindir}/__pycache__
+head -n1 %{buildroot}%{_bindir}/%{name}.py | egrep '#!\s*%{python3}\s+%{py3_shbang_opts}\s*$'
 
 %files
 %license LICENSE
