@@ -17,7 +17,7 @@ if [ ! -f $config ]; then
   original="/etc/mock/fedora-${fedora}-x86_64.cfg"
   cp $original $config
 
-  echo -e '\n\nconfig_opts["yum.conf"] += """' >> $config
+  echo -e '\n\nconfig_opts[f"{config_opts.package_manager}.conf"] += """' >> $config
   cat /etc/yum.repos.d/test-pyproject-rpm-macros.repo >> $config
   echo -e '\n"""\n' >> $config
 fi

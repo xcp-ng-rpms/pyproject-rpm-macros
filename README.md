@@ -139,7 +139,7 @@ For example `#!/usr/bin/python3 -Ru` will be updated to `#!/usr/bin/python3 -sRu
 Sometimes, this can interfere with tests that run such scripts directly by name,
 because in tests we usually rely on `PYTHONPATH` (and `-s` ignores that).
 Would this behavior be undesired for any reason,
-undefine `%{py3_shbang_opt}` to turn it of.
+undefine `%{py3_shbang_opt}` to turn it off.
 
 Extras are currently ignored.
 
