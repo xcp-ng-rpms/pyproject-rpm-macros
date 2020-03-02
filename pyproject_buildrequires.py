@@ -189,6 +189,24 @@ def generate_run_requirements(backend, requirements):
         requirements.extend(requires, source=f'wheel metadata: {key}')
 
 
+def parse_tox_requires_lines(lines):
+    packages = []
+    for line in lines:
+        line = line.strip()
+        if line.startswith('-r'):
+            path = line[2:]
+            with open(path) as f:
+                packages.extend(parse_tox_requires_lines(f.read().splitlines()))
+        elif line.startswith('-'):
+            print_err(
+                f'WARNING: Skipping dependency line: {line}\n'
+                + f'    tox deps options other than -r are not supported (yet).',
+            )
+        else:
+            packages.append(line)
+    return packages
+
+
 def generate_tox_requirements(toxenv, requirements):
     requirements.add('tox-current-env >= 0.0.2', source='tox itself')
     requirements.check(source='tox itself')
@@ -203,7 +221,10 @@ def generate_tox_requirements(toxenv, requirements):
         if r.stdout:
             print_err(r.stdout, end='')
         r.check_returncode()
-        requirements.extend(depfile.read().splitlines(),
+
+        deplines = depfile.read().splitlines()
+        packages = parse_tox_requires_lines(deplines)
+        requirements.extend(packages,
                             source=f'tox --print-deps-only: {toxenv}')
 
 

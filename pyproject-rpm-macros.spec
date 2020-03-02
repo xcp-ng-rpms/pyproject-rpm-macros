@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        12%{?dist}
+Release:        13%{?dist}
 
 Source0:        macros.pyproject
 Source1:        pyproject_buildrequires.py
@@ -87,6 +87,9 @@ install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
 %license LICENSE
 
 %changelog
+* Mon Mar 02 2020 Miro Hrončok <mhroncok@redhat.com> - 0-13
+- Tox dependency generator: Handle deps read in from a text file (#1808601)
+
 * Wed Feb 05 2020 Miro Hrončok <mhroncok@redhat.com> - 0-12
 - Fallback to setuptools.build_meta:__legacy__ backend instead of setuptools.build_meta
 - Properly handle backends with colon

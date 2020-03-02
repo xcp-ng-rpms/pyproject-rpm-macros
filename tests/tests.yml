@@ -28,6 +28,9 @@
     - tldr:
         dir: .
         run: ./mocktest.sh tldr
+    - openqa_client:
+        dir: .
+        run: ./mocktest.sh python-openqa_client
     required_packages:
     - mock
     - rpmdevtools
