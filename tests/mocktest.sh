@@ -18,7 +18,7 @@ if [ ! -f $config ]; then
   cp $original $config
 
   echo -e '\n\nconfig_opts[f"{config_opts.package_manager}.conf"] += """' >> $config
-  cat /etc/yum.repos.d/test-pyproject-rpm-macros.repo >> $config
+  cat /etc/yum.repos.d/test-*.repo >> $config
   echo -e '\n"""\n' >> $config
 fi
 
