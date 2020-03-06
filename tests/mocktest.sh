@@ -18,7 +18,15 @@ if [ ! -f $config ]; then
   cp $original $config
 
   echo -e '\n\nconfig_opts[f"{config_opts.package_manager}.conf"] += """' >> $config
-  cat /etc/yum.repos.d/test-*.repo >> $config
+
+  # The zuul CI has zuul-build.repo
+  # The Jenkins CI has test-<pkgname>.repo
+  # We run this code from various packages, so we support any <pkgname>
+  if [ -f /etc/yum.repos.d/zuul-build.repo ]; then
+    cat /etc/yum.repos.d/zuul-build.repo >> $config
+  else
+    cat /etc/yum.repos.d/test-*.repo >> $config
+  fi
   echo -e '\n"""\n' >> $config
 fi
 
