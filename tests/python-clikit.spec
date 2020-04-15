@@ -12,12 +12,11 @@ BuildArch:      noarch
 BuildRequires:  pyproject-rpm-macros
 
 %description
-%{summary}.
+Tests building with the poetry build backend.
 
 
 %package -n python3-%{pypi_name}
 Summary:        %{summary}
-%{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description -n python3-%{pypi_name}
 %{summary}.
@@ -37,10 +36,9 @@ Summary:        %{summary}
 
 %install
 %pyproject_install
+%pyproject_save_files clikit
 
 
-%files -n python3-%{pypi_name}
+%files -n python3-%{pypi_name} -f %{pyproject_files}
 %doc README.md
 %license LICENSE
-%{python3_sitelib}/%{pypi_name}/
-%{python3_sitelib}/%{pypi_name}-%{version}.dist-info/

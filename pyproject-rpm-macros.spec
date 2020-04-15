@@ -6,16 +6,27 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        13%{?dist}
+Release:        14%{?dist}
 
-Source0:        macros.pyproject
-Source1:        pyproject_buildrequires.py
+# Macro files
+Source001:      macros.pyproject
 
-Source8:        README.md
-Source9:        LICENSE
+# Implementation files
+Source101:      pyproject_buildrequires.py
+Source102:      pyproject_save_files.py
 
-Source10:       test_pyproject_buildrequires.py
-Source11:       testcases.yaml
+# Tests
+Source201:      test_pyproject_buildrequires.py
+Source202:      test_pyproject_save_files.py
+
+# Test data
+Source301:      pyproject_buildrequires_testcases.yaml
+Source302:      pyproject_save_files_test_data.yaml
+Source303:      test_RECORD
+
+# Metadata
+Source901:      README.md
+Source902:      LICENSE
 
 URL:            https://src.fedoraproject.org/rpms/pyproject-rpm-macros
 
@@ -72,21 +83,26 @@ mkdir -p %{buildroot}%{_rpmmacrodir}
 mkdir -p %{buildroot}%{_rpmconfigdir}/redhat
 install -m 644 macros.pyproject %{buildroot}%{_rpmmacrodir}/
 install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
+install -m 644 pyproject_save_files.py  %{buildroot}%{_rpmconfigdir}/redhat/
 
 %if %{with tests}
 %check
-%{__python3} -m pytest -vv
+%{python3} -m pytest -vv --doctest-modules
 %endif
 
 
 %files
 %{_rpmmacrodir}/macros.pyproject
 %{_rpmconfigdir}/redhat/pyproject_buildrequires.py
+%{_rpmconfigdir}/redhat/pyproject_save_files.py
 
 %doc README.md
 %license LICENSE
 
 %changelog
+* Wed Apr 15 2020 Patrik Kopkan <pkopkan@redhat.com> - 0-14
+- Add %%pyproject_save_file macro for generating file section
+
 * Mon Mar 02 2020 Miro Hrončok <mhroncok@redhat.com> - 0-13
 - Tox dependency generator: Handle deps read in from a text file (#1808601)
 

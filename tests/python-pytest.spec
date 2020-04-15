@@ -11,15 +11,18 @@ BuildArch:      noarch
 BuildRequires:  pyproject-rpm-macros
 
 %description
-py.test provides simple, yet powerful testing for Python.
-
+This is a pure Python package with executables. It has a test suite in tox.ini
+and test dependencies specified via the [test] extra.
+Building this tests:
+- generating runtime and test dependencies by both tox.ini and extras
+- pyproject.toml with the setuptools backend and setuptools-scm
+- passing arguments into %%tox
 
 %package -n python3-%{pypi_name}
 Summary:        %{summary}
-%{?python_provide:%python_provide python3-%{pypi_name}}
 
 %description -n python3-%{pypi_name}
-py.test provides simple, yet powerful testing for Python.
+%{summary}.
 
 
 %prep
@@ -29,27 +32,21 @@ py.test provides simple, yet powerful testing for Python.
 %generate_buildrequires
 %pyproject_buildrequires -x testing -t
 
-
 %build
 %pyproject_wheel
 
 
 %install
 %pyproject_install
+%pyproject_save_files *pytest +bindir
 
 %check
-# Only run one test (which uses a test-only dependency, hypothesis).
-# (Unfortunately, some other tests still fail.)
+# Only run one test (which uses a test-only dependency, hypothesis)
+# See how to pass options trough the macro to tox, trough tox to pytest
 %tox -- -- -k metafunc
 
 
-%files -n python3-%{pypi_name}
+%files -n python3-%{pypi_name} -f %{pyproject_files}
 %doc README.rst
 %doc CHANGELOG.rst
 %license LICENSE
-%{_bindir}/pytest
-%{_bindir}/py.test
-%{python3_sitelib}/pytest-*.dist-info/
-%{python3_sitelib}/_pytest/
-%{python3_sitelib}/pytest.py
-%{python3_sitelib}/__pycache__/pytest.*

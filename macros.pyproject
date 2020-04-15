@@ -1,5 +1,7 @@
 %_pyproject_wheeldir ./pyproject-macros-wheeldir
 
+%pyproject_files %{_builddir}/pyproject-files
+
 %pyproject_wheel() %{expand:\\\
 CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" \\\
 %{__python3} -m pip wheel --wheel-dir %{_pyproject_wheeldir} --no-deps --use-pep517 --no-build-isolation --disable-pip-version-check --progress-bar off --verbose .
@@ -20,8 +22,22 @@ if [ -d %{buildroot}%{python3_sitearch} ]; then
 fi
 }
 
+
+%pyproject_save_files() %{expand:\\\
+%{__python3} %{_rpmconfigdir}/redhat/pyproject_save_files.py \\
+  --output "%{pyproject_files}" \\
+  --buildroot "%{buildroot}" \\
+  --sitelib "%{python3_sitelib}" \\
+  --sitearch "%{python3_sitearch}" \\
+  --bindir "%{_bindir}" \\
+  --python-version "%{python3_version}" \\
+  %{*}
+}
+
+
 %default_toxenv py%{python3_version_nodots}
 %toxenv %{default_toxenv}
+
 
 %pyproject_buildrequires(rxte:) %{expand:\\\
 %{-e:%{expand:%global toxenv %{-e*}}}
@@ -34,6 +50,7 @@ if [ -f %{__python3} ]; then
   RPM_TOXENV="%{toxenv}" %{__python3} -I %{_rpmconfigdir}/redhat/pyproject_buildrequires.py %{?**}
 fi
 }
+
 
 %tox(e:) %{expand:\\\
 TOX_TESTENV_PASSENV="${TOX_TESTENV_PASSENV:-*}" \\
