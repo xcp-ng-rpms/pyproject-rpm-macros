@@ -1,14 +1,27 @@
-%_pyproject_wheeldir ./pyproject-macros-wheeldir
+# This is a directory where wheels are stored and installed from, relative to PWD
+%_pyproject_wheeldir pyproject-wheeldir
+
+# This is a directory used as TMPDIR, where pip copies sources to and builds from, relative to PWD
+# For proper debugsource packages, we create TMPDIR within PWD
+# See https://github.com/pypa/pip/issues/7555#issuecomment-595180864
+#
+# This will be used in debugsource package paths (applies to extension modules only)
+# NB: pytest collects tests from here if not hidden
+#     https://docs.pytest.org/en/latest/reference.html#confval-norecursedirs
+%_pyproject_builddir .pyproject-builddir
 
 %pyproject_files %{_builddir}/pyproject-files
 
 %pyproject_wheel() %{expand:\\\
+export TMPDIR="${PWD}/%{_pyproject_builddir}"
+mkdir -p "${TMPDIR}"
 CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" \\\
-%{__python3} -m pip wheel --wheel-dir %{_pyproject_wheeldir} --no-deps --use-pep517 --no-build-isolation --disable-pip-version-check --progress-bar off --verbose .
+%{__python3} -m pip wheel --wheel-dir %{_pyproject_wheeldir} --no-deps --use-pep517 --no-build-isolation --disable-pip-version-check --no-clean --progress-bar off --verbose .
 }
 
 
 %pyproject_install() %{expand:\\\
+export TMPDIR="${PWD}/%{_pyproject_builddir}"
 %{__python3} -m pip install --root %{buildroot} --no-deps --disable-pip-version-check --progress-bar off --verbose --ignore-installed --no-warn-script-location %{_pyproject_wheeldir}/*.whl
 if [ -d %{buildroot}%{_bindir} ]; then
   pathfix.py -pni "%{__python3}" -k%{?py3_shbang_opts: -a%{py3_shbang_opts_nodash}} %{buildroot}%{_bindir}/*

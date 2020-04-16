@@ -1,6 +1,3 @@
-# workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1806625
-%global debug_package %{nil}
-
 Name:           python-mistune
 Version:        0.8.3
 Release:        11%{?dist}

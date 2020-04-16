@@ -102,6 +102,7 @@ install -m 644 pyproject_save_files.py  %{buildroot}%{_rpmconfigdir}/redhat/
 %changelog
 * Wed Apr 15 2020 Patrik Kopkan <pkopkan@redhat.com> - 0-14
 - Add %%pyproject_save_file macro for generating file section
+- Handle extracting debuginfo from extension modules (#1806625)
 
 * Mon Mar 02 2020 Miro Hrončok <mhroncok@redhat.com> - 0-13
 - Tox dependency generator: Handle deps read in from a text file (#1808601)

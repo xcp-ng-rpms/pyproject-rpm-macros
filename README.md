@@ -33,7 +33,7 @@ And install the wheel in `%install` with `%pyproject_install`:
     %install
     %pyproject_install
 
-`%pyproject_install` installs all wheels in `$PWD/pyproject-macros-wheeldir/`. If you would like to save wheels somewhere else redefine `%{_pyproject_wheeldir}`.
+`%pyproject_install` installs all wheels in `$PWD/pyproject-wheeldir/`. If you would like to save wheels somewhere else redefine `%{_pyproject_wheeldir}`.
 
 
 Adding run-time and test-time dependencies

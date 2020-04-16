@@ -1,6 +1,3 @@
-# workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1806625
-%global debug_package %{nil}
-
 Name:           python-ldap
 Version:        3.1.0
 Release:        9%{?dist}
