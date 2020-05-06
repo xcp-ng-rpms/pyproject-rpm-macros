@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        14%{?dist}
+Release:        15%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -100,6 +100,9 @@ install -m 644 pyproject_save_files.py  %{buildroot}%{_rpmconfigdir}/redhat/
 %license LICENSE
 
 %changelog
+* Thu May 07 2020 Tomas Hrnciar <thrnciar@redhat.com> - 0-15
+- Adapt %%pyproject_install not to create a PEP 610 direct_url.json file
+
 * Wed Apr 15 2020 Patrik Kopkan <pkopkan@redhat.com> - 0-14
 - Add %%pyproject_save_file macro for generating file section
 - Handle extracting debuginfo from extension modules (#1806625)

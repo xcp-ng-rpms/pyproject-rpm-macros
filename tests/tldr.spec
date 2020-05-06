@@ -15,6 +15,7 @@ A Python package containing executables.
 Building this tests:
 - there are no bytecompiled files in %%{_bindir}
 - the executable's shebang is adjusted properly
+- file direct_url.json isn't created
 
 %prep
 %autosetup -n %{name}-%{version}
@@ -35,6 +36,9 @@ test ! -d %{buildroot}%{_bindir}/__pycache__
 
 # Internal check for our macros: tests we have a proper shebang line
 head -n1 %{buildroot}%{_bindir}/%{name}.py | grep -E '#!\s*%{python3}\s+%{py3_shbang_opts}\s*$'
+
+# Internal check for our macros: tests that direct_url.json file wasn't created
+test ! -e %{buildroot}%{python3_sitelib}/*.dist-info/direct_url.json
 
 %files -f %pyproject_files
 %license LICENSE

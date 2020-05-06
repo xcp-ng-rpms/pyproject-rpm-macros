@@ -21,8 +21,9 @@ CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" \\\
 
 
 %pyproject_install() %{expand:\\\
+specifier=$(ls %{_pyproject_wheeldir}/*.whl | xargs basename --multiple | sed -E 's/([^-]+)-([^-]+)-.+\\\.whl/\\\1==\\\2/')
 export TMPDIR="${PWD}/%{_pyproject_builddir}"
-%{__python3} -m pip install --root %{buildroot} --no-deps --disable-pip-version-check --progress-bar off --verbose --ignore-installed --no-warn-script-location %{_pyproject_wheeldir}/*.whl
+%{__python3} -m pip install --root %{buildroot} --no-deps --disable-pip-version-check --progress-bar off --verbose --ignore-installed --no-warn-script-location --no-index --no-cache-dir --find-links %{_pyproject_wheeldir} $specifier
 if [ -d %{buildroot}%{_bindir} ]; then
   pathfix.py -pni "%{__python3}" -k%{?py3_shbang_opts: -a%{py3_shbang_opts_nodash}} %{buildroot}%{_bindir}/*
   rm -rfv %{buildroot}%{_bindir}/__pycache__
