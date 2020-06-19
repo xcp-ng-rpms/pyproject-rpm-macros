@@ -2,12 +2,6 @@
 . /etc/os-release
 fedora=$VERSION_ID
 
-# we don't have dynamic BuildRequires on Fedora 30
-# so we at least test that we can build in a Fedora 31 mock
-if [ $fedora -lt 31 ]; then
-  fedora=31
-fi
-
 config="/tmp/fedora-${fedora}-x86_64-ci.cfg"
 
 # create mock config if not present

@@ -1,7 +1,7 @@
 pyproject RPM macros
 ====================
 
-This is a provisional implementation of pyproject RPM macros for Fedora 30+.
+This is a provisional implementation of pyproject RPM macros for Fedora.
 
 These macros are useful for packaging Python projects that use the [PEP 517] `pyproject.toml` file, which specifies the package's build dependencies (including the build system, such as setuptools, flit or poetry).
 
