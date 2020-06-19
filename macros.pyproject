@@ -57,7 +57,7 @@ fi
 %{-e:%{expand:%global toxenv %{-e*}}}
 echo 'python3-devel'
 echo 'python3dist(packaging)'
-echo 'python3dist(pytoml)'
+echo 'python3dist(toml)'
 # setuptools assumes no pre-existing dist-info
 rm -rfv *.dist-info/ >&2
 if [ -f %{__python3} ]; then

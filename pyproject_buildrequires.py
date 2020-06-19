@@ -23,7 +23,7 @@ class EndPass(Exception):
 
 
 try:
-    import pytoml
+    import toml
     from packaging.requirements import Requirement, InvalidRequirement
     from packaging.utils import canonicalize_name, canonicalize_version
     try:
@@ -129,7 +129,7 @@ def get_backend(requirements):
         pyproject_data = {}
     else:
         with f:
-            pyproject_data = pytoml.load(f)
+            pyproject_data = toml.load(f)
 
     buildsystem_data = pyproject_data.get('build-system', {})
     requirements.extend(

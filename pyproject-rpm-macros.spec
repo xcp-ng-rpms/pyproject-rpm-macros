@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        15%{?dist}
+Release:        16%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -39,7 +39,7 @@ Requires: python3-devel
 # But those are also always in the output of %%generate_buildrequires
 # in order to be removable in the future
 Requires: python3dist(packaging)
-Requires: python3dist(pytoml)
+Requires: python3dist(toml)
 
 # This is not output from %%generate_buildrequires to work around:
 #   https://github.com/rpm-software-management/mock/issues/336
@@ -54,9 +54,9 @@ BuildRequires: python3dist(packaging)
 #   https://github.com/rpm-software-management/mock/issues/336
 BuildRequires: (python3dist(importlib-metadata) if python3 < 3.8)
 %endif
-BuildRequires: python3dist(pytoml)
 BuildRequires: python3dist(pip)
 BuildRequires: python3dist(setuptools)
+BuildRequires: python3dist(toml)
 BuildRequires: python3dist(tox-current-env) >= 0.0.2
 BuildRequires: python3dist(wheel)
 %endif
@@ -100,6 +100,9 @@ install -m 644 pyproject_save_files.py  %{buildroot}%{_rpmconfigdir}/redhat/
 %license LICENSE
 
 %changelog
+* Fri Jun 19 2020 Miro Hrončok <mhroncok@redhat.com> - 0-16
+- Switch from upstream deprecated pytoml to toml
+
 * Thu May 07 2020 Tomas Hrnciar <thrnciar@redhat.com> - 0-15
 - Adapt %%pyproject_install not to create a PEP 610 direct_url.json file
 
