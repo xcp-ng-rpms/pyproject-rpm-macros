@@ -1,6 +1,6 @@
 Name:           python-ldap
-Version:        3.1.0
-Release:        9%{?dist}
+Version:        3.3.0
+Release:        0%{?dist}
 License:        Python
 Summary:        An object-oriented API to access LDAP directory servers
 Source0:        %{pypi_source}
@@ -50,10 +50,6 @@ Summary:        %{summary}
 
 
 %check
-# TODO: Upstream tox configuration calls setup.py test and rebuilds the extension module
-# But we want to test the installed one instead
-# This works but we are not testing what we ship
-# https://github.com/python-ldap/python-ldap/issues/326
 %tox
 
 # Internal check if the instalation outputs expected files
