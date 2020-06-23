@@ -196,3 +196,38 @@ The `-x` flag does not yet support multiple (comma-separated) extras.
 
 [PEP 517]: https://www.python.org/dev/peps/pep-0517/
 [PEP 518]: https://www.python.org/dev/peps/pep-0518/
+
+
+Testing the macros
+------------------
+
+This repository has two kinds of tests.
+First, there is RPM `%check` section, run when building the `python-rpm-macros`
+package.
+
+Then there are CI tests.
+There is currently [no way to run Fedora CI tests locally][ci-rfe],
+but you can do what the tests do manually using mock.
+For each `$PKG.spec` in `tests/`:
+
+  - clean your mock environment:
+
+        mock -r fedora-rawhide-x86_64 clean
+
+  - install the version of `python-rpm-macros` you're testing, e.g.:
+
+        mock -r fedora-rawhide-x86_64 install .../python-rpm-macros-*.noarch.rpm
+
+  - download the sources:
+
+        spectool -g -R $PKG.spec
+
+  - build a SRPM:
+
+        rpmbuild -bs $PKG.spec
+
+  - build in mock, using the path from the command above as `$SRPM`:
+
+        mock -r fedora-rawhide-x86_64 -n -N $SRPM
+
+[ci-rfe]: https://pagure.io/fedora-ci/general/issue/4
