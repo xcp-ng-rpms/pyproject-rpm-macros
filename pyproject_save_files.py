@@ -203,10 +203,6 @@ def classify_paths(
             paths["metadata"]["files"].append(path)
             continue
 
-        if path.parent == bindir:
-            paths["executables"]["files"].append(path)
-            continue
-
         for sitedir in sitedirs:
             if sitedir in path.parents:
                 if path.parent == sitedir:
@@ -236,21 +232,21 @@ def classify_paths(
     return paths
 
 
-def generate_file_list(paths_dict, module_globs, include_executables=False):
+def generate_file_list(paths_dict, module_globs, include_others=False):
     """
     This function takes the classified paths_dict and turns it into lines
     for the %files section. Returns list with text lines, no Path objects.
 
     Only includes files from modules that match module_globs, metadata and
-    optional executables.
+    optionaly all other files.
 
     It asserts that all globs match at least one module, raises ValueError otherwise.
     Multiple globs matching identical module(s) are OK.
     """
     files = set()
 
-    if include_executables:
-        files.update(f"{p}" for p in paths_dict["executables"]["files"])
+    if include_others:
+        files.update(f"{p}" for p in paths_dict["other"]["files"])
 
     files.update(f"{p}" for p in paths_dict["metadata"]["files"])
     for macro in "dir", "doc", "license":
@@ -286,7 +282,7 @@ def parse_varargs(varargs):
 
     Arguments starting with + are treated as a flags, everything else is a glob
 
-    Returns as set of globs, boolean flag whether to include executables from bindir
+    Returns as set of globs, boolean flag whether to include all the other files
 
     Raises ValueError for unknown flags and globs with dots (namespace packages).
 
@@ -295,8 +291,8 @@ def parse_varargs(varargs):
         >>> parse_varargs(['*'])
         ({'*'}, False)
 
-        >>> mods, bindir = parse_varargs(['requests*', 'kerberos', '+bindir'])
-        >>> bindir
+        >>> mods, auto = parse_varargs(['requests*', 'kerberos', '+auto'])
+        >>> auto
         True
         >>> sorted(mods)
         ['kerberos', 'requests*']
@@ -307,7 +303,7 @@ def parse_varargs(varargs):
         >>> sorted(mods)
         ['tensorf*', 'tldr']
 
-        >>> parse_varargs(['+bindir'])
+        >>> parse_varargs(['+auto'])
         (set(), True)
 
     Bad examples:
@@ -337,13 +333,13 @@ def parse_varargs(varargs):
           ...
         ValueError: Attempted to use a namespaced package with dot in the glob: my.bad. ...
     """
-    include_bindir = False
+    include_auto = False
     globs = set()
 
     for arg in varargs:
         if arg.startswith("+"):
-            if arg == "+bindir":
-                include_bindir = True
+            if arg == "+auto":
+                include_auto = True
             else:
                 raise ValueError(f"Invalid argument: {arg}")
         elif "." in arg:
@@ -356,7 +352,7 @@ def parse_varargs(varargs):
         else:
             globs.add(arg)
 
-    return globs, include_bindir
+    return globs, include_auto
 
 
 def pyproject_save_files(buildroot, sitelib, sitearch, bindir, python_version, varargs):
@@ -369,7 +365,7 @@ def pyproject_save_files(buildroot, sitelib, sitearch, bindir, python_version, v
     # This saves us browsing one directory twice
     sitedirs = sorted({sitelib, sitearch})
 
-    globs, include_bindir = parse_varargs(varargs)
+    globs, include_auto = parse_varargs(varargs)
     record_path_real = locate_record(buildroot, sitedirs)
     record_path = BuildrootPath.from_real(record_path_real, root=buildroot)
     parsed_record = parse_record(record_path, read_record(record_path_real))
@@ -377,7 +373,7 @@ def pyproject_save_files(buildroot, sitelib, sitearch, bindir, python_version, v
     paths_dict = classify_paths(
         record_path, parsed_record, sitedirs, bindir, python_version
     )
-    return generate_file_list(paths_dict, globs, include_bindir)
+    return generate_file_list(paths_dict, globs, include_auto)
 
 
 def main(cli_args):
