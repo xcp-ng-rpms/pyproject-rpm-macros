@@ -155,18 +155,18 @@ def test_parse_record_tensorflow():
     assert output == expected
 
 
-def remove_executables(expected):
+def remove_others(expected):
     return [p for p in expected if not p.startswith(str(BINDIR))]
 
 
-@pytest.mark.parametrize("include_executables", (True, False))
+@pytest.mark.parametrize("include_auto", (True, False))
 @pytest.mark.parametrize("package, glob, expected", EXPECTED_FILES)
-def test_generate_file_list(package, glob, expected, include_executables):
+def test_generate_file_list(package, glob, expected, include_auto):
     paths_dict = EXPECTED_DICT[package]
     modules_glob = {glob}
-    if not include_executables:
-        expected = remove_executables(expected)
-    tested = generate_file_list(paths_dict, modules_glob, include_executables)
+    if not include_auto:
+        expected = remove_others(expected)
+    tested = generate_file_list(paths_dict, modules_glob, include_auto)
 
     assert tested == expected
 
@@ -198,17 +198,17 @@ def default_options(output, mock_root):
     ]
 
 
-@pytest.mark.parametrize("include_executables", (True, False))
+@pytest.mark.parametrize("include_auto", (True, False))
 @pytest.mark.parametrize("package, glob, expected", EXPECTED_FILES)
-def test_cli(tmp_path, package, glob, expected, include_executables):
+def test_cli(tmp_path, package, glob, expected, include_auto):
     mock_root = create_root(tmp_path, TEST_RECORDS[package])
     output = tmp_path / "files"
-    globs = [glob, "+bindir"] if include_executables else [glob]
+    globs = [glob, "+auto"] if include_auto else [glob]
     cli_args = argparser().parse_args([*default_options(output, mock_root), *globs])
     main(cli_args)
 
-    if not include_executables:
-        expected = remove_executables(expected)
+    if not include_auto:
+        expected = remove_others(expected)
     tested = output.read_text()
     assert tested == "\n".join(expected) + "\n"
 

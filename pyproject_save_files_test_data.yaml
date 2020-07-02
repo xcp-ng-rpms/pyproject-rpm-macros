@@ -70,14 +70,7 @@ classified:
       files: []
   tensorflow:
     executables:
-      files:
-      - /usr/bin/estimator_ckpt_converter
-      - /usr/bin/saved_model_cli
-      - /usr/bin/tensorboard
-      - /usr/bin/tf_upgrade_v2
-      - /usr/bin/tflite_convert
-      - /usr/bin/toco
-      - /usr/bin/toco_from_protos
+      files: []
     metadata:
       dirs:
       - /usr/lib64/python3.7/site-packages/tensorflow-2.1.0.dist-info
@@ -103,12 +96,17 @@ classified:
         - /usr/lib/python3.7/site-packages/tensorflow_core
         type: package
     other:
-      files: []
+      files:
+      - /usr/bin/estimator_ckpt_converter
+      - /usr/bin/saved_model_cli
+      - /usr/bin/tensorboard
+      - /usr/bin/tf_upgrade_v2
+      - /usr/bin/tflite_convert
+      - /usr/bin/toco
+      - /usr/bin/toco_from_protos
   tldr:
     executables:
-      files:
-      - /usr/bin/tldr
-      - /usr/bin/tldr.py
+      files: []
     metadata:
       dirs:
       - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info
@@ -128,7 +126,9 @@ classified:
         - /usr/lib/python3.7/site-packages/__pycache__/tldr.cpython-37{,.opt-?}.pyc
         type: script
     other:
-      files: []
+      files:
+      - /usr/bin/tldr
+      - /usr/bin/tldr.py
 
 dumped:
 - - tensorflow
