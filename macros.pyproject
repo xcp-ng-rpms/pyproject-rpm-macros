@@ -61,7 +61,7 @@ echo 'python3dist(toml)'
 # setuptools assumes no pre-existing dist-info
 rm -rfv *.dist-info/ >&2
 if [ -f %{__python3} ]; then
-  RPM_TOXENV="%{toxenv}" %{__python3} -I %{_rpmconfigdir}/redhat/pyproject_buildrequires.py %{?**}
+  RPM_TOXENV="%{toxenv}" HOSTNAME="rpmbuild" %{__python3} -I %{_rpmconfigdir}/redhat/pyproject_buildrequires.py %{?**}
 fi
 }
 
@@ -70,5 +70,6 @@ fi
 TOX_TESTENV_PASSENV="${TOX_TESTENV_PASSENV:-*}" \\
 PATH="%{buildroot}%{_bindir}:$PATH" \\
 PYTHONPATH="${PYTHONPATH:-%{buildroot}%{python3_sitearch}:%{buildroot}%{python3_sitelib}}" \\
+HOSTNAME="rpmbuild" \\
 tox --current-env -q --recreate -e "%{-e:%{-e*}}%{!-e:%{toxenv}}" %{?*}
 }

@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        16%{?dist}
+Release:        17%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -87,6 +87,7 @@ install -m 644 pyproject_save_files.py  %{buildroot}%{_rpmconfigdir}/redhat/
 
 %if %{with tests}
 %check
+export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856356
 %{python3} -m pytest -vv --doctest-modules
 %endif
 
@@ -100,6 +101,10 @@ install -m 644 pyproject_save_files.py  %{buildroot}%{_rpmconfigdir}/redhat/
 %license LICENSE
 
 %changelog
+* Wed Jul 15 2020 Miro Hrončok <mhroncok@redhat.com> - 0-17
+- Set HOSTNAME to prevent tox 3.17+ from a DNS query
+- Fixes rhbz#1856356
+
 * Fri Jun 19 2020 Miro Hrončok <mhroncok@redhat.com> - 0-16
 - Switch from upstream deprecated pytoml to toml
 
