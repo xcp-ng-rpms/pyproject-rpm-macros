@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        17%{?dist}
+Release:        18%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -101,6 +101,10 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Thu Jul 16 2020 Miro Hrončok <mhroncok@redhat.com> - 0-18
+- %%pyproject_buildrequires -x (extras requires for tests) now implies -r
+  (runtime requires) instead of erroring without it for better UX.
+
 * Wed Jul 15 2020 Miro Hrončok <mhroncok@redhat.com> - 0-17
 - Set HOSTNAME to prevent tox 3.17+ from a DNS query
 - Fixes rhbz#1856356

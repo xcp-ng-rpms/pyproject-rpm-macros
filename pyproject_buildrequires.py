@@ -279,7 +279,8 @@ def main(argv):
     )
     parser.add_argument(
         '-x', '--extras', metavar='EXTRAS', default='',
-        help='extra for runtime requirements (e.g. -x testing)',
+        help='extra for runtime requirements (e.g. -x testing) '
+             '(implies --runtime)',
         # XXX: a comma-separated list should be possible here
         # help='comma separated list of "extras" for runtime requirements '
         #    + '(e.g. -x testing,feature-x)',
@@ -295,9 +296,8 @@ def main(argv):
         args.toxenv = (args.toxenv or os.getenv('RPM_TOXENV') or
                        f'py{sys.version_info.major}{sys.version_info.minor}')
 
-    if args.extras and not args.runtime:
-        print_err('-x (--extras) are only useful with -r (--runtime)')
-        exit(1)
+    if args.extras:
+        args.runtime = True
 
     try:
         generate_requires(
