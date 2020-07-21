@@ -92,5 +92,5 @@ TOX_TESTENV_PASSENV="${TOX_TESTENV_PASSENV:-*}" \\
 PATH="%{buildroot}%{_bindir}:$PATH" \\
 PYTHONPATH="${PYTHONPATH:-%{buildroot}%{python3_sitearch}:%{buildroot}%{python3_sitelib}}" \\
 HOSTNAME="rpmbuild" \\
-tox --current-env -q --recreate -e "%{-e:%{-e*}}%{!-e:%{toxenv}}" %{?*}
+%{__python3} -m tox --current-env -q --recreate -e "%{-e:%{-e*}}%{!-e:%{toxenv}}" %{?*}
 }

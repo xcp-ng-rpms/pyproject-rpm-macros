@@ -219,7 +219,8 @@ def generate_tox_requirements(toxenv, requirements):
     requirements.check(source='tox itself')
     with tempfile.NamedTemporaryFile('r') as depfile:
         r = subprocess.run(
-            ['tox', '--print-deps-to-file', depfile.name, '-qre', toxenv],
+            [sys.executable, '-m', 'tox', '--print-deps-to-file',
+             depfile.name, '-qre', toxenv],
             check=False,
             encoding='utf-8',
             stdout=subprocess.PIPE,
