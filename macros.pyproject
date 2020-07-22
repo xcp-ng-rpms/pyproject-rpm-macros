@@ -71,13 +71,18 @@ fi
 
 %pyproject_buildrequires(rxte:) %{expand:\\\
 %{-e:%{expand:%global toxenv %{-e*}}}
-echo 'python3-devel'
-echo 'python3dist(packaging)'
-echo 'python3dist(toml)'
+echo 'python%{python3_pkgversion}-devel'
+echo 'python%{python3_pkgversion}dist(pip) >= 19'
+echo 'python%{python3_pkgversion}dist(packaging)'
+echo 'python%{python3_pkgversion}dist(toml)'
+# The first part is for cases when %%{python3_version_nodots} is not yet available
+if [ ! -z "%{?python3_version_nodots}" ] && [ %{python3_version_nodots} -lt 38 ]; then
+  echo 'python%{python3_pkgversion}dist(importlib-metadata)'
+fi
 # setuptools assumes no pre-existing dist-info
 rm -rfv *.dist-info/ >&2
 if [ -f %{__python3} ]; then
-  RPM_TOXENV="%{toxenv}" HOSTNAME="rpmbuild" %{__python3} -I %{_rpmconfigdir}/redhat/pyproject_buildrequires.py %{?**}
+  RPM_TOXENV="%{toxenv}" HOSTNAME="rpmbuild" %{__python3} -I %{_rpmconfigdir}/redhat/pyproject_buildrequires.py --python3_pkgversion %{python3_pkgversion} %{?**}
 fi
 }
 

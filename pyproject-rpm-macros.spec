@@ -32,19 +32,6 @@ URL:            https://src.fedoraproject.org/rpms/pyproject-rpm-macros
 
 BuildArch:      noarch
 
-Requires: python3-pip >= 19
-Requires: python3-devel
-
-# We keep these here for now to avoid one loop of %%generate_buildrequires
-# But those are also always in the output of %%generate_buildrequires
-# in order to be removable in the future
-Requires: python3dist(packaging)
-Requires: python3dist(toml)
-
-# This is not output from %%generate_buildrequires to work around:
-#   https://github.com/rpm-software-management/mock/issues/336
-Requires: (python3dist(importlib-metadata) if python3 < 3.8)
-
 %if %{with tests}
 BuildRequires: python3dist(pytest)
 BuildRequires: python3dist(pyyaml)

@@ -47,12 +47,15 @@ def hook_call():
 
 class Requirements:
     """Requirement printer"""
-    def __init__(self, get_installed_version, extras=''):
+    def __init__(self, get_installed_version, extras='',
+                 python3_pkgversion='3'):
         self.get_installed_version = get_installed_version
 
         self.marker_env = {'extra': extras}
 
         self.missing_requirements = False
+
+        self.python3_pkgversion = python3_pkgversion
 
     def add(self, requirement_str, *, source=None):
         """Output a Python-style requirement string as RPM dep"""
@@ -96,15 +99,19 @@ class Requirements:
                     + '(This is probably a bug in pyproject-rpm-macros.)',
                 )
             if specifier.operator == '!=':
-                lower = python3dist(name, '<', version)
-                higher = python3dist(name, '>', f'{version}.0')
+                lower = python3dist(name, '<', version,
+                                    self.python3_pkgversion)
+                higher = python3dist(name, '>', f'{version}.0',
+                                     self.python3_pkgversion)
                 together.append(
                     f'({lower} or {higher})'
                 )
             else:
-                together.append(python3dist(name, specifier.operator, version))
+                together.append(python3dist(name, specifier.operator, version,
+                                            self.python3_pkgversion))
         if len(together) == 0:
-            print(python3dist(name))
+            print(python3dist(name,
+                              python3_pkgversion=self.python3_pkgversion))
         elif len(together) == 1:
             print(together[0])
         else:
@@ -228,24 +235,30 @@ def generate_tox_requirements(toxenv, requirements):
                             source=f'tox --print-deps-only: {toxenv}')
 
 
-def python3dist(name, op=None, version=None):
+def python3dist(name, op=None, version=None, python3_pkgversion="3"):
+    prefix = f"python{python3_pkgversion}dist"
+
     if op is None:
         if version is not None:
             raise AssertionError('op and version go together')
-        return f'python3dist({name})'
+        return f'{prefix}({name})'
     else:
-        return f'python3dist({name}) {op} {version}'
+        return f'{prefix}({name}) {op} {version}'
 
 
 def generate_requires(
     *, include_runtime=False, toxenv=None, extras='',
     get_installed_version=importlib_metadata.version,  # for dep injection
+    python3_pkgversion="3",
 ):
     """Generate the BuildRequires for the project in the current directory
 
     This is the main Python entry point.
     """
-    requirements = Requirements(get_installed_version, extras=extras)
+    requirements = Requirements(
+        get_installed_version, extras=extras,
+        python3_pkgversion=python3_pkgversion
+    )
 
     try:
         backend = get_backend(requirements)
@@ -285,6 +298,11 @@ def main(argv):
         # help='comma separated list of "extras" for runtime requirements '
         #    + '(e.g. -x testing,feature-x)',
     )
+    parser.add_argument(
+        '-p', '--python3_pkgversion', metavar='PYTHON3_PKGVERSION',
+        default="3", help=('Python version for pythonXdist()'
+                           'or pythonX.Ydist() requirements'),
+    )
 
     args = parser.parse_args(argv)
 
@@ -304,6 +322,7 @@ def main(argv):
             include_runtime=args.runtime,
             toxenv=args.toxenv,
             extras=args.extras,
+            python3_pkgversion=args.python3_pkgversion,
         )
     except Exception:
         # Log the traceback explicitly (it's useful debug info)
