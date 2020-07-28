@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        18%{?dist}
+Release:        19%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -101,6 +101,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-19
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu Jul 16 2020 Miro Hrončok <mhroncok@redhat.com> - 0-18
 - %%pyproject_buildrequires -x (extras requires for tests) now implies -r
   (runtime requires) instead of erroring without it for better UX.
