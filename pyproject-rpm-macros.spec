@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        19%{?dist}
+Release:        20%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -101,6 +101,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Wed Jul 29 2020 Miro Hrončok <mhroncok@redhat.com> - 0-20
+- Implement %%pyproject_extras_subpkg
+
 * Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 

@@ -11,6 +11,7 @@
 %_pyproject_builddir .pyproject-builddir
 
 %pyproject_files %{_builddir}/pyproject-files
+%pyproject_ghost_distinfo %{_builddir}/pyproject-ghost-distinfo
 
 %pyproject_wheel() %{expand:\\\
 export TMPDIR="${PWD}/%{_pyproject_builddir}"
@@ -28,13 +29,28 @@ if [ -d %{buildroot}%{_bindir} ]; then
   pathfix.py -pni "%{__python3}" -k%{?py3_shbang_opts: -a%{py3_shbang_opts_nodash}} %{buildroot}%{_bindir}/*
   rm -rfv %{buildroot}%{_bindir}/__pycache__
 fi
+rm -f %{pyproject_ghost_distinfo}
 if [ -d %{buildroot}%{python3_sitelib} ]; then
-  sed -i 's/pip/rpm/' %{buildroot}%{python3_sitelib}/*.dist-info/INSTALLER
+  for distinfo in %{buildroot}%{python3_sitelib}/*.dist-info; do
+    echo "%ghost ${distinfo#%{buildroot}}" >> %{pyproject_ghost_distinfo}
+    sed -i 's/pip/rpm/' ${distinfo}/INSTALLER
+  done
 fi
-if [ -d %{buildroot}%{python3_sitearch} ]; then
-  sed -i 's/pip/rpm/' %{buildroot}%{python3_sitearch}/*.dist-info/INSTALLER
+if [ %{buildroot}%{python3_sitearch} != %{buildroot}%{python3_sitelib} ] && [ -d %{buildroot}%{python3_sitearch} ]; then
+  for distinfo in %{buildroot}%{python3_sitearch}/*.dist-info; do
+    echo "%ghost ${distinfo#%{buildroot}}" >> %{pyproject_ghost_distinfo}
+    sed -i 's/pip/rpm/' ${distinfo}/INSTALLER
+  done
+fi
+lines=$(wc -l %{pyproject_ghost_distinfo} | cut -f1 -d" ")
+if [ $lines -ne 1 ]; then
+  echo -e "\\n\\nWARNING: %%%%pyproject_extras_subpkg won't work without explicit -i or -F, found $lines dist-info directories.\\n\\n" >/dev/stderr
+  rm %{pyproject_ghost_distinfo}  # any attempt to use this will fail
 fi
 }
+
+
+%python_extras_subpkg(n:i:f:F) %{expand:%{?python_extras_subpkg:%{python_extras_subpkg%{?!-i:%{?!-f:%{?!-F: -f %{pyproject_ghost_distinfo}}}} %**}}}
 
 
 %pyproject_save_files() %{expand:\\\

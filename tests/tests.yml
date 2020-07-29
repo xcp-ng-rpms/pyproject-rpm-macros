@@ -40,6 +40,9 @@
     - mistune:
         dir: .
         run: ./mocktest.sh python-mistune
+    - setuptools_scm:
+        dir: .
+        run: ./mocktest.sh python-setuptools_scm
     required_packages:
     - mock
     - rpmdevtools
