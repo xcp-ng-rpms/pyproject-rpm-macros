@@ -186,7 +186,6 @@ def classify_paths(
             "licenses": [],  # to be used once there is upstream way to recognize LICENSEs
         },
         "modules": defaultdict(list),  # each importable module (directory, .py, .so)
-        "executables": {"files": []},  # regular %file entries in %{_bindir}
         "other": {"files": []},  # regular %file entries we could not parse :(
     }
 

@@ -1,7 +1,5 @@
 classified:
   kerberos:
-    executables:
-      files: []
     metadata:
       dirs:
       - /usr/lib64/python3.7/site-packages/kerberos-1.3.0.dist-info
@@ -21,8 +19,6 @@ classified:
     other:
       files: []
   mistune:
-    executables:
-      files: []
     metadata:
       dirs:
       - /usr/lib64/python3.7/site-packages/mistune-0.8.3.dist-info
@@ -47,8 +43,6 @@ classified:
     other:
       files: []
   requests:
-    executables:
-      files: []
     metadata:
       dirs:
       - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info
@@ -69,8 +63,6 @@ classified:
     other:
       files: []
   tensorflow:
-    executables:
-      files: []
     metadata:
       dirs:
       - /usr/lib64/python3.7/site-packages/tensorflow-2.1.0.dist-info
@@ -105,8 +97,6 @@ classified:
       - /usr/bin/toco
       - /usr/bin/toco_from_protos
   tldr:
-    executables:
-      files: []
     metadata:
       dirs:
       - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info
