@@ -215,7 +215,6 @@ def classify_paths(
                             paths, name, "script", *pycached(path, python_version)
                         )
                     else:
-                        # TODO classify .pth files
                         warnings.warn(f"Unrecognized file: {path}")
                         paths["other"]["files"].append(path)
                 else:
