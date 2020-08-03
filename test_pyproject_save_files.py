@@ -156,7 +156,7 @@ def test_parse_record_tensorflow():
 
 
 def remove_others(expected):
-    return [p for p in expected if not p.startswith(str(BINDIR))]
+    return [p for p in expected if not (p.startswith(str(BINDIR)) or p.startswith(str("/usr/share")))]
 
 
 @pytest.mark.parametrize("include_auto", (True, False))
