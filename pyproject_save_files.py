@@ -215,7 +215,6 @@ def classify_paths(
                             paths, name, "script", *pycached(path, python_version)
                         )
                     else:
-                        warnings.warn(f"Unrecognized file: {path}")
                         paths["other"]["files"].append(path)
                 else:
                     # this file is inside a dir, we classify that dir
