@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        20%{?dist}
+Release:        21%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -101,6 +101,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Tue Aug 04 2020 Miro Hrončok <mhroncok@redhat.com> - 0-21
+- Actually implement %%pyproject_extras_subpkg
+
 * Wed Jul 29 2020 Miro Hrončok <mhroncok@redhat.com> - 0-20
 - Implement %%pyproject_extras_subpkg
 

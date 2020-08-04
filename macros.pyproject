@@ -50,7 +50,8 @@ fi
 }
 
 
-%python_extras_subpkg(n:i:f:F) %{expand:%{?python_extras_subpkg:%{python_extras_subpkg%{?!-i:%{?!-f:%{?!-F: -f %{pyproject_ghost_distinfo}}}} %**}}}
+# Note: the three times nested questionmarked -i -f -F pattern means: If none of those options was used -- in that case, we inject our own -f
+%pyproject_extras_subpkg(n:i:f:F) %{expand:%{?python_extras_subpkg:%{python_extras_subpkg%{?!-i:%{?!-f:%{?!-F: -f %{pyproject_ghost_distinfo}}}} %**}}}
 
 
 %pyproject_save_files() %{expand:\\\
