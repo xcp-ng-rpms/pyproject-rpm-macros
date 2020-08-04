@@ -11,6 +11,7 @@ from pyproject_save_files import BuildrootPath
 
 DIR = Path(__file__).parent
 BINDIR = BuildrootPath("/usr/bin")
+DATADIR = BuildrootPath("/usr/share")
 SITELIB = BuildrootPath("/usr/lib/python3.7/site-packages")
 SITEARCH = BuildrootPath("/usr/lib64/python3.7/site-packages")
 
@@ -156,7 +157,7 @@ def test_parse_record_tensorflow():
 
 
 def remove_others(expected):
-    return [p for p in expected if not (p.startswith(str(BINDIR)) or p.startswith("/usr/share") or p.endswith(".pth"))]
+    return [p for p in expected if not (p.startswith(str(BINDIR)) or p.startswith(str(DATADIR)) or p.endswith(".pth"))]
 
 
 @pytest.mark.parametrize("include_auto", (True, False))
