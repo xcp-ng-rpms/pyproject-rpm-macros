@@ -167,7 +167,7 @@ def add_file_to_module(paths, module_name, module_type, *files):
 
 
 def classify_paths(
-    record_path, parsed_record_content, sitedirs, bindir, python_version
+    record_path, parsed_record_content, sitedirs, python_version
 ):
     """
     For each BuildrootPath in parsed_record_content classify it to a dict structure
@@ -352,7 +352,7 @@ def parse_varargs(varargs):
     return globs, include_auto
 
 
-def pyproject_save_files(buildroot, sitelib, sitearch, bindir, python_version, varargs):
+def pyproject_save_files(buildroot, sitelib, sitearch, python_version, varargs):
     """
     Takes arguments from the %{pyproject_save_files} macro
 
@@ -368,7 +368,7 @@ def pyproject_save_files(buildroot, sitelib, sitearch, bindir, python_version, v
     parsed_record = parse_record(record_path, read_record(record_path_real))
 
     paths_dict = classify_paths(
-        record_path, parsed_record, sitedirs, bindir, python_version
+        record_path, parsed_record, sitedirs, python_version
     )
     return generate_file_list(paths_dict, globs, include_auto)
 
@@ -378,7 +378,6 @@ def main(cli_args):
         cli_args.buildroot,
         cli_args.sitelib,
         cli_args.sitearch,
-        cli_args.bindir,
         cli_args.python_version,
         cli_args.varargs,
     )
@@ -393,7 +392,6 @@ def argparser():
     r.add_argument("--buildroot", type=PosixPath, required=True)
     r.add_argument("--sitelib", type=BuildrootPath, required=True)
     r.add_argument("--sitearch", type=BuildrootPath, required=True)
-    r.add_argument("--bindir", type=BuildrootPath, required=True)
     r.add_argument("--python-version", type=str, required=True)
     parser.add_argument("varargs", nargs="+")
     return parser

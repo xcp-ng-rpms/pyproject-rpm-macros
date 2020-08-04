@@ -60,7 +60,6 @@ fi
   --buildroot "%{buildroot}" \\
   --sitelib "%{python3_sitelib}" \\
   --sitearch "%{python3_sitearch}" \\
-  --bindir "%{_bindir}" \\
   --python-version "%{python3_version}" \\
   %{*}
 }

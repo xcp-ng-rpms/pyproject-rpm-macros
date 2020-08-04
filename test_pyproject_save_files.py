@@ -192,8 +192,6 @@ def default_options(output, mock_root):
         str(SITELIB),
         "--sitearch",
         str(SITEARCH),
-        "--bindir",
-        str(BINDIR),
         "--python-version",
         "3.7",  # test data are for 3.7
     ]
