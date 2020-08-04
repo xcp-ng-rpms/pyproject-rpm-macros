@@ -13,7 +13,7 @@ BuildRequires:      pyproject-rpm-macros
 
 %description
 This package contains executables.
-Building this tests that executables are not listed when +bindir is not used
+Building this tests that executables are not listed when +auto is not used
 with %%pyproject_save_files.
 
 %package -n python3-%{modname}
@@ -45,7 +45,7 @@ Summary:            %{summary}
 test -d %{buildroot}%{python3_sitelib}/%{modname}/
 test -d %{buildroot}%{python3_sitelib}/%{modname}-%{version}.dist-info/
 
-# Internal check that executables are not present when +bindir was not used with %%pyproject_save_files
+# Internal check that executables are not present when +auto was not used with %%pyproject_save_files
 grep -vF %{buildroot}%{_bindir}/%{modname} %{pyproject_files}
 
 

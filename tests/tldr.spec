@@ -28,7 +28,7 @@ Building this tests:
 
 %install
 %pyproject_install
-%pyproject_save_files tldr +bindir
+%pyproject_save_files tldr +auto
 
 %check
 # Internal check for our macros: tests we don't ship __pycache__ in bindir

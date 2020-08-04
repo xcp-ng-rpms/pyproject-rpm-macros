@@ -16,7 +16,7 @@ A pure Python library. The package contains tox.ini. Does not contain executable
 Building this tests:
 - generating runtime and testing dependencies
 - running tests with %%tox
-- the %%pyproject_save_files +bindir option works without actual executables
+- the %%pyproject_save_files +auto option works without actual executables
 - pyproject.toml with the setuptools backend and setuptools-scm
 
 
@@ -41,8 +41,8 @@ Summary:        %{summary}
 
 %install
 %pyproject_install
-# There are no executables, but we are allowed to pass +bindir anyway
-%pyproject_save_files pluggy +bindir
+# There are no executables, but we are allowed to pass +auto anyway
+%pyproject_save_files pluggy +auto
 
 
 %check

@@ -294,8 +294,8 @@ def parse_varargs(varargs):
         >>> sorted(mods)
         ['kerberos', 'requests*']
 
-        >>> mods, bindir = parse_varargs(['tldr', 'tensorf*'])
-        >>> bindir
+        >>> mods, auto = parse_varargs(['tldr', 'tensorf*'])
+        >>> auto
         False
         >>> sorted(mods)
         ['tensorf*', 'tldr']

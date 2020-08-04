@@ -38,7 +38,7 @@ Summary:        %{summary}
 
 %install
 %pyproject_install
-%pyproject_save_files *pytest +bindir
+%pyproject_save_files *pytest +auto
 
 %check
 # Only run one test (which uses a test-only dependency, hypothesis)
