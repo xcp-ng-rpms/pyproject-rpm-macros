@@ -43,6 +43,12 @@
     - setuptools_scm:
         dir: .
         run: ./mocktest.sh python-setuptools_scm
+    - ipykernel:
+        dir: .
+        run: ./mocktest.sh python-ipykernel
+    - zope:
+        dir: .
+        run: ./mocktest.sh python-zope-event
     required_packages:
     - mock
     - rpmdevtools
