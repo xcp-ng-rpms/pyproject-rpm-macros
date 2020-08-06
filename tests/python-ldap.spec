@@ -46,7 +46,7 @@ Summary:        %{summary}
 %install
 %pyproject_install
 # We can pass multiple globs
-%pyproject_save_files ldap* *ldap
+%pyproject_save_files 'ldap*' '*ldap'
 
 
 %check

@@ -153,15 +153,15 @@ You can use globs in the module names if listing them explicitly would be too te
 
     %install
     %pyproject_install
-    %pyproject_save_files *requests
+    %pyproject_save_files '*requests'
 
-In fully automated environmets, you can use the `*` glob to include all modules. In Fedora however, you should always use a more specific glob to avoid accidentally packaging unwanted files (for example, a top level module named `test`).
+In fully automated environmets, you can use the `*` glob to include all modules (put it in single quotes to prevent Shell from expanding it). In Fedora however, you should always use a more specific glob to avoid accidentally packaging unwanted files (for example, a top level module named `test`).
 
 Speaking about automated environments, some files cannot be classified with `%pyproject_save_files`, but it is possible to list all unclassified files by adding a special `+auto` argument.
 
     %install
     %pyproject_install
-    %pyproject_save_files * +auto
+    %pyproject_save_files '*' +auto
     
     %files -n python3-requests -f %{pyproject_files}
 
