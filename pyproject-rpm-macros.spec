@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        22%{?dist}
+Release:        23%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -88,6 +88,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Mon Aug 10 2020 Lumír Balhar <lbalhar@redhat.com> - 0-23
+- Make macros more universal for alternative Python stacks
+
 * Thu Aug 06 2020 Tomas Hrnciar <thrnciar@redhat.com> - 0-22
 - Change %%pyproject_save_files +bindir argument to +auto
   to list all unclassified files in filelist
