@@ -55,6 +55,9 @@
     - zope:
         dir: .
         run: ./mocktest.sh python-zope-event
+    - django:
+        dir: .
+        run: ./mocktest.sh python-django
     required_packages:
     - mock
     - rpmdevtools

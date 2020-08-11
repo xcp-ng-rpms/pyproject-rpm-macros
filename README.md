@@ -203,6 +203,13 @@ However, in Fedora packages, always list executables explicitly to avoid uninten
     %license LICENSE
     %{_bindir}/downloader
 
+`%pyproject_save_files` also automatically recognizes language (`*.mo`) files and marks them with `%lang` macro and appropriate language code.
+Note that RPM might warn about such files listed twice:
+
+    warning: File listed twice: /usr/lib/python3.9/site-packages/django/conf/locale/af/LC_MESSAGES/django.mo
+
+The warning is harmless.
+
 
 Limitations
 -----------

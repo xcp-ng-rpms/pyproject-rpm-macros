@@ -165,6 +165,21 @@ def add_file_to_module(paths, module_name, module_type, *files):
             {"type": module_type, "files": list(files)}
         )
 
+def add_lang_to_module(paths, module_name, path):
+    """
+    Helper procedure, divides lang files by language and adds them to the module_name
+    """
+    for i, parent in enumerate(path.parents):
+        if i > 0 and parent.name == 'locale':
+            lang_country_code = path.parents[i-1].name
+            break
+    else:
+        return
+    # convert potential en_US to plain en
+    lang_code = lang_country_code.partition('_')[0]
+    if module_name not in paths["lang"]:
+        paths["lang"].update({module_name: defaultdict(list)})
+    paths["lang"][module_name][lang_code].append(path)
 
 def classify_paths(
     record_path, parsed_record_content, sitedirs, python_version
@@ -185,6 +200,7 @@ def classify_paths(
             "docs": [],  # to be used once there is upstream way to recognize READMEs
             "licenses": [],  # to be used once there is upstream way to recognize LICENSEs
         },
+        "lang": {}, # %lang entries: [module_name or None][language_code] lists of .mo files
         "modules": defaultdict(list),  # each importable module (directory, .py, .so)
         "other": {"files": []},  # regular %file entries we could not parse :(
     }
@@ -221,10 +237,14 @@ def classify_paths(
                     index = path.parents.index(sitedir)
                     module_dir = path.parents[index - 1]
                     add_file_to_module(paths, module_dir.name, "package", module_dir)
+                    if path.suffix == ".mo":
+                        add_lang_to_module(paths, module_dir.name, path)
                 break
         else:
             warnings.warn(f"Unrecognized file: {path}")
             paths["other"]["files"].append(path)
+            if path.suffix == ".mo":
+                add_lang_to_module(paths, None, path)
 
     return paths
 
@@ -244,6 +264,10 @@ def generate_file_list(paths_dict, module_globs, include_others=False):
 
     if include_others:
         files.update(f"{p}" for p in paths_dict["other"]["files"])
+        try:
+            files.update(f"%lang({lang_code}) {path}" for path in paths_dict["lang"][None][lang_code])
+        except KeyError:
+            pass
 
     files.update(f"{p}" for p in paths_dict["metadata"]["files"])
     for macro in "dir", "doc", "license":
@@ -257,6 +281,11 @@ def generate_file_list(paths_dict, module_globs, include_others=False):
         for name in modules:
             if fnmatch.fnmatchcase(name, glob):
                 if name not in done_modules:
+                    try:
+                        for lang_code in paths_dict["lang"][name]:
+                            files.update(f"%lang({lang_code}) {path}" for path in paths_dict["lang"][name][lang_code])
+                    except KeyError:
+                        pass
                     for module in modules[name]:
                         if module["type"] == "package":
                             files.update(f"{p}/" for p in module["files"])
