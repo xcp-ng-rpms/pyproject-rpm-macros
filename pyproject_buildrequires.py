@@ -51,11 +51,20 @@ class Requirements:
                  python3_pkgversion='3'):
         self.get_installed_version = get_installed_version
 
-        self.marker_env = {'extra': extras}
+        if extras:
+            self.marker_envs = [{'extra': e.strip()} for e in extras.split(',')]
+        else:
+            self.marker_envs = [{'extra': ''}]
 
         self.missing_requirements = False
 
         self.python3_pkgversion = python3_pkgversion
+
+    def evaluate_all_environamnets(self, requirement):
+        for marker_env in self.marker_envs:
+            if requirement.marker.evaluate(environment=marker_env):
+                return True
+        return False
 
     def add(self, requirement_str, *, source=None):
         """Output a Python-style requirement string as RPM dep"""
@@ -72,7 +81,7 @@ class Requirements:
 
         name = canonicalize_name(requirement.name)
         if (requirement.marker is not None and
-                not requirement.marker.evaluate(environment=self.marker_env)):
+                not self.evaluate_all_environamnets(requirement)):
             print_err(f'Ignoring alien requirement:', requirement_str)
             return
 
@@ -293,11 +302,8 @@ def main(argv):
     )
     parser.add_argument(
         '-x', '--extras', metavar='EXTRAS', default='',
-        help='extra for runtime requirements (e.g. -x testing) '
-             '(implies --runtime)',
-        # XXX: a comma-separated list should be possible here
-        # help='comma separated list of "extras" for runtime requirements '
-        #    + '(e.g. -x testing,feature-x)',
+        help='comma separated list of "extras" for runtime requirements '
+             '(e.g. -x testing,feature-x) (implies --runtime)',
     )
     parser.add_argument(
         '-p', '--python3_pkgversion', metavar='PYTHON3_PKGVERSION',

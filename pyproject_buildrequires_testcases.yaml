@@ -226,7 +226,6 @@ Run dependencies with extras (selected):
   result: 0
 
 Run dependencies with multiple extras:
-  xfail: requirement.marker.evaluate seems to not support multiple extras
   installed:
     setuptools: 50
     wheel: 1
@@ -246,10 +245,11 @@ Run dependencies with multiple extras:
   expected: |
     python3dist(setuptools) >= 40.8
     python3dist(wheel)
-    python3dist(dep1)
-    python3dist(dep2)
-    python3dist(dep3)
+    python3dist(wheel)
     python3dist(dep4)
+    python3dist(dep3)
+    python3dist(dep2)
+    python3dist(dep1)
   result: 0
 
 Tox dependencies:

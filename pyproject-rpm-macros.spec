@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        23%{?dist}
+Release:        24%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -88,6 +88,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Tue Aug 11 2020 Miro Hrončok <mhroncok@redhat.com> - 0-24
+- Allow multiple, comma-separated extras in %%pyproject_buildrequires -x
+
 * Mon Aug 10 2020 Lumír Balhar <lbalhar@redhat.com> - 0-23
 - Make macros more universal for alternative Python stacks
 
