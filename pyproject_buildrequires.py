@@ -48,7 +48,7 @@ def hook_call():
 class Requirements:
     """Requirement printer"""
     def __init__(self, get_installed_version, extras='',
-                 python3_pkgversion='3'):
+                 generate_extras=False, python3_pkgversion='3'):
         self.get_installed_version = get_installed_version
 
         if extras:
@@ -58,6 +58,7 @@ class Requirements:
 
         self.missing_requirements = False
 
+        self.generate_extras = generate_extras
         self.python3_pkgversion = python3_pkgversion
 
     def evaluate_all_environamnets(self, requirement):
@@ -86,6 +87,7 @@ class Requirements:
             return
 
         try:
+            # TODO: check if requirements with extras are satisfied
             installed = self.get_installed_version(requirement.name)
         except importlib_metadata.PackageNotFoundError:
             print_err(f'Requirement not satisfied: {requirement_str}')
@@ -93,38 +95,46 @@ class Requirements:
         if installed and installed in requirement.specifier:
             print_err(f'Requirement satisfied: {requirement_str}')
             print_err(f'   (installed: {requirement.name} {installed})')
+            if requirement.extras:
+                print_err(f'   (extras are currently not checked)')
         else:
             self.missing_requirements = True
 
-        together = []
-        for specifier in sorted(
-            requirement.specifier,
-            key=lambda s: (s.operator, s.version),
-        ):
-            version = canonicalize_version(specifier.version)
-            if not VERSION_RE.fullmatch(str(specifier.version)):
-                raise ValueError(
-                    f'Unknown character in version: {specifier.version}. '
-                    + '(This is probably a bug in pyproject-rpm-macros.)',
-                )
-            if specifier.operator == '!=':
-                lower = python3dist(name, '<', version,
-                                    self.python3_pkgversion)
-                higher = python3dist(name, '>', f'{version}.0',
-                                     self.python3_pkgversion)
-                together.append(
-                    f'({lower} or {higher})'
-                )
-            else:
-                together.append(python3dist(name, specifier.operator, version,
-                                            self.python3_pkgversion))
-        if len(together) == 0:
-            print(python3dist(name,
-                              python3_pkgversion=self.python3_pkgversion))
-        elif len(together) == 1:
-            print(together[0])
+        if self.generate_extras:
+            extra_names = [f'{name}[{extra}]' for extra in sorted(requirement.extras)]
         else:
-            print(f"({' and '.join(together)})")
+            extra_names = []
+
+        for name in [name] + extra_names:
+            together = []
+            for specifier in sorted(
+                requirement.specifier,
+                key=lambda s: (s.operator, s.version),
+            ):
+                version = canonicalize_version(specifier.version)
+                if not VERSION_RE.fullmatch(str(specifier.version)):
+                    raise ValueError(
+                        f'Unknown character in version: {specifier.version}. '
+                        + '(This is probably a bug in pyproject-rpm-macros.)',
+                    )
+                if specifier.operator == '!=':
+                    lower = python3dist(name, '<', version,
+                                        self.python3_pkgversion)
+                    higher = python3dist(name, '>', f'{version}.0',
+                                         self.python3_pkgversion)
+                    together.append(
+                        f'({lower} or {higher})'
+                    )
+                else:
+                    together.append(python3dist(name, specifier.operator, version,
+                                                self.python3_pkgversion))
+            if len(together) == 0:
+                print(python3dist(name,
+                                  python3_pkgversion=self.python3_pkgversion))
+            elif len(together) == 1:
+                print(together[0])
+            else:
+                print(f"({' and '.join(together)})")
 
     def check(self, *, source=None):
         """End current pass if any unsatisfied dependencies were output"""
@@ -259,7 +269,7 @@ def python3dist(name, op=None, version=None, python3_pkgversion="3"):
 def generate_requires(
     *, include_runtime=False, toxenv=None, extras='',
     get_installed_version=importlib_metadata.version,  # for dep injection
-    python3_pkgversion="3",
+    generate_extras=False, python3_pkgversion="3",
 ):
     """Generate the BuildRequires for the project in the current directory
 
@@ -267,6 +277,7 @@ def generate_requires(
     """
     requirements = Requirements(
         get_installed_version, extras=extras,
+        generate_extras=generate_extras,
         python3_pkgversion=python3_pkgversion
     )
 
@@ -306,6 +317,10 @@ def main(argv):
              '(e.g. -x testing,feature-x) (implies --runtime)',
     )
     parser.add_argument(
+        '--generate-extras', action='store_true',
+        help='Generate build requirements on Python Extras',
+    )
+    parser.add_argument(
         '-p', '--python3_pkgversion', metavar='PYTHON3_PKGVERSION',
         default="3", help=('Python version for pythonXdist()'
                            'or pythonX.Ydist() requirements'),
@@ -329,6 +344,7 @@ def main(argv):
             include_runtime=args.runtime,
             toxenv=args.toxenv,
             extras=args.extras,
+            generate_extras=args.generate_extras,
             python3_pkgversion=args.python3_pkgversion,
         )
     except Exception:

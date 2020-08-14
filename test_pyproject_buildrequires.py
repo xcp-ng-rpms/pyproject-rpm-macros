@@ -45,6 +45,7 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
             include_runtime=case.get('include_runtime', False),
             extras=case.get('extras', ''),
             toxenv=case.get('toxenv', None),
+            generate_extras=case.get('generate_extras', False),
         )
     except SystemExit as e:
         assert e.code == case['result']

@@ -31,6 +31,9 @@
     - openqa_client:
         dir: .
         run: ./mocktest.sh python-openqa_client
+    - httpbin:
+        dir: .
+        run: ./mocktest.sh python-httpbin
     - ldap:
         dir: .
         run: ./mocktest.sh python-ldap

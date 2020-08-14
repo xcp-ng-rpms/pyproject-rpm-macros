@@ -66,7 +66,8 @@ Bad character in version:
     requires = ["pkg == 0.$.^.*"]
   except: ValueError
 
-Build system dependencies in pyproject.toml:
+Build system dependencies in pyproject.toml with extras:
+  generate_extras: true
   installed:
     setuptools: 50
     wheel: 1
@@ -74,27 +75,50 @@ Build system dependencies in pyproject.toml:
     [build-system]
     requires = [
         "foo",
+        "bar[baz] > 5",
         "ne!=1",
         "ge>=1.2",
         "le <= 1.2.3",
         "lt < 1.2.3.4      ",
         "    gt > 1.2.3.4.5",
+        "multi[extras1,extras2] == 6.0",
         "combo >2, <5, != 3.0.0",
         "invalid!!ignored",
         "py2 ; python_version < '2.7'",
         "py3 ; python_version > '3.0'",
-        "pkg [extra-currently-ignored]",
     ]
   expected: |
     python3dist(foo)
+    python3dist(bar) > 5
+    python3dist(bar[baz]) > 5
     (python3dist(ne) < 1 or python3dist(ne) > 1.0)
     python3dist(ge) >= 1.2
     python3dist(le) <= 1.2.3
     python3dist(lt) < 1.2.3.4
     python3dist(gt) > 1.2.3.4.5
+    python3dist(multi) == 6
+    python3dist(multi[extras1]) == 6
+    python3dist(multi[extras2]) == 6
     ((python3dist(combo) < 3 or python3dist(combo) > 3.0) and python3dist(combo) < 5 and python3dist(combo) > 2)
     python3dist(py3)
-    python3dist(pkg)
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+  result: 0
+
+Build system dependencies in pyproject.toml without extras:
+  generate_extras: false
+  installed:
+    setuptools: 50
+    wheel: 1
+  pyproject.toml: |
+    [build-system]
+    requires = [
+        "bar[baz] > 5",
+        "multi[extras1,extras2] == 6.0",
+    ]
+  expected: |
+    python3dist(bar) > 5
+    python3dist(multi) == 6
     python3dist(setuptools) >= 40.8
     python3dist(wheel)
   result: 0
