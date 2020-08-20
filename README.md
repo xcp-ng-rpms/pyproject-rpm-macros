@@ -1,27 +1,54 @@
 pyproject RPM macros
 ====================
 
-This is a provisional implementation of pyproject RPM macros for Fedora.
+These macros allow projects that follow the Python [packaging specifications]
+to be packaged as RPMs.
 
-These macros are useful for packaging Python projects that use the [PEP 517] `pyproject.toml` file, which specifies the package's build dependencies (including the build system, such as setuptools, flit or poetry).
+They are still *provisional*: we can make non-backwards-compatible changes to
+the API.
+Please subscribe to Fedora's [python-devel list] if you use the macros.
+
+They work for:
+
+* traditional Setuptools-based projects that use the `setup.py` file,
+* newer Setuptools-based projects that have a `setup.cfg` file,
+* general Python projects that use the [PEP 517] `pyproject.toml` file (which allows using any build system, such as setuptools, flit or poetry).
+
+These macros replace `%py3_build` and `%py3_install`, which only work with `setup.py`.
+
+[packaging specifications]: https://packaging.python.org/specifications/
+[python-devel list]: https://lists.fedoraproject.org/archives/list/python-devel@lists.fedoraproject.org/
 
 
 Usage
 -----
 
-If your upstream sources include `pyproject.toml` and you want to use these macros, BuildRequire them:
+To use these macros, first BuildRequire them:
 
     BuildRequires: pyproject-rpm-macros
 
-This will bring in python3-devel, so you don't need to require python3-devel explicitly.
+Also BuildRequire the devel package for the Python you are building against.
+In Fedora, that's `python3-devel`.
+(In the future, we plan to make `python3-devel` itself require
+`pyproject-rpm-macros`.)
 
-In order to get automatic build dependencies on Fedora 31+, run `%pyproject_buildrequires` in the `%generate_buildrequires` section:
+Next, you need to generate more build dependencies (of your projects and
+the macros themselves) by running `%pyproject_buildrequires` in the
+`%generate_buildrequires` section:
 
     %generate_buildrequires
     %pyproject_buildrequires
 
-Only build dependencies according to [PEP 517] and [PEP 518] will be added.
-All other build dependencies (such as non-Python libraries or test dependencies) still need to be specified manually.
+This will add build dependencies according to [PEP 517] and [PEP 518].
+To also add run-time and test-time dependencies, see the section below.
+If you need more dependencies, such as non-Python libraries, BuildRequire
+them manually.
+
+Note that `%generate_buildrequires` may produce error messages `(exit 11)` in
+the build log. This is expected behavior of BuildRequires generators; see
+[the Fedora change] for details.
+
+[the Fedora change]: https://fedoraproject.org/wiki/Changes/DynamicBuildRequires
 
 Then, build a wheel in `%build` with `%pyproject_wheel`:
 
@@ -33,7 +60,8 @@ And install the wheel in `%install` with `%pyproject_install`:
     %install
     %pyproject_install
 
-`%pyproject_install` installs all wheels in `$PWD/pyproject-wheeldir/`. If you would like to save wheels somewhere else redefine `%{_pyproject_wheeldir}`.
+`%pyproject_install` installs all wheels in `$PWD/pyproject-wheeldir/`.
+If you would like to save wheels somewhere else, redefine `%{_pyproject_wheeldir}`.
 
 
 Adding run-time and test-time dependencies
@@ -41,12 +69,14 @@ Adding run-time and test-time dependencies
 
 To run tests in the `%check` section, the package's runtime dependencies
 often need to also be included as build requirements.
-If the project's build system supports the [`prepare-metadata-for-build-wheel`
-hook](https://www.python.org/dev/peps/pep-0517/#prepare-metadata-for-build-wheel),
-this can be done using the `-r` flag:
+This can be done using the `-r` flag:
 
     %generate_buildrequires
     %pyproject_buildrequires -r
+
+For this to work, the project's build system must support the
+[`prepare-metadata-for-build-wheel` hook](https://www.python.org/dev/peps/pep-0517/#prepare-metadata-for-build-wheel).
+The popular buildsystems (setuptools, flit, poetry) do support it.
 
 For projects that specify test requirements using an [`extra`
 provide](https://packaging.python.org/specifications/core-metadata/#provides-extra-multiple-use),
@@ -93,7 +123,8 @@ Running tox based tests
 -----------------------
 
 In case you want to run the tests as specified in [tox] configuration,
-you can use the `%tox` macro:
+you must use `%pyproject_buildrequires` with `-t` or `-e` as explained above.
+Then, use the `%tox` macro in `%check`:
 
     %check
     %tox
@@ -126,10 +157,6 @@ Or (note the two sequential `--`s):
 
     %tox -- -- --flag-for-posargs
 
-**Warning:** This macro assumes you have used `%pyproject_buildrequires -t` or `-e`
-in `%generate_buildrequires`. If not, you need to add:
-
-    BuildRequires: python3dist(tox-current-env)
 
 
 Generating the %files section
