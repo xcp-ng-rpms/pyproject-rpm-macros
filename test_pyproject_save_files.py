@@ -157,7 +157,7 @@ def test_parse_record_tensorflow():
 
 
 def remove_others(expected):
-    return [p for p in expected if not (p.startswith(str(BINDIR)) or p.startswith(str(DATADIR)) or p.endswith(".pth"))]
+    return [p for p in expected if not (p.startswith(str(BINDIR)) or p.endswith(".pth") or p.rpartition(' ')[-1].startswith(str(DATADIR)))]
 
 
 @pytest.mark.parametrize("include_auto", (True, False))

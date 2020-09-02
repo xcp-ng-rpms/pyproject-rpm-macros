@@ -58,6 +58,9 @@
     - django:
         dir: .
         run: ./mocktest.sh python-django
+    - printrun:
+        dir: .
+        run: ./mocktest.sh printrun
     required_packages:
     - mock
     - rpmdevtools

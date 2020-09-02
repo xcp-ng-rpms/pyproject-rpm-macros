@@ -265,7 +265,8 @@ def generate_file_list(paths_dict, module_globs, include_others=False):
     if include_others:
         files.update(f"{p}" for p in paths_dict["other"]["files"])
         try:
-            files.update(f"%lang({lang_code}) {path}" for path in paths_dict["lang"][None][lang_code])
+            for lang_code in paths_dict["lang"][None]:
+                files.update(f"%lang({lang_code}) {path}" for path in paths_dict["lang"][None][lang_code])
         except KeyError:
             pass
 
