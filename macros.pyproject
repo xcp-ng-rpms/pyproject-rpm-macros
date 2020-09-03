@@ -88,7 +88,7 @@ fi
 # setuptools assumes no pre-existing dist-info
 rm -rfv *.dist-info/ >&2
 if [ -f %{__python3} ]; then
-  RPM_TOXENV="%{toxenv}" HOSTNAME="rpmbuild" %{__python3} -I %{_rpmconfigdir}/redhat/pyproject_buildrequires.py $extras_flag --python3_pkgversion %{python3_pkgversion} %{?**}
+  RPM_TOXENV="%{toxenv}" HOSTNAME="rpmbuild" %{__python3} -s %{_rpmconfigdir}/redhat/pyproject_buildrequires.py $extras_flag --python3_pkgversion %{python3_pkgversion} %{?**}
 fi
 }
 

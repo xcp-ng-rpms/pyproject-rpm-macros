@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        26%{?dist}
+Release:        27%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -88,6 +88,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Fri Sep 4 2020 Miro Hrončok <miro@hroncok.cz> - 0-27
+- Make code in $PWD importable from %%pyproject_buildrequires
+
 * Mon Aug 24 2020 Tomas Hrnciar <thrnciar@redhat.com> - 0-26
 - Implement automatic detection of %%lang files in %%pyproject_save_files
   and mark them with %%lang in filelist
