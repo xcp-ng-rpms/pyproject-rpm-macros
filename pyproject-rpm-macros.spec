@@ -90,6 +90,7 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %changelog
 * Fri Sep 4 2020 Miro Hrončok <miro@hroncok.cz> - 0-27
 - Make code in $PWD importable from %%pyproject_buildrequires
+- Only require toml for projects with pyproject.toml
 
 * Mon Aug 24 2020 Tomas Hrnciar <thrnciar@redhat.com> - 0-26
 - Implement automatic detection of %%lang files in %%pyproject_save_files

@@ -23,7 +23,6 @@ class EndPass(Exception):
 
 
 try:
-    import toml
     from packaging.requirements import Requirement, InvalidRequirement
     from packaging.utils import canonicalize_name, canonicalize_version
     try:
@@ -154,6 +153,10 @@ def get_backend(requirements):
     except FileNotFoundError:
         pyproject_data = {}
     else:
+        # lazy import toml here, not needed without pyproject.toml
+        requirements.add('toml', source='parsing pyproject.toml')
+        requirements.check(source='parsing pyproject.toml')
+        import toml
         with f:
             pyproject_data = toml.load(f)
 

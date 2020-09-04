@@ -12,22 +12,23 @@ Nothing installed yet:
   pyproject.toml: |
     # empty
   expected: |
-    python3dist(setuptools) >= 40.8
-    python3dist(wheel)
+    python3dist(toml)
   result: 0
 
 Insufficient version of setuptools:
   installed:
     setuptools: 5
     wheel: 1
+    toml: 1
   pyproject.toml: |
     # empty
   expected: |
+    python3dist(toml)
     python3dist(setuptools) >= 40.8
     python3dist(wheel)
   result: 0
 
-Empty pyproject.toml, empty setup.py:
+No pyproject.toml, empty setup.py:
   installed:
     setuptools: 50
     wheel: 1
@@ -42,10 +43,12 @@ Default build system, empty setup.py:
   installed:
     setuptools: 50
     wheel: 1
+    toml: 1
   pyproject.toml: |
     # empty
   setup.py: |
   expected: |
+    python3dist(toml)
     python3dist(setuptools) >= 40.8
     python3dist(wheel)
     python3dist(wheel)
@@ -60,7 +63,8 @@ Erroring setup.py:
   result: 77
 
 Bad character in version:
-  installed: {}
+  installed:
+    toml: 1
   pyproject.toml: |
     [build-system]
     requires = ["pkg == 0.$.^.*"]
@@ -71,6 +75,7 @@ Build system dependencies in pyproject.toml with extras:
   installed:
     setuptools: 50
     wheel: 1
+    toml: 1
   pyproject.toml: |
     [build-system]
     requires = [
@@ -88,6 +93,7 @@ Build system dependencies in pyproject.toml with extras:
         "py3 ; python_version > '3.0'",
     ]
   expected: |
+    python3dist(toml)
     python3dist(foo)
     python3dist(bar) > 5
     python3dist(bar[baz]) > 5
@@ -110,6 +116,7 @@ Build system dependencies in pyproject.toml without extras:
   installed:
     setuptools: 50
     wheel: 1
+    toml: 1
   pyproject.toml: |
     [build-system]
     requires = [
@@ -117,6 +124,7 @@ Build system dependencies in pyproject.toml without extras:
         "multi[extras1,extras2] == 6.0",
     ]
   expected: |
+    python3dist(toml)
     python3dist(bar) > 5
     python3dist(multi) == 6
     python3dist(setuptools) >= 40.8
