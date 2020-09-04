@@ -1473,13 +1473,6 @@ classified:
         - /usr/share/pronterface/reset.png
         - /usr/share/pronterface/zoom_in.png
         - /usr/share/pronterface/zoom_out.png
-        - /usr/share/locale/de/LC_MESSAGES/plater.mo
-        - /usr/share/locale/de/LC_MESSAGES/pronterface.mo
-        - /usr/share/locale/fr/LC_MESSAGES/plater.mo
-        - /usr/share/locale/fr/LC_MESSAGES/pronterface.mo
-        - /usr/share/locale/it/LC_MESSAGES/plater.mo
-        - /usr/share/locale/it/LC_MESSAGES/pronterface.mo
-        - /usr/share/locale/nl/LC_MESSAGES/pronterface.mo
 
 dumped:
 - - tensorflow
@@ -2744,13 +2737,6 @@ dumped:
     - /usr/share/applications/plater.desktop
     - /usr/share/applications/pronsole.desktop
     - /usr/share/applications/pronterface.desktop
-    - /usr/share/locale/de/LC_MESSAGES/plater.mo
-    - /usr/share/locale/de/LC_MESSAGES/pronterface.mo
-    - /usr/share/locale/fr/LC_MESSAGES/plater.mo
-    - /usr/share/locale/fr/LC_MESSAGES/pronterface.mo
-    - /usr/share/locale/it/LC_MESSAGES/plater.mo
-    - /usr/share/locale/it/LC_MESSAGES/pronterface.mo
-    - /usr/share/locale/nl/LC_MESSAGES/pronterface.mo
     - /usr/share/metainfo/plater.appdata.xml
     - /usr/share/metainfo/pronsole.appdata.xml
     - /usr/share/metainfo/pronterface.appdata.xml

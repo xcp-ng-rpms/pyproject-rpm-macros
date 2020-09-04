@@ -165,21 +165,26 @@ def add_file_to_module(paths, module_name, module_type, *files):
             {"type": module_type, "files": list(files)}
         )
 
+
 def add_lang_to_module(paths, module_name, path):
     """
     Helper procedure, divides lang files by language and adds them to the module_name
+
+    Returns True if the language code detection was successful
     """
     for i, parent in enumerate(path.parents):
         if i > 0 and parent.name == 'locale':
             lang_country_code = path.parents[i-1].name
             break
     else:
-        return
+        return False
     # convert potential en_US to plain en
     lang_code = lang_country_code.partition('_')[0]
     if module_name not in paths["lang"]:
         paths["lang"].update({module_name: defaultdict(list)})
     paths["lang"][module_name][lang_code].append(path)
+    return True
+
 
 def classify_paths(
     record_path, parsed_record_content, sitedirs, python_version
@@ -242,9 +247,10 @@ def classify_paths(
                 break
         else:
             warnings.warn(f"Unrecognized file: {path}")
-            paths["other"]["files"].append(path)
             if path.suffix == ".mo":
-                add_lang_to_module(paths, None, path)
+                add_lang_to_module(paths, None, path) or paths["other"]["files"].append(path)
+            else:
+                paths["other"]["files"].append(path)
 
     return paths
 
