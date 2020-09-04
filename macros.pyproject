@@ -26,7 +26,7 @@ specifier=$(ls %{_pyproject_wheeldir}/*.whl | xargs basename --multiple | sed -E
 export TMPDIR="${PWD}/%{_pyproject_builddir}"
 %{__python3} -m pip install --root %{buildroot} --no-deps --disable-pip-version-check --progress-bar off --verbose --ignore-installed --no-warn-script-location --no-index --no-cache-dir --find-links %{_pyproject_wheeldir} $specifier
 if [ -d %{buildroot}%{_bindir} ]; then
-  pathfix%{python3_version}.py -pni "%{__python3}" -k%{?py3_shbang_opts: -a%{py3_shbang_opts_nodash}} %{buildroot}%{_bindir}/*
+  %py3_shebang_fix %{buildroot}%{_bindir}/*
   rm -rfv %{buildroot}%{_bindir}/__pycache__
 fi
 rm -f %{pyproject_ghost_distinfo}
