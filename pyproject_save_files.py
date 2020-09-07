@@ -2,7 +2,6 @@ import argparse
 import csv
 import fnmatch
 import os
-import warnings
 
 from collections import defaultdict
 from pathlib import PosixPath, PurePosixPath
@@ -246,7 +245,6 @@ def classify_paths(
                         add_lang_to_module(paths, module_dir.name, path)
                 break
         else:
-            warnings.warn(f"Unrecognized file: {path}")
             if path.suffix == ".mo":
                 add_lang_to_module(paths, None, path) or paths["other"]["files"].append(path)
             else:
