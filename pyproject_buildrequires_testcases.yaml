@@ -97,15 +97,15 @@ Build system dependencies in pyproject.toml with extras:
     python3dist(foo)
     python3dist(bar) > 5
     python3dist(bar[baz]) > 5
-    (python3dist(ne) < 1 or python3dist(ne) > 1.0)
+    (python3dist(ne) < 1 or python3dist(ne) > 1)
     python3dist(ge) >= 1.2
     python3dist(le) <= 1.2.3
     python3dist(lt) < 1.2.3.4
     python3dist(gt) > 1.2.3.4.5
-    python3dist(multi) == 6
-    python3dist(multi[extras1]) == 6
-    python3dist(multi[extras2]) == 6
-    ((python3dist(combo) < 3 or python3dist(combo) > 3.0) and python3dist(combo) < 5 and python3dist(combo) > 2)
+    python3dist(multi) = 6
+    python3dist(multi[extras1]) = 6
+    python3dist(multi[extras2]) = 6
+    ((python3dist(combo) < 3 or python3dist(combo) > 3) with python3dist(combo) < 5 with python3dist(combo) > 2)
     python3dist(py3)
     python3dist(setuptools) >= 40.8
     python3dist(wheel)
@@ -126,7 +126,7 @@ Build system dependencies in pyproject.toml without extras:
   expected: |
     python3dist(toml)
     python3dist(bar) > 5
-    python3dist(multi) == 6
+    python3dist(multi) = 6
     python3dist(setuptools) >= 40.8
     python3dist(wheel)
   result: 0
@@ -140,7 +140,7 @@ Default build system, build dependencies in setup.py:
     setup(
         name='test',
         version='0.1',
-        setup_requires=['foo', 'bar!=2'],
+        setup_requires=['foo', 'bar!=2', 'baz~=1.1.1'],
         install_requires=['inst'],
     )
   expected: |
@@ -148,7 +148,8 @@ Default build system, build dependencies in setup.py:
     python3dist(wheel)
     python3dist(wheel)
     python3dist(foo)
-    (python3dist(bar) < 2 or python3dist(bar) > 2.0)
+    (python3dist(bar) < 2 or python3dist(bar) > 2)
+    (python3dist(baz) >= 1.1.1 with python3dist(baz) < 1.2)
   result: 0
 
 Default build system, run dependencies in setup.py:

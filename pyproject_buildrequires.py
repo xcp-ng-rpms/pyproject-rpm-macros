@@ -34,6 +34,9 @@ except ImportError as e:
     # already echoed by the %pyproject_buildrequires macro
     sys.exit(0)
 
+# uses packaging, needs to be imported after packaging is verified to be present
+from pyproject_convert import convert
+
 
 @contextlib.contextmanager
 def hook_call():
@@ -116,24 +119,15 @@ class Requirements:
                         f'Unknown character in version: {specifier.version}. '
                         + '(This is probably a bug in pyproject-rpm-macros.)',
                     )
-                if specifier.operator == '!=':
-                    lower = python3dist(name, '<', version,
-                                        self.python3_pkgversion)
-                    higher = python3dist(name, '>', f'{version}.0',
-                                         self.python3_pkgversion)
-                    together.append(
-                        f'({lower} or {higher})'
-                    )
-                else:
-                    together.append(python3dist(name, specifier.operator, version,
-                                                self.python3_pkgversion))
+                together.append(convert(python3dist(name, python3_pkgversion=self.python3_pkgversion),
+                                        specifier.operator, version))
             if len(together) == 0:
                 print(python3dist(name,
                                   python3_pkgversion=self.python3_pkgversion))
             elif len(together) == 1:
                 print(together[0])
             else:
-                print(f"({' and '.join(together)})")
+                print(f"({' with '.join(together)})")
 
     def check(self, *, source=None):
         """End current pass if any unsatisfied dependencies were output"""

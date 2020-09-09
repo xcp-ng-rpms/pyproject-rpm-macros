@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        27%{?dist}
+Release:        28%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -14,6 +14,7 @@ Source001:      macros.pyproject
 # Implementation files
 Source101:      pyproject_buildrequires.py
 Source102:      pyproject_save_files.py
+Source103:      pyproject_convert.py
 
 # Tests
 Source201:      test_pyproject_buildrequires.py
@@ -70,6 +71,7 @@ mkdir -p %{buildroot}%{_rpmmacrodir}
 mkdir -p %{buildroot}%{_rpmconfigdir}/redhat
 install -m 644 macros.pyproject %{buildroot}%{_rpmmacrodir}/
 install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
+install -m 644 pyproject_convert.py %{buildroot}%{_rpmconfigdir}/redhat/
 install -m 644 pyproject_save_files.py  %{buildroot}%{_rpmconfigdir}/redhat/
 
 %if %{with tests}
@@ -82,12 +84,17 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %files
 %{_rpmmacrodir}/macros.pyproject
 %{_rpmconfigdir}/redhat/pyproject_buildrequires.py
+%{_rpmconfigdir}/redhat/pyproject_convert.py
 %{_rpmconfigdir}/redhat/pyproject_save_files.py
 
 %doc README.md
 %license LICENSE
 
 %changelog
+* Fri Sep 08 2020 Gordon Messmer <gordon.messmer@gmail.com> - 0-28
+- Support more Python version specifiers in generated BuildRequires
+- This adds support for the '~=' operator and wildcards
+
 * Fri Sep 4 2020 Miro Hrončok <miro@hroncok.cz> - 0-27
 - Make code in $PWD importable from %%pyproject_buildrequires
 - Only require toml for projects with pyproject.toml
