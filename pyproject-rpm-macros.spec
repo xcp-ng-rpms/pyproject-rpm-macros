@@ -91,11 +91,11 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
-* Fri Sep 08 2020 Gordon Messmer <gordon.messmer@gmail.com> - 0-28
+* Tue Sep 08 2020 Gordon Messmer <gordon.messmer@gmail.com> - 0-28
 - Support more Python version specifiers in generated BuildRequires
 - This adds support for the '~=' operator and wildcards
 
-* Fri Sep 4 2020 Miro Hrončok <miro@hroncok.cz> - 0-27
+* Fri Sep 04 2020 Miro Hrončok <miro@hroncok.cz> - 0-27
 - Make code in $PWD importable from %%pyproject_buildrequires
 - Only require toml for projects with pyproject.toml
 - Remove a no longer useful warning for unrecognized files in %%pyproject_save_files
