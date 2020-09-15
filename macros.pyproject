@@ -12,6 +12,7 @@
 
 %pyproject_files %{_builddir}/pyproject-files
 %pyproject_ghost_distinfo %{_builddir}/pyproject-ghost-distinfo
+%pyproject_record %{_builddir}/pyproject-record
 
 %pyproject_wheel() %{expand:\\\
 export TMPDIR="${PWD}/%{_pyproject_builddir}"
@@ -34,12 +35,24 @@ if [ -d %{buildroot}%{python3_sitelib} ]; then
   for distinfo in %{buildroot}%{python3_sitelib}/*.dist-info; do
     echo "%ghost ${distinfo#%{buildroot}}" >> %{pyproject_ghost_distinfo}
     sed -i 's/pip/rpm/' ${distinfo}/INSTALLER
+    if [ -f ${distinfo}/RECORD ]; then
+      PYTHONPATH=%{_rpmconfigdir}/redhat \\
+        %{__python3} -B %{_rpmconfigdir}/redhat/pyproject_preprocess_record.py \\
+        --buildroot %{buildroot} --record ${distinfo}/RECORD --output %{pyproject_record}
+      rm ${distinfo}/RECORD
+    fi
   done
 fi
 if [ %{buildroot}%{python3_sitearch} != %{buildroot}%{python3_sitelib} ] && [ -d %{buildroot}%{python3_sitearch} ]; then
   for distinfo in %{buildroot}%{python3_sitearch}/*.dist-info; do
     echo "%ghost ${distinfo#%{buildroot}}" >> %{pyproject_ghost_distinfo}
     sed -i 's/pip/rpm/' ${distinfo}/INSTALLER
+    if [ -f ${distinfo}/RECORD ]; then
+      PYTHONPATH=%{_rpmconfigdir}/redhat \\
+        %{__python3} -B %{_rpmconfigdir}/redhat/pyproject_preprocess_record.py \\
+        --buildroot %{buildroot} --record ${distinfo}/RECORD --output %{pyproject_record}
+      rm ${distinfo}/RECORD
+    fi
   done
 fi
 lines=$(wc -l %{pyproject_ghost_distinfo} | cut -f1 -d" ")
@@ -61,6 +74,7 @@ fi
   --sitelib "%{python3_sitelib}" \\
   --sitearch "%{python3_sitearch}" \\
   --python-version "%{python3_version}" \\
+  --pyproject-record "%{pyproject_record}" \\
   %{*}
 }
 

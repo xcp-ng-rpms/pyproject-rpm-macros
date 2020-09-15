@@ -1,6 +1,6 @@
 import argparse
-import csv
 import fnmatch
+import json
 import os
 
 from collections import defaultdict
@@ -53,79 +53,6 @@ class BuildrootPath(PurePosixPath):
             BuildrootPath('/usr/lib/pypy')
         """
         return type(self)(os.path.normpath(self))
-
-
-def locate_record(root, sitedirs):
-    """
-    Find a RECORD file in the given root.
-    sitedirs are BuildrootPaths.
-    Only RECORDs in dist-info dirs inside sitedirs are considered.
-    There can only be one RECORD file.
-
-    Returns a PosixPath of the RECORD file.
-    """
-    records = []
-    for sitedir in sitedirs:
-        records.extend(sitedir.to_real(root).glob("*.dist-info/RECORD"))
-
-    sitedirs_text = ", ".join(str(p) for p in sitedirs)
-    if len(records) == 0:
-        raise FileNotFoundError(f"There is no *.dist-info/RECORD in {sitedirs_text}")
-    if len(records) > 1:
-        raise FileExistsError(f"Multiple *.dist-info directories in {sitedirs_text}")
-
-    return records[0]
-
-
-def read_record(record_path):
-    """
-    A generator yielding individual RECORD triplets.
-
-    https://www.python.org/dev/peps/pep-0376/#record
-
-    The triplet is str-path, hash, size -- the last two optional.
-    We will later care only for the paths anyway.
-
-    Example:
-
-        >>> g = read_record(PosixPath('./test_RECORD'))
-        >>> next(g)
-        ['../../../bin/__pycache__/tldr.cpython-....pyc', '', '']
-        >>> next(g)
-        ['../../../bin/tldr', 'sha256=...', '12766']
-        >>> next(g)
-        ['../../../bin/tldr.py', 'sha256=...', '12766']
-    """
-    with open(record_path, newline="", encoding="utf-8") as f:
-        yield from csv.reader(
-            f, delimiter=",", quotechar='"', lineterminator=os.linesep
-        )
-
-
-def parse_record(record_path, record_content):
-    """
-    Returns a generator with BuildrootPaths parsed from record_content
-
-    params:
-    record_path: RECORD BuildrootPath
-    record_content: list of RECORD triplets
-                    first item is a str-path relative to directory where dist-info directory is
-                    (it can also be absolute according to the standard, but not from pip)
-
-    Examples:
-
-        >>> next(parse_record(BuildrootPath('/usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/RECORD'),
-        ...                   [('requests/sessions.py', 'sha256=xxx', '666'), ...]))
-        BuildrootPath('/usr/lib/python3.7/site-packages/requests/sessions.py')
-
-        >>> next(parse_record(BuildrootPath('/usr/lib/python3.7/site-packages/tldr-0.5.dist-info/RECORD'),
-        ...                   [('../../../bin/tldr', 'sha256=yyy', '777'), ...]))
-        BuildrootPath('/usr/bin/tldr')
-    """
-    sitedir = record_path.parent.parent  # trough the dist-info directory
-    # / with absolute right operand will remove the left operand
-    # any .. parts are resolved via normpath
-    return ((sitedir / row[0]).normpath() for row in record_content)
 
 
 def pycached(script, python_version):
@@ -218,6 +145,10 @@ def classify_paths(
             continue
 
         if path.parent == distinfo:
+            if path.name == "RECORD":
+                # RECORD files are removed manually in %pyproject_install
+                # See PEP 627
+                continue
             # TODO is this a license/documentation?
             paths["metadata"]["files"].append(path)
             continue
@@ -386,7 +317,24 @@ def parse_varargs(varargs):
     return globs, include_auto
 
 
-def pyproject_save_files(buildroot, sitelib, sitearch, python_version, varargs):
+def load_parsed_record(pyproject_record):
+    parsed_record = {}
+    with open(pyproject_record) as pyproject_record_file:
+        content = json.load(pyproject_record_file)
+
+    if len(content) > 1:
+        raise FileExistsError("%pyproject install has found more than one *.dist-info/RECORD file. "
+                              "Currently, %pyproject_save_files supports only one wheel → one file list mapping. "
+                              "Feel free to open a bugzilla for pyproject-rpm-macros and describe your usecase.")
+
+    # Redefine strings stored in JSON to BuildRootPaths
+    for record_path, files in content.items():
+        parsed_record[BuildrootPath(record_path)] = [BuildrootPath(f) for f in files]
+
+    return parsed_record
+
+
+def pyproject_save_files(buildroot, sitelib, sitearch, python_version, pyproject_record, varargs):
     """
     Takes arguments from the %{pyproject_save_files} macro
 
@@ -397,14 +345,20 @@ def pyproject_save_files(buildroot, sitelib, sitearch, python_version, varargs):
     sitedirs = sorted({sitelib, sitearch})
 
     globs, include_auto = parse_varargs(varargs)
-    record_path_real = locate_record(buildroot, sitedirs)
-    record_path = BuildrootPath.from_real(record_path_real, root=buildroot)
-    parsed_record = parse_record(record_path, read_record(record_path_real))
+    parsed_records = load_parsed_record(pyproject_record)
 
-    paths_dict = classify_paths(
-        record_path, parsed_record, sitedirs, python_version
-    )
-    return generate_file_list(paths_dict, globs, include_auto)
+    final_file_list = []
+
+    for record_path, files in parsed_records.items():
+        paths_dict = classify_paths(
+            record_path, files, sitedirs, python_version
+        )
+
+        final_file_list.extend(
+            generate_file_list(paths_dict, globs, include_auto)
+        )
+
+    return final_file_list
 
 
 def main(cli_args):
@@ -413,6 +367,7 @@ def main(cli_args):
         cli_args.sitelib,
         cli_args.sitearch,
         cli_args.python_version,
+        cli_args.pyproject_record,
         cli_args.varargs,
     )
 
@@ -427,6 +382,7 @@ def argparser():
     r.add_argument("--sitelib", type=BuildrootPath, required=True)
     r.add_argument("--sitearch", type=BuildrootPath, required=True)
     r.add_argument("--python-version", type=str, required=True)
+    r.add_argument("--pyproject-record", type=PosixPath, required=True)
     parser.add_argument("varargs", nargs="+")
     return parser
 
