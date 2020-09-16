@@ -211,6 +211,39 @@ Note that RPM might warn about such files listed twice:
 The warning is harmless.
 
 
+Generating Extras subpackages
+-----------------------------
+
+The `%pyproject_extras_subpkg` macro generates simple subpackage(s)
+for Python extras.
+
+The macro should be placed after the base package's `%description` to avoid
+issues in building the SRPM.
+
+For example, if the `requests` project's metadata defines the extras
+`security` and `socks`, the following invocation will generate the subpackage
+`python3-requests+security` that provides `python3dist(requests[security])`,
+and a similar one for `socks`.
+
+    %pyproject_extras_subpkg -n python3-requests security socks
+
+The macro works like `%python_extras_subpkg`,
+except the `-i`/`-f`/`-F` arguments are optional and discouraged.
+A filelist written by `%pyproject_install` is used by default.
+For more information on `%python_extras_subpkg`, see the [Fedora change].
+
+[Fedora change]: https://fedoraproject.org/wiki/Changes/PythonExtras
+
+These arguments are still required:
+
+* -n: name of the “base” package (e.g. python3-requests)
+* Positional arguments: the extra name(s).
+  Multiple subpackages are generated when multiple names are provided.
+
+The macro does nothing on Fedora 32 and lower, as automation around
+extras was only added in f33.
+
+
 Limitations
 -----------
 
