@@ -7,7 +7,6 @@ classified:
       files:
       - /usr/lib64/python3.7/site-packages/kerberos-1.3.0.dist-info/INSTALLER
       - /usr/lib64/python3.7/site-packages/kerberos-1.3.0.dist-info/METADATA
-      - /usr/lib64/python3.7/site-packages/kerberos-1.3.0.dist-info/RECORD
       - /usr/lib64/python3.7/site-packages/kerberos-1.3.0.dist-info/WHEEL
       - /usr/lib64/python3.7/site-packages/kerberos-1.3.0.dist-info/top_level.txt
       licenses: []
@@ -27,7 +26,6 @@ classified:
       - /usr/lib64/python3.7/site-packages/mistune-0.8.3.dist-info/INSTALLER
       - /usr/lib64/python3.7/site-packages/mistune-0.8.3.dist-info/LICENSE
       - /usr/lib64/python3.7/site-packages/mistune-0.8.3.dist-info/METADATA
-      - /usr/lib64/python3.7/site-packages/mistune-0.8.3.dist-info/RECORD
       - /usr/lib64/python3.7/site-packages/mistune-0.8.3.dist-info/WHEEL
       - /usr/lib64/python3.7/site-packages/mistune-0.8.3.dist-info/top_level.txt
       licenses: []
@@ -51,7 +49,6 @@ classified:
       - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/INSTALLER
       - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/LICENSE
       - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/METADATA
-      - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/RECORD
       - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/WHEEL
       - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/top_level.txt
       licenses: []
@@ -70,7 +67,6 @@ classified:
       files:
       - /usr/lib64/python3.7/site-packages/tensorflow-2.1.0.dist-info/INSTALLER
       - /usr/lib64/python3.7/site-packages/tensorflow-2.1.0.dist-info/METADATA
-      - /usr/lib64/python3.7/site-packages/tensorflow-2.1.0.dist-info/RECORD
       - /usr/lib64/python3.7/site-packages/tensorflow-2.1.0.dist-info/WHEEL
       - /usr/lib64/python3.7/site-packages/tensorflow-2.1.0.dist-info/entry_points.txt
       - /usr/lib64/python3.7/site-packages/tensorflow-2.1.0.dist-info/top_level.txt
@@ -105,7 +101,6 @@ classified:
       - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info/INSTALLER
       - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info/LICENSE
       - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info/METADATA
-      - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info/RECORD
       - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info/WHEEL
       - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info/top_level.txt
       licenses: []
@@ -125,7 +120,6 @@ classified:
       - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info
       docs: []
       files:
-      - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/RECORD
       - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/top_level.txt
       - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/WHEEL
       - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/METADATA
@@ -148,7 +142,6 @@ classified:
       - /usr/lib/python3.7/site-packages/zope.event-4.4.dist-info
       docs: []
       files:
-      - /usr/lib/python3.7/site-packages/zope.event-4.4.dist-info/RECORD
       - /usr/lib/python3.7/site-packages/zope.event-4.4.dist-info/top_level.txt
       - /usr/lib/python3.7/site-packages/zope.event-4.4.dist-info/WHEEL
       - /usr/lib/python3.7/site-packages/zope.event-4.4.dist-info/METADATA
@@ -176,7 +169,6 @@ classified:
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE.python
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/METADATA
-      - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/RECORD
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/WHEEL
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/entry_points.txt
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/top_level.txt
@@ -1417,7 +1409,6 @@ classified:
       - /usr/lib/python3.7/site-packages/Printrun-2.0.0rc6.dist-info/COPYING
       - /usr/lib/python3.7/site-packages/Printrun-2.0.0rc6.dist-info/INSTALLER
       - /usr/lib/python3.7/site-packages/Printrun-2.0.0rc6.dist-info/METADATA
-      - /usr/lib/python3.7/site-packages/Printrun-2.0.0rc6.dist-info/RECORD
       - /usr/lib/python3.7/site-packages/Printrun-2.0.0rc6.dist-info/top_level.txt
       - /usr/lib/python3.7/site-packages/Printrun-2.0.0rc6.dist-info/REQUESTED
       - /usr/lib/python3.7/site-packages/Printrun-2.0.0rc6.dist-info/WHEEL
@@ -1488,7 +1479,6 @@ dumped:
     - /usr/lib/python3.7/site-packages/tensorflow_core/
     - /usr/lib64/python3.7/site-packages/tensorflow-2.1.0.dist-info/INSTALLER
     - /usr/lib64/python3.7/site-packages/tensorflow-2.1.0.dist-info/METADATA
-    - /usr/lib64/python3.7/site-packages/tensorflow-2.1.0.dist-info/RECORD
     - /usr/lib64/python3.7/site-packages/tensorflow-2.1.0.dist-info/WHEEL
     - /usr/lib64/python3.7/site-packages/tensorflow-2.1.0.dist-info/entry_points.txt
     - /usr/lib64/python3.7/site-packages/tensorflow-2.1.0.dist-info/top_level.txt
@@ -1499,7 +1489,6 @@ dumped:
   - - '%dir /usr/lib64/python3.7/site-packages/kerberos-1.3.0.dist-info'
     - /usr/lib64/python3.7/site-packages/kerberos-1.3.0.dist-info/INSTALLER
     - /usr/lib64/python3.7/site-packages/kerberos-1.3.0.dist-info/METADATA
-    - /usr/lib64/python3.7/site-packages/kerberos-1.3.0.dist-info/RECORD
     - /usr/lib64/python3.7/site-packages/kerberos-1.3.0.dist-info/WHEEL
     - /usr/lib64/python3.7/site-packages/kerberos-1.3.0.dist-info/top_level.txt
     - /usr/lib64/python3.7/site-packages/kerberos.cpython-37m-x86_64-linux-gnu.so
@@ -1509,7 +1498,6 @@ dumped:
     - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/INSTALLER
     - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/LICENSE
     - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/METADATA
-    - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/RECORD
     - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/WHEEL
     - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/top_level.txt
     - /usr/lib/python3.7/site-packages/requests/
@@ -1522,7 +1510,6 @@ dumped:
     - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info/INSTALLER
     - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info/LICENSE
     - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info/METADATA
-    - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info/RECORD
     - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info/WHEEL
     - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info/top_level.txt
     - /usr/lib/python3.7/site-packages/tldr.py
@@ -1533,7 +1520,6 @@ dumped:
     - /usr/lib64/python3.7/site-packages/mistune-0.8.3.dist-info/INSTALLER
     - /usr/lib64/python3.7/site-packages/mistune-0.8.3.dist-info/LICENSE
     - /usr/lib64/python3.7/site-packages/mistune-0.8.3.dist-info/METADATA
-    - /usr/lib64/python3.7/site-packages/mistune-0.8.3.dist-info/RECORD
     - /usr/lib64/python3.7/site-packages/mistune-0.8.3.dist-info/WHEEL
     - /usr/lib64/python3.7/site-packages/mistune-0.8.3.dist-info/top_level.txt
     - /usr/lib64/python3.7/site-packages/mistune.cpython-37m-x86_64-linux-gnu.so
@@ -1544,7 +1530,6 @@ dumped:
     - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/COPYING.md
     - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/INSTALLER
     - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/METADATA
-    - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/RECORD
     - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/WHEEL
     - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/top_level.txt
     - /usr/lib/python3.7/site-packages/ipykernel/
@@ -1558,7 +1543,6 @@ dumped:
     - /usr/lib/python3.7/site-packages/zope.event-4.4.dist-info/DESCRIPTION.rst
     - /usr/lib/python3.7/site-packages/zope.event-4.4.dist-info/INSTALLER
     - /usr/lib/python3.7/site-packages/zope.event-4.4.dist-info/METADATA
-    - /usr/lib/python3.7/site-packages/zope.event-4.4.dist-info/RECORD
     - /usr/lib/python3.7/site-packages/zope.event-4.4.dist-info/WHEEL
     - /usr/lib/python3.7/site-packages/zope.event-4.4.dist-info/metadata.json
     - /usr/lib/python3.7/site-packages/zope.event-4.4.dist-info/namespace_packages.txt
@@ -2706,7 +2690,6 @@ dumped:
     - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE
     - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE.python
     - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/METADATA
-    - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/RECORD
     - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/WHEEL
     - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/entry_points.txt
     - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/top_level.txt
@@ -2728,7 +2711,6 @@ dumped:
     - /usr/lib/python3.7/site-packages/Printrun-2.0.0rc6.dist-info/COPYING
     - /usr/lib/python3.7/site-packages/Printrun-2.0.0rc6.dist-info/INSTALLER
     - /usr/lib/python3.7/site-packages/Printrun-2.0.0rc6.dist-info/METADATA
-    - /usr/lib/python3.7/site-packages/Printrun-2.0.0rc6.dist-info/RECORD
     - /usr/lib/python3.7/site-packages/Printrun-2.0.0rc6.dist-info/REQUESTED
     - /usr/lib/python3.7/site-packages/Printrun-2.0.0rc6.dist-info/WHEEL
     - /usr/lib/python3.7/site-packages/Printrun-2.0.0rc6.dist-info/direct_url.json
