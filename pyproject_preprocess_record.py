@@ -43,14 +43,13 @@ def parse_record(record_path, record_content):
                     (it can also be absolute according to the standard, but not from pip)
 
     Examples:
+        >>> parse_record(BuildrootPath('/usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/RECORD'),
+        ...                            [('requests/sessions.py', 'sha256=xxx', '666')])
+        ['/usr/lib/python3.7/site-packages/requests/sessions.py']
 
-        >>> next(parse_record(BuildrootPath('/usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/RECORD'),
-        ...                   [('requests/sessions.py', 'sha256=xxx', '666'), ...]))
-        BuildrootPath('/usr/lib/python3.7/site-packages/requests/sessions.py')
-
-        >>> next(parse_record(BuildrootPath('/usr/lib/python3.7/site-packages/tldr-0.5.dist-info/RECORD'),
-        ...                   [('../../../bin/tldr', 'sha256=yyy', '777'), ...]))
-        BuildrootPath('/usr/bin/tldr')
+        >>> parse_record(BuildrootPath('/usr/lib/python3.7/site-packages/tldr-0.5.dist-info/RECORD'),
+        ...                            [('../../../bin/tldr', 'sha256=yyy', '777')])
+        ['/usr/bin/tldr']
     """
     sitedir = record_path.parent.parent  # trough the dist-info directory
     # / with absolute right operand will remove the left operand

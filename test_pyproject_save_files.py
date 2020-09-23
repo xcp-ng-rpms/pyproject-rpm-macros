@@ -123,17 +123,17 @@ def test_parse_record_tldr():
     output = list(parse_record(record_path, record_content))
     pprint(output)
     expected = [
-        BINDIR / "__pycache__/tldr.cpython-37.pyc",
-        BINDIR / "tldr",
-        BINDIR / "tldr.py",
-        SITELIB / "__pycache__/tldr.cpython-37.pyc",
-        SITELIB / "tldr-0.5.dist-info/INSTALLER",
-        SITELIB / "tldr-0.5.dist-info/LICENSE",
-        SITELIB / "tldr-0.5.dist-info/METADATA",
-        SITELIB / "tldr-0.5.dist-info/RECORD",
-        SITELIB / "tldr-0.5.dist-info/WHEEL",
-        SITELIB / "tldr-0.5.dist-info/top_level.txt",
-        SITELIB / "tldr.py",
+        str(BINDIR / "__pycache__/tldr.cpython-37.pyc"),
+        str(BINDIR / "tldr"),
+        str(BINDIR / "tldr.py"),
+        str(SITELIB / "__pycache__/tldr.cpython-37.pyc"),
+        str(SITELIB / "tldr-0.5.dist-info/INSTALLER"),
+        str(SITELIB / "tldr-0.5.dist-info/LICENSE"),
+        str(SITELIB / "tldr-0.5.dist-info/METADATA"),
+        str(SITELIB / "tldr-0.5.dist-info/RECORD"),
+        str(SITELIB / "tldr-0.5.dist-info/WHEEL"),
+        str(SITELIB / "tldr-0.5.dist-info/top_level.txt"),
+        str(SITELIB / "tldr.py"),
     ]
     assert output == expected
 
@@ -149,9 +149,9 @@ def test_parse_record_tensorflow():
     output = list(parse_record(record_path, record_content))
     pprint(output)
     expected = [
-        BINDIR / "toco_from_protos",
-        SITELIB / long,
-        SITEARCH / "tensorflow-2.1.0.dist-info/METADATA",
+        str(BINDIR / "toco_from_protos"),
+        str(SITELIB / long),
+        str(SITEARCH / "tensorflow-2.1.0.dist-info/METADATA"),
     ]
     assert output == expected
 
