@@ -25,6 +25,9 @@
     - clikit:
         dir: .
         run: ./mocktest.sh python-clikit
+    - distroinfo:
+        dir: .
+        run: ./mocktest.sh python-distroinfo
     - tldr:
         dir: .
         run: ./mocktest.sh tldr
