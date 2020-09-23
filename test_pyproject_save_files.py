@@ -4,10 +4,10 @@ import yaml
 from pathlib import Path
 from pprint import pprint
 
-from pyproject_save_files import argparser, generate_file_list, main
-from pyproject_save_files import locate_record, parse_record, read_record
-from pyproject_save_files import BuildrootPath
+from pyproject_preprocess_record import parse_record, read_record, save_parsed_record
 
+from pyproject_save_files import argparser, generate_file_list, BuildrootPath
+from pyproject_save_files import main as save_files_main
 
 DIR = Path(__file__).parent
 BINDIR = BuildrootPath("/usr/bin")
@@ -22,99 +22,42 @@ EXPECTED_FILES = yaml_data["dumped"]
 TEST_RECORDS = yaml_data["records"]
 
 
-def create_root(tmp_path, *records):
-    r"""
-    Create mock buildroot in tmp_path
-
-    parameters:
-    tmp_path: path where buildroot should be created
-    records: dicts with:
-      path: expected path found in buildroot
-      content: string content of the file
-
-    Example:
-
-        >>> record = {'path': '/usr/lib/python/tldr-0.5.dist-info/RECORD', 'content': '__pycache__/tldr.cpython-37.pyc,,\n...'}
-        >>> create_root(Path('tmp'), record)
-        PosixPath('tmp/buildroot')
-
-    The example creates ./tmp/buildroot/usr/lib/python/tldr-0.5.dist-info/RECORD with the content.
-
-        >>> import shutil
-        >>> shutil.rmtree(Path('./tmp'))
-    """
-    buildroot = tmp_path / "buildroot"
-    for record in records:
-        dest = buildroot / Path(record["path"]).relative_to("/")
-        dest.parent.mkdir(parents=True)
-        dest.write_text(record["content"])
-    return buildroot
+@pytest.fixture
+def tldr_root(tmp_path):
+    prepare_pyproject_record(tmp_path, package="tldr")
+    return tmp_path
 
 
 @pytest.fixture
-def tldr_root(tmp_path):
-    return create_root(tmp_path, TEST_RECORDS["tldr"])
+def pyproject_record(tmp_path):
+    return tmp_path / "pyproject-record"
+
+
+def prepare_pyproject_record(tmp_path, package=None, content=None):
+    """
+    Creates RECORD from test data and then uses
+    functions from pyproject_process_record to convert
+    it to pyproject-record file which is then
+    further processed by functions from pyproject_save_files.
+    """
+    record_file = tmp_path / "RECORD"
+    pyproject_record = tmp_path / "pyproject-record"
+
+    if package is not None:
+        # Get test data and write dist-info/RECORD file
+        record_path = BuildrootPath(TEST_RECORDS[package]["path"])
+        record_file.write_text(TEST_RECORDS[package]["content"])
+        # Parse RECORD file
+        parsed_record = parse_record(record_path, read_record(record_file))
+        # Save JSON content to pyproject-record
+        save_parsed_record(record_path, parsed_record, pyproject_record)
+    elif content is not None:
+        save_parsed_record(*content, output_file=pyproject_record)
 
 
 @pytest.fixture
 def output(tmp_path):
     return tmp_path / "pyproject_files"
-
-
-def test_locate_record_good(tmp_path):
-    sitedir = tmp_path / "ha/ha/ha/site-packages"
-    distinfo = sitedir / "foo-0.6.dist-info"
-    distinfo.mkdir(parents=True)
-    record = distinfo / "RECORD"
-    record.write_text("\n")
-    sitedir = BuildrootPath.from_real(sitedir, root=tmp_path)
-    assert locate_record(tmp_path, {sitedir}) == record
-
-
-def test_locate_record_missing(tmp_path):
-    sitedir = tmp_path / "ha/ha/ha/site-packages"
-    distinfo = sitedir / "foo-0.6.dist-info"
-    distinfo.mkdir(parents=True)
-    sitedir = BuildrootPath.from_real(sitedir, root=tmp_path)
-    with pytest.raises(FileNotFoundError):
-        locate_record(tmp_path, {sitedir})
-
-
-def test_locate_record_misplaced(tmp_path):
-    sitedir = tmp_path / "ha/ha/ha/site-packages"
-    fakedir = tmp_path / "no/no/no/site-packages"
-    distinfo = fakedir / "foo-0.6.dist-info"
-    distinfo.mkdir(parents=True)
-    record = distinfo / "RECORD"
-    record.write_text("\n")
-    sitedir = BuildrootPath.from_real(sitedir, root=tmp_path)
-    with pytest.raises(FileNotFoundError):
-        locate_record(tmp_path, {sitedir})
-
-
-def test_locate_record_two_packages(tmp_path):
-    sitedir = tmp_path / "ha/ha/ha/site-packages"
-    for name in "foo-0.6.dist-info", "bar-1.8.dist-info":
-        distinfo = sitedir / name
-        distinfo.mkdir(parents=True)
-        record = distinfo / "RECORD"
-        record.write_text("\n")
-    sitedir = BuildrootPath.from_real(sitedir, root=tmp_path)
-    with pytest.raises(FileExistsError):
-        locate_record(tmp_path, {sitedir})
-
-
-def test_locate_record_two_sitedirs(tmp_path):
-    sitedirs = ["ha/ha/ha/site-packages", "ha/ha/ha64/site-packages"]
-    for idx, sitedir in enumerate(sitedirs):
-        sitedir = tmp_path / sitedir
-        distinfo = sitedir / "foo-0.6.dist-info"
-        distinfo.mkdir(parents=True)
-        record = distinfo / "RECORD"
-        record.write_text("\n")
-        sitedirs[idx] = BuildrootPath.from_real(sitedir, root=tmp_path)
-    with pytest.raises(FileExistsError):
-        locate_record(tmp_path, set(sitedirs))
 
 
 def test_parse_record_tldr():
@@ -182,7 +125,7 @@ def test_generate_file_list_unused_glob():
     assert "kerb" not in str(excinfo.value)
 
 
-def default_options(output, mock_root):
+def default_options(output, mock_root, pyproject_record):
     return [
         "--output",
         str(output),
@@ -193,18 +136,20 @@ def default_options(output, mock_root):
         "--sitearch",
         str(SITEARCH),
         "--python-version",
-        "3.7",  # test data are for 3.7
+        "3.7",  # test data are for 3.7,
+        "--pyproject-record",
+        str(pyproject_record)
     ]
 
 
 @pytest.mark.parametrize("include_auto", (True, False))
 @pytest.mark.parametrize("package, glob, expected", EXPECTED_FILES)
-def test_cli(tmp_path, package, glob, expected, include_auto):
-    mock_root = create_root(tmp_path, TEST_RECORDS[package])
+def test_cli(tmp_path, package, glob, expected, include_auto, pyproject_record):
+    prepare_pyproject_record(tmp_path, package)
     output = tmp_path / "files"
     globs = [glob, "+auto"] if include_auto else [glob]
-    cli_args = argparser().parse_args([*default_options(output, mock_root), *globs])
-    main(cli_args)
+    cli_args = argparser().parse_args([*default_options(output, tmp_path, pyproject_record), *globs])
+    save_files_main(cli_args)
 
     if not include_auto:
         expected = remove_others(expected)
@@ -212,54 +157,49 @@ def test_cli(tmp_path, package, glob, expected, include_auto):
     assert tested == "\n".join(expected) + "\n"
 
 
-def test_cli_no_RECORD(tmp_path):
-    mock_root = create_root(tmp_path)
+def test_cli_no_pyproject_record(tmp_path, pyproject_record):
     output = tmp_path / "files"
-    cli_args = argparser().parse_args([*default_options(output, mock_root), "tldr*"])
+    cli_args = argparser().parse_args([*default_options(output, tmp_path, pyproject_record), "tldr*"])
 
     with pytest.raises(FileNotFoundError):
-        main(cli_args)
+        save_files_main(cli_args)
 
 
-def test_cli_misplaced_RECORD(tmp_path, output):
-    record = {"path": "/usr/lib/", "content": TEST_RECORDS["tldr"]["content"]}
-    mock_root = create_root(tmp_path, record)
-    cli_args = argparser().parse_args([*default_options(output, mock_root), "tldr*"])
-
-    with pytest.raises(FileNotFoundError):
-        main(cli_args)
-
-
-def test_cli_find_too_many_RECORDS(tldr_root, output):
-    mock_root = create_root(tldr_root.parent, TEST_RECORDS["tensorflow"])
-    cli_args = argparser().parse_args([*default_options(output, mock_root), "tldr*"])
+def test_cli_too_many_RECORDS(tldr_root, output, pyproject_record):
+    # Two calls to simulate how %pyproject_install process more than one RECORD file
+    prepare_pyproject_record(tldr_root,
+                             content=("foo/bar/dist-info/RECORD", []))
+    prepare_pyproject_record(tldr_root,
+                             content=("foo/baz/dist-info/RECORD", []))
+    cli_args = argparser().parse_args([*default_options(output, tldr_root, pyproject_record), "tldr*"])
 
     with pytest.raises(FileExistsError):
-        main(cli_args)
+        save_files_main(cli_args)
 
 
-def test_cli_bad_argument(tldr_root, output):
+def test_cli_bad_argument(tldr_root, output, pyproject_record):
     cli_args = argparser().parse_args(
-        [*default_options(output, tldr_root), "tldr*", "+foodir"]
+        [*default_options(output, tldr_root, pyproject_record), "tldr*", "+foodir"]
     )
 
     with pytest.raises(ValueError):
-        main(cli_args)
+        save_files_main(cli_args)
 
 
-def test_cli_bad_option(tldr_root, output):
+def test_cli_bad_option(tldr_root, output, pyproject_record):
+    prepare_pyproject_record(tldr_root.parent, content=("RECORD1", []))
     cli_args = argparser().parse_args(
-        [*default_options(output, tldr_root), "tldr*", "you_cannot_have_this"]
+        [*default_options(output, tldr_root, pyproject_record), "tldr*", "you_cannot_have_this"]
     )
 
     with pytest.raises(ValueError):
-        main(cli_args)
+        save_files_main(cli_args)
 
 
-def test_cli_bad_namespace(tldr_root, output):
+def test_cli_bad_namespace(tldr_root, output, pyproject_record):
     cli_args = argparser().parse_args(
-        [*default_options(output, tldr_root), "tldr.didntread"]
+        [*default_options(output, tldr_root, pyproject_record), "tldr.didntread"]
     )
 
     with pytest.raises(ValueError):
-        main(cli_args)
+        save_files_main(cli_args)
