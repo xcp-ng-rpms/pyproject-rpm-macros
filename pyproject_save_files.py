@@ -145,8 +145,8 @@ def classify_paths(
             continue
 
         if path.parent == distinfo:
-            if path.name == "RECORD":
-                # RECORD files are removed manually in %pyproject_install
+            if path.name in ("RECORD", "REQUESTED"):
+                # RECORD and REQUESTED files are removed in %pyproject_install
                 # See PEP 627
                 continue
             # TODO is this a license/documentation?

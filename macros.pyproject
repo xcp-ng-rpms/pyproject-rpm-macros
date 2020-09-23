@@ -49,6 +49,7 @@ for site_dir in ${site_dirs[@]}; do
       %{__python3} -B %{_rpmconfigdir}/redhat/pyproject_preprocess_record.py \\
       --buildroot %{buildroot} --record ${distinfo}/RECORD --output %{pyproject_record}
     rm ${distinfo}/RECORD
+    rm ${distinfo}/REQUESTED || :
   done
 done
 lines=$(wc -l %{pyproject_ghost_distinfo} | cut -f1 -d" ")
