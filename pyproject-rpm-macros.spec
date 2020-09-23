@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        28%{?dist}
+Release:        29%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -91,6 +91,10 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Wed Sep 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0-29
+- Check the requirements after installing "requires_for_build_wheel"
+- If not checked, installing runtime requirements might fail
+
 * Tue Sep 08 2020 Gordon Messmer <gordon.messmer@gmail.com> - 0-28
 - Support more Python version specifiers in generated BuildRequires
 - This adds support for the '~=' operator and wildcards

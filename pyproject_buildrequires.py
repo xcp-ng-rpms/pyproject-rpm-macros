@@ -193,6 +193,7 @@ def generate_build_requirements(backend, requirements):
         with hook_call():
             new_reqs = get_requires()
         requirements.extend(new_reqs, source='get_requires_for_build_wheel')
+        requirements.check(source='get_requires_for_build_wheel')
 
 
 def generate_run_requirements(backend, requirements):
