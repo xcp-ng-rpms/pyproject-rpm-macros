@@ -36,9 +36,16 @@ Summary:        %{summary}
 
 %install
 %pyproject_install
-%pyproject_save_files clikit
+
+%check
+# Internal check that the RECORD and REQUESTED files are
+# always removed in %%pyproject_wheel
+test ! $(find %{buildroot}%{python3_sitelib}/ | grep -E "*.dist-info/RECORD$")
+test ! $(find %{buildroot}%{python3_sitelib}/ | grep -E "*.dist-info/REQUESTED$")
 
 
-%files -n python3-%{pypi_name} -f %{pyproject_files}
+%files -n python3-%{pypi_name}
 %doc README.md
 %license LICENSE
+%{python3_sitelib}/%{pypi_name}/
+%{python3_sitelib}/%{pypi_name}-%{version}.dist-info/
