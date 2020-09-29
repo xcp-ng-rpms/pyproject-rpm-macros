@@ -34,6 +34,12 @@ Summary:       %{summary}
 %pyproject_install
 %pyproject_save_files zope +auto
 
+%check
+# Internal check that the RECORD and REQUESTED files are
+# always removed in %%pyproject_wheel
+test ! $(find %{buildroot}%{python3_sitelib}/ | grep -E "*.dist-info/RECORD$")
+test ! $(find %{buildroot}%{python3_sitelib}/ | grep -E "*.dist-info/REQUESTED$")
+
 %files -n python3-zope-event -f %{pyproject_files}
 %doc README.rst
 %license LICENSE.txt
