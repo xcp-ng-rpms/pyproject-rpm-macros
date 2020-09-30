@@ -235,7 +235,7 @@ def parse_tox_requires_lines(lines):
                 f'WARNING: Skipping dependency line: {line}\n'
                 + f'    tox deps options other than -r are not supported (yet).',
             )
-        else:
+        elif line:
             packages.append(line)
     return packages
 
