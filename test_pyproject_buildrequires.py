@@ -43,7 +43,7 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
         generate_requires(
             get_installed_version=get_installed_version,
             include_runtime=case.get('include_runtime', False),
-            extras=case.get('extras', ''),
+            extras=case.get('extras', []),
             toxenv=case.get('toxenv', None),
             generate_extras=case.get('generate_extras', False),
         )

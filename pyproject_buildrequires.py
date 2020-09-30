@@ -49,13 +49,14 @@ def hook_call():
 
 class Requirements:
     """Requirement printer"""
-    def __init__(self, get_installed_version, extras='',
+    def __init__(self, get_installed_version, extras=None,
                  generate_extras=False, python3_pkgversion='3'):
         self.get_installed_version = get_installed_version
         self.extras = set()
 
         if extras:
-            self.add_extras(*extras.split(','))
+            for extra in extras:
+                self.add_extras(*extra.split(','))
 
         self.missing_requirements = False
 
@@ -276,7 +277,7 @@ def python3dist(name, op=None, version=None, python3_pkgversion="3"):
 
 
 def generate_requires(
-    *, include_runtime=False, toxenv=None, extras='',
+    *, include_runtime=False, toxenv=None, extras=None,
     get_installed_version=importlib_metadata.version,  # for dep injection
     generate_extras=False, python3_pkgversion="3",
 ):
@@ -285,7 +286,7 @@ def generate_requires(
     This is the main Python entry point.
     """
     requirements = Requirements(
-        get_installed_version, extras=extras,
+        get_installed_version, extras=extras or [],
         generate_extras=generate_extras,
         python3_pkgversion=python3_pkgversion
     )
@@ -321,9 +322,9 @@ def main(argv):
               '(implies --runtime)'),
     )
     parser.add_argument(
-        '-x', '--extras', metavar='EXTRAS', default='',
+        '-x', '--extras', metavar='EXTRAS', action='append',
         help='comma separated list of "extras" for runtime requirements '
-             '(e.g. -x testing,feature-x) (implies --runtime)',
+             '(e.g. -x testing,feature-x) (implies --runtime, can be repeated)',
     )
     parser.add_argument(
         '--generate-extras', action='store_true',

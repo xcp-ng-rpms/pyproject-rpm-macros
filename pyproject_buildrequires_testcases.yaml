@@ -238,7 +238,8 @@ Run dependencies with extras (selected):
     wheel: 1
     pyyaml: 1
   include_runtime: true
-  extras: testing
+  extras:
+    - testing
   setup.py: *pytest_setup_py
   expected: |
     python3dist(setuptools) >= 40.8
@@ -264,7 +265,9 @@ Run dependencies with multiple extras:
     wheel: 1
     pyyaml: 1
   include_runtime: true
-  extras: testing,more-testing, even-more-testing , cool-feature
+  extras:
+    - testing,more-testing
+    - even-more-testing , cool-feature
   setup.py: |
     from setuptools import setup
     setup(
