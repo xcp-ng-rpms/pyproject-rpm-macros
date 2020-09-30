@@ -14,6 +14,8 @@ BuildRequires:  pyproject-rpm-macros
 %description
 This package uses multiple extras in %%pyproject_extras_subpkg and in
 %%pyproject_buildrequires.
+This test is mostly obsoleted by python-dns-lexicon.spec on Fedora 33+,
+but we keep it around until Fedora 32 EOL.
 
 
 %package -n python3-requests

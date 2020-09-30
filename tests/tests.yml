@@ -64,6 +64,9 @@
     - printrun:
         dir: .
         run: ./mocktest.sh printrun
+    - dns_lexicon:
+        dir: .
+        run: ./mocktest.sh python-dns-lexicon
     required_packages:
     - mock
     - rpmdevtools
