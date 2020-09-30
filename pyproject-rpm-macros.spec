@@ -46,7 +46,7 @@ BuildRequires: (python3dist(importlib-metadata) if python3 < 3.8)
 BuildRequires: python3dist(pip)
 BuildRequires: python3dist(setuptools)
 BuildRequires: python3dist(toml)
-BuildRequires: python3dist(tox-current-env) >= 0.0.2
+BuildRequires: python3dist(tox-current-env) >= 0.0.3
 BuildRequires: python3dist(wheel)
 %endif
 
@@ -96,6 +96,8 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %changelog
 * Tue Sep 29 2020 Lumír Balhar <lbalhar@redhat.com> - 0-30
 - Process RECORD files in %%pyproject_install and remove them
+- Support the extras configuration option of tox in %%pyproject_buildrequires -t
+- Fixes: rhbz#1877977
 
 * Wed Sep 23 2020 Miro Hrončok <mhroncok@redhat.com> - 0-29
 - Check the requirements after installing "requires_for_build_wheel"

@@ -52,16 +52,24 @@ class Requirements:
     def __init__(self, get_installed_version, extras='',
                  generate_extras=False, python3_pkgversion='3'):
         self.get_installed_version = get_installed_version
+        self.extras = set()
 
         if extras:
-            self.marker_envs = [{'extra': e.strip()} for e in extras.split(',')]
-        else:
-            self.marker_envs = [{'extra': ''}]
+            self.add_extras(*extras.split(','))
 
         self.missing_requirements = False
 
         self.generate_extras = generate_extras
         self.python3_pkgversion = python3_pkgversion
+
+    def add_extras(self, *extras):
+        self.extras |= set(e.strip() for e in extras)
+
+    @property
+    def marker_envs(self):
+        if self.extras:
+            return [{'extra': e} for e in sorted(self.extras)]
+        return [{'extra': ''}]
 
     def evaluate_all_environamnets(self, requirement):
         for marker_env in self.marker_envs:
@@ -232,12 +240,14 @@ def parse_tox_requires_lines(lines):
 
 
 def generate_tox_requirements(toxenv, requirements):
-    requirements.add('tox-current-env >= 0.0.2', source='tox itself')
+    requirements.add('tox-current-env >= 0.0.3', source='tox itself')
     requirements.check(source='tox itself')
-    with tempfile.NamedTemporaryFile('r') as depfile:
+    with tempfile.NamedTemporaryFile('r') as deps, tempfile.NamedTemporaryFile('r') as extras:
         r = subprocess.run(
-            [sys.executable, '-m', 'tox', '--print-deps-to-file',
-             depfile.name, '-qre', toxenv],
+            [sys.executable, '-m', 'tox',
+             '--print-deps-to', deps.name,
+             '--print-extras-to', extras.name,
+             '-qre', toxenv],
             check=False,
             encoding='utf-8',
             stdout=subprocess.PIPE,
@@ -247,8 +257,9 @@ def generate_tox_requirements(toxenv, requirements):
             print_err(r.stdout, end='')
         r.check_returncode()
 
-        deplines = depfile.read().splitlines()
+        deplines = deps.read().splitlines()
         packages = parse_tox_requires_lines(deplines)
+        requirements.add_extras(*extras.read().splitlines())
         requirements.extend(packages,
                             source=f'tox --print-deps-only: {toxenv}')
 
