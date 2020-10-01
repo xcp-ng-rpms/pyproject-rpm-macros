@@ -45,7 +45,7 @@ sed -i \
 # Note that [full] contains [plesk] and [route53] but we specify them manually instead:
 %pyproject_buildrequires -e light -x plesk -x route53
 %else
-# older Fedora don't have the required runtime dependencies, so we don't test it there
+# older Fedoras don't have the required runtime dependencies, so we don't test it there
 %pyproject_buildrequires
 %endif
 
@@ -62,7 +62,7 @@ sed -i \
 %if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
 %check
 # we cannot use %%tox here, because the configured commands call poetry directly :/
-# we use %%pytest instead, running a subset of tests not o waste CI time
+# we use %%pytest instead, running a subset of tests not to waste CI time
 %pytest -k "test_route53 or test_plesk"
 %endif
 
