@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        30%{?dist}
+Release:        31%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -94,6 +94,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Mon Oct 05 2020 Miro Hrončok <mhroncok@redhat.com> - 0-31
+- Support PEP 517 list based backend-path
+
 * Tue Sep 29 2020 Lumír Balhar <lbalhar@redhat.com> - 0-30
 - Process RECORD files in %%pyproject_install and remove them
 - Support the extras configuration option of tox in %%pyproject_buildrequires -t

@@ -67,6 +67,12 @@
     - dns_lexicon:
         dir: .
         run: ./mocktest.sh python-dns-lexicon
+    - flit_core:
+        dir: .
+        run: ./mocktest.sh python-flit-core
+    - poetry_core:
+        dir: .
+        run: ./mocktest.sh python-poetry-core
     required_packages:
     - mock
     - rpmdevtools

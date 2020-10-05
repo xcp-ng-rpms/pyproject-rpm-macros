@@ -185,7 +185,10 @@ def get_backend(requirements):
 
     backend_path = buildsystem_data.get('backend-path')
     if backend_path:
-        sys.path.insert(0, backend_path)
+        # PEP 517 example shows the path as a list, but some projects don't follow that
+        if isinstance(backend_path, str):
+            backend_path = [backend_path]
+        sys.path = backend_path + sys.path
 
     module_name, _, object_name = backend_name.partition(":")
     backend_module = importlib.import_module(module_name)
