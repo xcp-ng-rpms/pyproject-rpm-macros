@@ -64,14 +64,14 @@ test -f %{buildroot}%{python3_sitearch}/_ldap.cpython-*.so
 
 # Internal check: Unmatched modules are not supposed to be listed in %%{pyproject_files}
 # We'll list them explicitly
-grep -vF %{python3_sitearch}/ldif.py %{pyproject_files}
-grep -vF %{python3_sitearch}/__pycache__/ldif.cpython-%{python3_version_nodots}.pyc %{pyproject_files}
-grep -vF %{python3_sitearch}/__pycache__/ldif.cpython-%{python3_version_nodots}.opt-1.pyc %{pyproject_files}
-grep -vF %{python3_sitearch}/slapdtest/ %{pyproject_files}
+! grep -F %{python3_sitearch}/ldif.py %{pyproject_files}
+! grep -F %{python3_sitearch}/__pycache__/ldif.cpython-%{python3_version_nodots}.pyc %{pyproject_files}
+! grep -F %{python3_sitearch}/__pycache__/ldif.cpython-%{python3_version_nodots}.opt-1.pyc %{pyproject_files}
+! grep -F %{python3_sitearch}/slapdtest %{pyproject_files}
 
 # Internal check: Top level __pycache__ is never owned
-grep -vE '/__pycache__$' %{pyproject_files}
-grep -vE '/__pycache__/$' %{pyproject_files}
+! grep -E '/__pycache__$' %{pyproject_files}
+! grep -E '/__pycache__/$' %{pyproject_files}
 
 
 %files -n python3-ldap -f %{pyproject_files}

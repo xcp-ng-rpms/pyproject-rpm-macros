@@ -47,7 +47,7 @@ test -d %{buildroot}%{python3_sitelib}/%{modname}/
 test -d %{buildroot}%{python3_sitelib}/%{modname}-%{version}.dist-info/
 
 # Internal check that executables are not present when +auto was not used with %%pyproject_save_files
-grep -vF %{buildroot}%{_bindir}/%{modname} %{pyproject_files}
+! grep -F %{buildroot}%{_bindir}/%{modname} %{pyproject_files}
 
 
 %files -n python3-%{modname} -f %{pyproject_files}
