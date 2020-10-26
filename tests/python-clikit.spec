@@ -10,6 +10,7 @@ Source0:        %{pypi_source}
 
 BuildArch:      noarch
 BuildRequires:  pyproject-rpm-macros
+BuildRequires:  python3-devel
 
 %description
 Tests building with the poetry build backend.

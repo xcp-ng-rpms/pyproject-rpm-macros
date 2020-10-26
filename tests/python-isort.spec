@@ -9,6 +9,7 @@ License:            MIT
 URL:                https://github.com/timothycrosley/%{modname}
 Source0:            %{url}/archive/%{version}-2/%{modname}-%{version}-2.tar.gz
 BuildArch:          noarch
+BuildRequires:      python3-devel
 BuildRequires:      pyproject-rpm-macros
 
 %description

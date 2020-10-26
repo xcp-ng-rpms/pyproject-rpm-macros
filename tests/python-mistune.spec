@@ -8,6 +8,7 @@ URL:            https://github.com/lepture/mistune
 Source0:        %{url}/archive/v%{version}.tar.gz
 
 BuildRequires:  gcc
+BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
 
 # optional dependency, listed explicitly to have the extension module:

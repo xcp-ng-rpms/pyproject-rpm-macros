@@ -9,6 +9,7 @@ Source0:        %{pypi_source}
 
 BuildArch:      noarch
 BuildRequires:  pyproject-rpm-macros
+BuildRequires:  python3-devel
 
 %description
 This package contains one .py module

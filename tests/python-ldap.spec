@@ -5,6 +5,7 @@ License:        Python
 Summary:        An object-oriented API to access LDAP directory servers
 Source0:        %{pypi_source}
 
+BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
 
 BuildRequires:  cyrus-sasl-devel

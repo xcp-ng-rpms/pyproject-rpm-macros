@@ -10,6 +10,7 @@ Source0:        %{pypi_source}
 
 BuildArch:      noarch
 BuildRequires:  pyproject-rpm-macros
+# we don't BR python3-devel here just for test purposes, but we recommend you do it
 
 %description
 A pure Python library. The package contains tox.ini. Does not contain executables.

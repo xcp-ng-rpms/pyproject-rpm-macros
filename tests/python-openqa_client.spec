@@ -9,6 +9,7 @@ URL:            https://github.com/os-autoinst/openQA-python-client
 Source0:        %{pypi_source}
 
 BuildArch:      noarch
+BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
 
 %description
