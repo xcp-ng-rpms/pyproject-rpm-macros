@@ -244,6 +244,7 @@ def parse_tox_requires_lines(lines):
 
 
 def generate_tox_requirements(toxenv, requirements):
+    toxenv = ','.join(toxenv)
     requirements.add('tox-current-env >= 0.0.3', source='tox itself')
     requirements.check(source='tox itself')
     with tempfile.NamedTemporaryFile('r') as deps, tempfile.NamedTemporaryFile('r') as extras:
@@ -297,7 +298,7 @@ def generate_requires(
     try:
         backend = get_backend(requirements)
         generate_build_requirements(backend, requirements)
-        if toxenv is not None:
+        if toxenv:
             include_runtime = True
             generate_tox_requirements(toxenv, requirements)
         if include_runtime:
@@ -315,8 +316,8 @@ def main(argv):
         help='Generate run-time requirements',
     )
     parser.add_argument(
-        '-e', '--toxenv', metavar='TOXENVS', default=None,
-        help=('specify tox environments'
+        '-e', '--toxenv', metavar='TOXENVS', action='append',
+        help=('specify tox environments (comma separated and/or repeated)'
               '(implies --tox)'),
     )
     parser.add_argument(
@@ -346,8 +347,9 @@ def main(argv):
 
     if args.tox:
         args.runtime = True
-        args.toxenv = (args.toxenv or os.getenv('RPM_TOXENV') or
-                       f'py{sys.version_info.major}{sys.version_info.minor}')
+        if not args.toxenv:
+            _default = f'py{sys.version_info.major}{sys.version_info.minor}'
+            args.toxenv = [os.getenv('RPM_TOXENV', _default)]
 
     if args.extras:
         args.runtime = True

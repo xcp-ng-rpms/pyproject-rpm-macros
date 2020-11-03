@@ -81,7 +81,7 @@ fi
 
 
 %pyproject_buildrequires(rxte:) %{expand:\\\
-%{-e:%{expand:%global toxenv %{-e*}}}
+%{-e:%{expand:%global toxenv %(%{__python3} -s %{_rpmconfigdir}/redhat/pyproject_construct_toxenv.py %{?**})}}
 echo 'python%{python3_pkgversion}-devel'
 echo 'python%{python3_pkgversion}dist(pip) >= 19'
 echo 'python%{python3_pkgversion}dist(packaging)'

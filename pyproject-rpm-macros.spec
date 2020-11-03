@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        31%{?dist}
+Release:        32%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -16,6 +16,7 @@ Source101:      pyproject_buildrequires.py
 Source102:      pyproject_save_files.py
 Source103:      pyproject_convert.py
 Source104:      pyproject_preprocess_record.py
+Source105:      pyproject_construct_toxenv.py
 
 # Tests
 Source201:      test_pyproject_buildrequires.py
@@ -75,6 +76,7 @@ install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
 install -m 644 pyproject_convert.py %{buildroot}%{_rpmconfigdir}/redhat/
 install -m 644 pyproject_save_files.py  %{buildroot}%{_rpmconfigdir}/redhat/
 install -m 644 pyproject_preprocess_record.py %{buildroot}%{_rpmconfigdir}/redhat/
+install -m 644 pyproject_construct_toxenv.py %{buildroot}%{_rpmconfigdir}/redhat/
 
 %if %{with tests}
 %check
@@ -89,11 +91,16 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %{_rpmconfigdir}/redhat/pyproject_convert.py
 %{_rpmconfigdir}/redhat/pyproject_save_files.py
 %{_rpmconfigdir}/redhat/pyproject_preprocess_record.py
+%{_rpmconfigdir}/redhat/pyproject_construct_toxenv.py
 
 %doc README.md
 %license LICENSE
 
 %changelog
+* Tue Nov 03 2020 Miro Hrončok <mhroncok@redhat.com> - 0-32
+- Allow multiple -e in %%pyproject_buildrequires
+- Fixes: rhbz#1886509
+
 * Mon Oct 05 2020 Miro Hrončok <mhroncok@redhat.com> - 0-31
 - Support PEP 517 list based backend-path
 

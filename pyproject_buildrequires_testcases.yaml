@@ -294,7 +294,8 @@ Tox dependencies:
     wheel: 1
     tox: 3.5.3
     tox-current-env: 0.0.3
-  toxenv: py3
+  toxenv:
+    - py3
   setup.py: |
     from setuptools import setup
     setup(
@@ -327,7 +328,8 @@ Tox extras:
     wheel: 1
     tox: 3.5.3
     tox-current-env: 0.0.3
-  toxenv: py3
+  toxenv:
+    - py3
   setup.py: |
     from setuptools import setup
     setup(
