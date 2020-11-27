@@ -204,12 +204,12 @@ However, in Fedora packages, always list executables explicitly to avoid uninten
     %{_bindir}/downloader
 
 `%pyproject_save_files` also automatically recognizes language (`*.mo`) files and marks them with `%lang` macro and appropriate language code.
-Note that RPM might warn about such files listed twice:
 
-    warning: File listed twice: /usr/lib/python3.9/site-packages/django/conf/locale/af/LC_MESSAGES/django.mo
-
-The warning is harmless.
-
+Note that `%pyproject_save_files` uses data from the [RECORD file](https://www.python.org/dev/peps/pep-0627/).
+If you wish to rename, remove or otherwise change the installed files of a package
+*after* `%pyproject_install`, `%pyproject_save_files` might break.
+If possible, remove/rename such files in `%prep`.
+If not possible, avoid using `%pyproject_save_files` or edit/replace `%{pyproject_files}`.
 
 Generating Extras subpackages
 -----------------------------

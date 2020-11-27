@@ -77,18 +77,18 @@ def pycached(script, python_version):
     return [script, pyc]
 
 
-def add_file_to_module(paths, module_name, module_type, *files):
+def add_file_to_module(paths, module_name, module_type, files_dirs, *files):
     """
     Helper procedure, adds given files to the module_name of a given module_type
     """
     for module in paths["modules"][module_name]:
         if module["type"] == module_type:
-            if files[0] not in module["files"]:
-                module["files"].extend(files)
+            if files[0] not in module[files_dirs]:
+                module[files_dirs].extend(files)
             break
     else:
         paths["modules"][module_name].append(
-            {"type": module_type, "files": list(files)}
+            {"type": module_type, "files": [], "dirs": [], files_dirs: list(files)}
         )
 
 
@@ -121,7 +121,7 @@ def classify_paths(
 
     For the dict structure, look at the beginning of this function's code.
 
-    Each "module" is a dict with "type" ("package", "script", "extension") and "files".
+    Each "module" is a dict with "type" ("package", "script", "extension"), and "files" and "dirs".
     """
     distinfo = record_path.parent
     paths = {
@@ -159,21 +159,26 @@ def classify_paths(
                     if path.suffix == ".so":
                         # extension modules can have 2 suffixes
                         name = BuildrootPath(path.stem).stem
-                        add_file_to_module(paths, name, "extension", path)
+                        add_file_to_module(paths, name, "extension", "files", path)
                     elif path.suffix == ".py":
                         name = path.stem
                         add_file_to_module(
-                            paths, name, "script", *pycached(path, python_version)
+                            paths, name, "script", "files", *pycached(path, python_version)
                         )
                     else:
                         paths["other"]["files"].append(path)
                 else:
-                    # this file is inside a dir, we classify that dir
+                    # this file is inside a dir, we add all dirs upwards until sitedir
                     index = path.parents.index(sitedir)
                     module_dir = path.parents[index - 1]
-                    add_file_to_module(paths, module_dir.name, "package", module_dir)
+                    for parent in list(path.parents)[:index]:  # no direct slice until Python 3.10
+                        add_file_to_module(paths, module_dir.name, "package", "dirs", parent)
+                    is_lang = False
                     if path.suffix == ".mo":
-                        add_lang_to_module(paths, module_dir.name, path)
+                        is_lang = add_lang_to_module(paths, module_dir.name, path)
+                    if not is_lang:
+                        path = pycached(path, python_version) if path.suffix == ".py" else [path]
+                        add_file_to_module(paths, module_dir.name, "package", "files", *path)
                 break
         else:
             if path.suffix == ".mo":
@@ -223,10 +228,8 @@ def generate_file_list(paths_dict, module_globs, include_others=False):
                     except KeyError:
                         pass
                     for module in modules[name]:
-                        if module["type"] == "package":
-                            files.update(f"{p}/" for p in module["files"])
-                        else:
-                            files.update(f"{p}" for p in module["files"])
+                        files.update(f"%dir {p}" for p in module["dirs"])
+                        files.update(f"{p}" for p in module["files"])
                     done_modules.add(name)
                 done_globs.add(glob)
 

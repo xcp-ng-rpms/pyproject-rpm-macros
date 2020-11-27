@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        33%{?dist}
+Release:        34%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -97,6 +97,10 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Fri Dec 04 2020 Miro Hrončok <miro@hroncok.cz> - 0-34
+- List all files in %%pyproject_files explicitly to avoid duplicate %%lang entries
+- If you amend the installed files after %%pyproject_install, %%pyproject_files might break
+
 * Fri Nov 27 2020 Miro Hrončok <mhroncok@redhat.com> - 0-33
 - Pass PYTHONDONTWRITEBYTECODE=1 to %%tox to avoid packaged PYTEST bytecode
 

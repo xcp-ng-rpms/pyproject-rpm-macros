@@ -38,15 +38,15 @@ sed -i 's/asgiref ~= /asgiref >= /' setup.py
 
 
 %build
+# remove .po files (in ideal world, we would rebuild the .mo files first)
+find -name "*.po" | xargs rm -f
+
 %pyproject_wheel
 
 
 %install
 %pyproject_install
 %pyproject_save_files django
-
-# remove .po files
-find %{buildroot} -name "*.po" | xargs rm -f
 
 
 %check
