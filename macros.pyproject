@@ -105,6 +105,7 @@ fi
 
 %tox(e:) %{expand:\\\
 TOX_TESTENV_PASSENV="${TOX_TESTENV_PASSENV:-*}" \\
+PYTHONDONTWRITEBYTECODE=1 \\
 PATH="%{buildroot}%{_bindir}:$PATH" \\
 PYTHONPATH="${PYTHONPATH:-%{buildroot}%{python3_sitearch}:%{buildroot}%{python3_sitelib}}" \\
 HOSTNAME="rpmbuild" \\

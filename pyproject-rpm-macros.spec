@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        32%{?dist}
+Release:        33%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -97,6 +97,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Fri Nov 27 2020 Miro Hrončok <mhroncok@redhat.com> - 0-33
+- Pass PYTHONDONTWRITEBYTECODE=1 to %%tox to avoid packaged PYTEST bytecode
+
 * Tue Nov 03 2020 Miro Hrončok <mhroncok@redhat.com> - 0-32
 - Allow multiple -e in %%pyproject_buildrequires
 - Fixes: rhbz#1886509
