@@ -11,6 +11,9 @@ if [ ! -f $config ]; then
   original="/etc/mock/fedora-${fedora}-x86_64.cfg"
   cp $original $config
 
+  echo -e '\n\n' >> $config
+  echo -e 'config_opts["package_manager_max_attempts"] = 5' >> $config
+  echo -e 'config_opts["package_manager_attempt_delay"] = 20' >> $config
   echo -e '\n\nconfig_opts[f"{config_opts.package_manager}.conf"] += """' >> $config
 
   # The zuul CI has zuul-build.repo
