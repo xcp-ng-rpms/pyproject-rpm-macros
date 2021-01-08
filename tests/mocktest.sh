@@ -2,6 +2,9 @@
 . /etc/os-release
 fedora=$VERSION_ID
 
+pkgname=${1}
+shift
+
 config="/tmp/fedora-${fedora}-x86_64-ci.cfg"
 
 # create mock config if not present
@@ -29,23 +32,23 @@ fi
 
 # prepare the rpmbuild folders, make sure nothing relevant is there
 mkdir -p ~/rpmbuild/{SOURCES,SRPMS}
-rm -f ~/rpmbuild/SRPMS/${1}-*.src.rpm
+rm -f ~/rpmbuild/SRPMS/${pkgname}-*.src.rpm
 
 # download the sources and create SRPM
-spectool -g -R ${1}.spec
-rpmbuild -bs ${1}.spec
+spectool -g -R ${pkgname}.spec
+rpmbuild -bs ${pkgname}.spec
 
 # build the SRPM in mock
 res=0
 mock -r $config --enablerepo=local init
-mock -r $config --enablerepo=local ~/rpmbuild/SRPMS/${1}-*.src.rpm || res=$?
+mock -r $config --enablerepo=local "$@" ~/rpmbuild/SRPMS/${pkgname}-*.src.rpm || res=$?
 
 # move the results to the artifacts directory, so we can examine them
 artifacts=${TEST_ARTIFACTS:-/tmp/artifacts}
 pushd /var/lib/mock/fedora-*-x86_64/result
 mv *.rpm ${artifacts}/ || :
 for log in *.log; do
- mv ${log} ${artifacts}/${1}-${log}
+ mv ${log} ${artifacts}/${pkgname}-${log}
 done
 popd
 
