@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        34%{?dist}
+Release:        35%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -53,10 +53,22 @@ BuildRequires: python3dist(wheel)
 
 
 %description
-This is a provisional implementation of pyproject RPM macros for Fedora 30+.
-These macros are useful for packaging Python projects that use the PEP 517
-pyproject.toml file, which specifies the package's build dependencies
-(including the build system, such as setuptools, flit or poetry).
+These macros allow projects that follow the Python packaging specifications
+to be packaged as RPMs.
+
+They are still provisional: we can make non-backwards-compatible changes to
+the API.
+Please subscribe to Fedora's python-devel list if you use the macros.
+
+They work for:
+
+* traditional Setuptools-based projects that use the setup.py file,
+* newer Setuptools-based projects that have a setup.cfg file,
+* general Python projects that use the PEP 517 pyproject.toml file
+  (which allows using any build system, such as setuptools, flit or poetry).
+
+These macros replace %%py3_build and %%py3_install,
+which only work with setup.py.
 
 
 %prep
@@ -97,6 +109,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Fri Jan 15 2021 Miro Hrončok <mhroncok@redhat.com> - 0-35
+- Update the description of the package to match the new README content
+
 * Fri Dec 04 2020 Miro Hrončok <miro@hroncok.cz> - 0-34
 - List all files in %%pyproject_files explicitly to avoid duplicate %%lang entries
 - If you amend the installed files after %%pyproject_install, %%pyproject_files might break
