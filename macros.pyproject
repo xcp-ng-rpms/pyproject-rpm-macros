@@ -87,6 +87,10 @@ echo 'python%{python3_pkgversion}dist(pip) >= 19'
 echo 'python%{python3_pkgversion}dist(packaging)'
 if [ -f pyproject.toml ]; then
   echo 'python%{python3_pkgversion}dist(toml)'
+else
+  # Note: If the default requirements change, also change them in the script!
+  echo 'python%{python3_pkgversion}dist(setuptools) >= 40.8'
+  echo 'python%{python3_pkgversion}dist(wheel)'
 fi
 # Check if we can generate dependencies on Python extras
 if [ "%{py_dist_name []}" == "[]" ]; then

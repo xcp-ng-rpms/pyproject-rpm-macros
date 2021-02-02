@@ -107,6 +107,7 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 * Tue Feb 02 2021 Miro Hrončok <mhroncok@redhat.com> - 0-37
 - Remove support for Python 3.7 from %%pyproject_buildrequires
 - Generate python3dist(toml) BR with pyproject.toml earlier to avoid extra install round
+- Generate python3dist(setutpools/wheel) BR without pyproject.toml earlier as well
 
 * Wed Jan 27 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0-36
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild

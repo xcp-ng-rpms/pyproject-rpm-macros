@@ -177,6 +177,10 @@ def get_backend(requirements):
         # (either directly, or by implicitly invoking the [following] backend).
         backend_name = 'setuptools.build_meta:__legacy__'
 
+        # Note: For projects without pyproject.toml, this was already echoed
+        # by the %pyproject_buildrequires macro, but this also handles cases
+        # with pyproject.toml without a specified build backend.
+        # If the default requirements change, also change them in the macro!
         requirements.add('setuptools >= 40.8', source='default build backend')
         requirements.add('wheel', source='default build backend')
 
