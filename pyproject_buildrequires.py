@@ -1,6 +1,6 @@
 import os
 import sys
-import importlib
+import importlib.metadata
 import argparse
 import functools
 import traceback
@@ -25,10 +25,6 @@ class EndPass(Exception):
 try:
     from packaging.requirements import Requirement, InvalidRequirement
     from packaging.utils import canonicalize_name, canonicalize_version
-    try:
-        import importlib.metadata as importlib_metadata
-    except ImportError:
-        import importlib_metadata
 except ImportError as e:
     print_err('Import error:', e)
     # already echoed by the %pyproject_buildrequires macro
@@ -100,7 +96,7 @@ class Requirements:
         try:
             # TODO: check if requirements with extras are satisfied
             installed = self.get_installed_version(requirement.name)
-        except importlib_metadata.PackageNotFoundError:
+        except importlib.metadata.PackageNotFoundError:
             print_err(f'Requirement not satisfied: {requirement_str}')
             installed = None
         if installed and installed in requirement.specifier:
@@ -282,7 +278,7 @@ def python3dist(name, op=None, version=None, python3_pkgversion="3"):
 
 def generate_requires(
     *, include_runtime=False, toxenv=None, extras=None,
-    get_installed_version=importlib_metadata.version,  # for dep injection
+    get_installed_version=importlib.metadata.version,  # for dep injection
     generate_extras=False, python3_pkgversion="3",
 ):
     """Generate the BuildRequires for the project in the current directory

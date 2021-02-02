@@ -85,10 +85,6 @@ fi
 echo 'python%{python3_pkgversion}-devel'
 echo 'python%{python3_pkgversion}dist(pip) >= 19'
 echo 'python%{python3_pkgversion}dist(packaging)'
-# The first part is for cases when %%{python3_version_nodots} is not yet available
-if [ ! -z "%{?python3_version_nodots}" ] && [ %{python3_version_nodots} -lt 38 ]; then
-  echo 'python%{python3_pkgversion}dist(importlib-metadata)'
-fi
 # Check if we can generate dependencies on Python extras
 if [ "%{py_dist_name []}" == "[]" ]; then
   extras_flag=%{?!_python_no_extras_requires:--generate-extras}

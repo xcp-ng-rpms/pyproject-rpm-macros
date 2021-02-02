@@ -1,4 +1,5 @@
 from pathlib import Path
+import importlib.metadata
 import io
 
 import pytest
@@ -6,10 +7,6 @@ import yaml
 
 from pyproject_buildrequires import generate_requires
 
-try:
-    import importlib.metadata as importlib_metadata
-except ImportError:
-    import importlib_metadata
 
 testcases = {}
 with Path(__file__).parent.joinpath('pyproject_buildrequires_testcases.yaml').open() as f:
@@ -35,7 +32,7 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
         try:
             return str(case['installed'][dist_name])
         except (KeyError, TypeError):
-            raise importlib_metadata.PackageNotFoundError(
+            raise importlib.metadata.PackageNotFoundError(
                 f'info not found for {dist_name}'
             )
 

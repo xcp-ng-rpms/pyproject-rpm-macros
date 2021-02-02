@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        36%{?dist}
+Release:        37%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -39,11 +39,6 @@ BuildArch:      noarch
 BuildRequires: python3dist(pytest)
 BuildRequires: python3dist(pyyaml)
 BuildRequires: python3dist(packaging)
-%if 0%{fedora} < 32
-# The %%if should not be needed, it works around:
-#   https://github.com/rpm-software-management/mock/issues/336
-BuildRequires: (python3dist(importlib-metadata) if python3 < 3.8)
-%endif
 BuildRequires: python3dist(pip)
 BuildRequires: python3dist(setuptools)
 BuildRequires: python3dist(toml)
@@ -109,6 +104,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Tue Feb 02 2021 Miro Hrončok <mhroncok@redhat.com> - 0-37
+- Remove support for Python 3.7 from %%pyproject_buildrequires
+
 * Wed Jan 27 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0-36
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
