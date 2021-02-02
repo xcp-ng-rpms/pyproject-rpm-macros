@@ -85,6 +85,9 @@ fi
 echo 'python%{python3_pkgversion}-devel'
 echo 'python%{python3_pkgversion}dist(pip) >= 19'
 echo 'python%{python3_pkgversion}dist(packaging)'
+if [ -f pyproject.toml ]; then
+  echo 'python%{python3_pkgversion}dist(toml)'
+fi
 # Check if we can generate dependencies on Python extras
 if [ "%{py_dist_name []}" == "[]" ]; then
   extras_flag=%{?!_python_no_extras_requires:--generate-extras}
