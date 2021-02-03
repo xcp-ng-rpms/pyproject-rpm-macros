@@ -1,5 +1,14 @@
 Name:           python-setuptools_scm
+
+# For testing purposes, we package different versions on different Fedoras,
+# because otherwise we would miss some dependencies.
+# Please, don't write spec files like this in Fedora, it is forbidden.
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
+Version:        5.0.1
+%else
 Version:        3.5.0
+%endif
+
 Release:        0%{?dist}
 Summary:        The blessed package to manage your versions by SCM tags
 License:        MIT
@@ -33,11 +42,6 @@ Summary:        %{summary}
 
 %prep
 %autosetup -p1 -n setuptools_scm-%{version}
-
-# there is a mistake in the flake8 environment configuration
-# https://github.com/pypa/setuptools_scm/pull/444
-# https://github.com/pypa/setuptools_scm/pull/489
-sed -i -e 's@flake8 setuptools_scm/@flake8 src/setuptools_scm/@' -e 's@--exclude=setuptools_scm/@--exclude=src/setuptools_scm/@' tox.ini
 
 
 %generate_buildrequires
