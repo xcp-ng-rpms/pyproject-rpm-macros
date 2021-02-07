@@ -96,6 +96,7 @@ classified:
         - /usr/lib/python3.7/site-packages/requests/utils.py
         dirs:
         - /usr/lib/python3.7/site-packages/requests
+        - /usr/lib/python3.7/site-packages/requests/__pycache__
         type: package
     other:
       files: []
@@ -118,6 +119,7 @@ classified:
         - /usr/lib64/python3.7/site-packages/tensorflow/__pycache__/__init__.cpython-37{,.opt-?}.pyc
         dirs:
         - /usr/lib64/python3.7/site-packages/tensorflow
+        - /usr/lib64/python3.7/site-packages/tensorflow/__pycache__
         type: package
       tensorflow_core:
       - files:
@@ -153,8 +155,11 @@ classified:
         - /usr/lib/python3.7/site-packages/tensorflow_core/include/tensorflow/core
         - /usr/lib/python3.7/site-packages/tensorflow_core/include/tensorflow/core/common_runtime
         - /usr/lib64/python3.7/site-packages/tensorflow_core
+        - /usr/lib64/python3.7/site-packages/tensorflow_core/__pycache__
         - /usr/lib64/python3.7/site-packages/tensorflow_core/_api
+        - /usr/lib64/python3.7/site-packages/tensorflow_core/_api/__pycache__
         - /usr/lib64/python3.7/site-packages/tensorflow_core/_api/v2
+        - /usr/lib64/python3.7/site-packages/tensorflow_core/_api/v2/__pycache__
         - /usr/lib64/python3.7/site-packages/tensorflow_core/include
         - /usr/lib64/python3.7/site-packages/tensorflow_core/include/external
         - /usr/lib64/python3.7/site-packages/tensorflow_core/include/external/aws
@@ -164,14 +169,21 @@ classified:
         - /usr/lib64/python3.7/site-packages/tensorflow_core/include/external/aws/aws-cpp-sdk-s3/include/aws/s3
         - /usr/lib64/python3.7/site-packages/tensorflow_core/include/external/aws/aws-cpp-sdk-s3/include/aws/s3/model
         - /usr/lib64/python3.7/site-packages/tensorflow_core/lite
+        - /usr/lib64/python3.7/site-packages/tensorflow_core/lite/__pycache__
         - /usr/lib64/python3.7/site-packages/tensorflow_core/lite/experimental
+        - /usr/lib64/python3.7/site-packages/tensorflow_core/lite/experimental/__pycache__
         - /usr/lib64/python3.7/site-packages/tensorflow_core/python
         - /usr/lib64/python3.7/site-packages/tensorflow_core/python/autograph
         - /usr/lib64/python3.7/site-packages/tensorflow_core/python/autograph/converters
+        - /usr/lib64/python3.7/site-packages/tensorflow_core/python/autograph/converters/__pycache__
         - /usr/lib64/python3.7/site-packages/tensorflow_core/tools
+        - /usr/lib64/python3.7/site-packages/tensorflow_core/tools/__pycache__
         - /usr/lib64/python3.7/site-packages/tensorflow_core/tools/common
+        - /usr/lib64/python3.7/site-packages/tensorflow_core/tools/common/__pycache__
         - /usr/lib64/python3.7/site-packages/tensorflow_core/tools/docs
+        - /usr/lib64/python3.7/site-packages/tensorflow_core/tools/docs/__pycache__
         - /usr/lib64/python3.7/site-packages/tensorflow_core/tools/pip_package
+        - /usr/lib64/python3.7/site-packages/tensorflow_core/tools/pip_package/__pycache__
         type: package
     other:
       files:
@@ -344,13 +356,20 @@ classified:
         - /usr/lib/python3.7/site-packages/ipykernel/zmqshell.py
         dirs:
         - /usr/lib/python3.7/site-packages/ipykernel
+        - /usr/lib/python3.7/site-packages/ipykernel/__pycache__
         - /usr/lib/python3.7/site-packages/ipykernel/comm
+        - /usr/lib/python3.7/site-packages/ipykernel/comm/__pycache__
         - /usr/lib/python3.7/site-packages/ipykernel/gui
+        - /usr/lib/python3.7/site-packages/ipykernel/gui/__pycache__
         - /usr/lib/python3.7/site-packages/ipykernel/inprocess
+        - /usr/lib/python3.7/site-packages/ipykernel/inprocess/__pycache__
         - /usr/lib/python3.7/site-packages/ipykernel/inprocess/tests
+        - /usr/lib/python3.7/site-packages/ipykernel/inprocess/tests/__pycache__
         - /usr/lib/python3.7/site-packages/ipykernel/pylab
+        - /usr/lib/python3.7/site-packages/ipykernel/pylab/__pycache__
         - /usr/lib/python3.7/site-packages/ipykernel/resources
         - /usr/lib/python3.7/site-packages/ipykernel/tests
+        - /usr/lib/python3.7/site-packages/ipykernel/tests/__pycache__
         type: package
     other:
       files:
@@ -383,6 +402,7 @@ classified:
         dirs:
         - /usr/lib/python3.7/site-packages/zope
         - /usr/lib/python3.7/site-packages/zope/event
+        - /usr/lib/python3.7/site-packages/zope/event/__pycache__
         type: package
     other:
       files:
@@ -4700,200 +4720,279 @@ classified:
         - /usr/lib/python3.7/site-packages/django/views/templates/technical_500.txt
         dirs:
         - /usr/lib/python3.7/site-packages/django
+        - /usr/lib/python3.7/site-packages/django/__pycache__
         - /usr/lib/python3.7/site-packages/django/apps
+        - /usr/lib/python3.7/site-packages/django/apps/__pycache__
         - /usr/lib/python3.7/site-packages/django/bin
+        - /usr/lib/python3.7/site-packages/django/bin/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf
+        - /usr/lib/python3.7/site-packages/django/conf/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/app_template
         - /usr/lib/python3.7/site-packages/django/conf/app_template/migrations
         - /usr/lib/python3.7/site-packages/django/conf/locale
+        - /usr/lib/python3.7/site-packages/django/conf/locale/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/af
         - /usr/lib/python3.7/site-packages/django/conf/locale/af/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/ar
         - /usr/lib/python3.7/site-packages/django/conf/locale/ar/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/ar/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/ast
         - /usr/lib/python3.7/site-packages/django/conf/locale/ast/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/az
         - /usr/lib/python3.7/site-packages/django/conf/locale/az/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/az/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/be
         - /usr/lib/python3.7/site-packages/django/conf/locale/be/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/bg
         - /usr/lib/python3.7/site-packages/django/conf/locale/bg/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/bg/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/bn
         - /usr/lib/python3.7/site-packages/django/conf/locale/bn/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/bn/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/br
         - /usr/lib/python3.7/site-packages/django/conf/locale/br/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/bs
         - /usr/lib/python3.7/site-packages/django/conf/locale/bs/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/bs/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/ca
         - /usr/lib/python3.7/site-packages/django/conf/locale/ca/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/ca/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/cs
         - /usr/lib/python3.7/site-packages/django/conf/locale/cs/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/cs/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/cy
         - /usr/lib/python3.7/site-packages/django/conf/locale/cy/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/cy/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/da
         - /usr/lib/python3.7/site-packages/django/conf/locale/da/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/da/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/de
         - /usr/lib/python3.7/site-packages/django/conf/locale/de/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/de/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/de_CH
+        - /usr/lib/python3.7/site-packages/django/conf/locale/de_CH/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/dsb
         - /usr/lib/python3.7/site-packages/django/conf/locale/dsb/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/el
         - /usr/lib/python3.7/site-packages/django/conf/locale/el/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/el/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/en
         - /usr/lib/python3.7/site-packages/django/conf/locale/en/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/en/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/en_AU
         - /usr/lib/python3.7/site-packages/django/conf/locale/en_AU/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/en_AU/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/en_GB
         - /usr/lib/python3.7/site-packages/django/conf/locale/en_GB/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/en_GB/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/eo
         - /usr/lib/python3.7/site-packages/django/conf/locale/eo/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/eo/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/es
         - /usr/lib/python3.7/site-packages/django/conf/locale/es/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/es/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/es_AR
         - /usr/lib/python3.7/site-packages/django/conf/locale/es_AR/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/es_AR/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/es_CO
         - /usr/lib/python3.7/site-packages/django/conf/locale/es_CO/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/es_CO/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/es_MX
         - /usr/lib/python3.7/site-packages/django/conf/locale/es_MX/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/es_MX/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/es_NI
+        - /usr/lib/python3.7/site-packages/django/conf/locale/es_NI/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/es_PR
+        - /usr/lib/python3.7/site-packages/django/conf/locale/es_PR/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/es_VE
         - /usr/lib/python3.7/site-packages/django/conf/locale/es_VE/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/et
         - /usr/lib/python3.7/site-packages/django/conf/locale/et/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/et/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/eu
         - /usr/lib/python3.7/site-packages/django/conf/locale/eu/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/eu/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/fa
         - /usr/lib/python3.7/site-packages/django/conf/locale/fa/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/fa/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/fi
         - /usr/lib/python3.7/site-packages/django/conf/locale/fi/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/fi/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/fr
         - /usr/lib/python3.7/site-packages/django/conf/locale/fr/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/fr/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/fy
         - /usr/lib/python3.7/site-packages/django/conf/locale/fy/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/fy/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/ga
         - /usr/lib/python3.7/site-packages/django/conf/locale/ga/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/ga/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/gd
         - /usr/lib/python3.7/site-packages/django/conf/locale/gd/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/gd/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/gl
         - /usr/lib/python3.7/site-packages/django/conf/locale/gl/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/gl/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/he
         - /usr/lib/python3.7/site-packages/django/conf/locale/he/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/he/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/hi
         - /usr/lib/python3.7/site-packages/django/conf/locale/hi/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/hi/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/hr
         - /usr/lib/python3.7/site-packages/django/conf/locale/hr/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/hr/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/hsb
         - /usr/lib/python3.7/site-packages/django/conf/locale/hsb/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/hu
         - /usr/lib/python3.7/site-packages/django/conf/locale/hu/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/hu/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/hy
         - /usr/lib/python3.7/site-packages/django/conf/locale/hy/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/ia
         - /usr/lib/python3.7/site-packages/django/conf/locale/ia/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/id
         - /usr/lib/python3.7/site-packages/django/conf/locale/id/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/id/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/io
         - /usr/lib/python3.7/site-packages/django/conf/locale/io/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/is
         - /usr/lib/python3.7/site-packages/django/conf/locale/is/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/is/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/it
         - /usr/lib/python3.7/site-packages/django/conf/locale/it/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/it/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/ja
         - /usr/lib/python3.7/site-packages/django/conf/locale/ja/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/ja/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/ka
         - /usr/lib/python3.7/site-packages/django/conf/locale/ka/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/ka/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/kab
         - /usr/lib/python3.7/site-packages/django/conf/locale/kab/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/kk
         - /usr/lib/python3.7/site-packages/django/conf/locale/kk/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/km
         - /usr/lib/python3.7/site-packages/django/conf/locale/km/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/km/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/kn
         - /usr/lib/python3.7/site-packages/django/conf/locale/kn/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/kn/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/ko
         - /usr/lib/python3.7/site-packages/django/conf/locale/ko/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/ko/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/lb
         - /usr/lib/python3.7/site-packages/django/conf/locale/lb/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/lt
         - /usr/lib/python3.7/site-packages/django/conf/locale/lt/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/lt/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/lv
         - /usr/lib/python3.7/site-packages/django/conf/locale/lv/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/lv/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/mk
         - /usr/lib/python3.7/site-packages/django/conf/locale/mk/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/mk/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/ml
         - /usr/lib/python3.7/site-packages/django/conf/locale/ml/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/ml/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/mn
         - /usr/lib/python3.7/site-packages/django/conf/locale/mn/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/mn/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/mr
         - /usr/lib/python3.7/site-packages/django/conf/locale/mr/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/my
         - /usr/lib/python3.7/site-packages/django/conf/locale/my/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/nb
         - /usr/lib/python3.7/site-packages/django/conf/locale/nb/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/nb/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/ne
         - /usr/lib/python3.7/site-packages/django/conf/locale/ne/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/nl
         - /usr/lib/python3.7/site-packages/django/conf/locale/nl/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/nl/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/nn
         - /usr/lib/python3.7/site-packages/django/conf/locale/nn/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/nn/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/os
         - /usr/lib/python3.7/site-packages/django/conf/locale/os/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/pa
         - /usr/lib/python3.7/site-packages/django/conf/locale/pa/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/pl
         - /usr/lib/python3.7/site-packages/django/conf/locale/pl/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/pl/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/pt
         - /usr/lib/python3.7/site-packages/django/conf/locale/pt/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/pt/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/pt_BR
         - /usr/lib/python3.7/site-packages/django/conf/locale/pt_BR/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/pt_BR/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/ro
         - /usr/lib/python3.7/site-packages/django/conf/locale/ro/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/ro/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/ru
         - /usr/lib/python3.7/site-packages/django/conf/locale/ru/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/ru/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/sk
         - /usr/lib/python3.7/site-packages/django/conf/locale/sk/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/sk/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/sl
         - /usr/lib/python3.7/site-packages/django/conf/locale/sl/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/sl/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/sq
         - /usr/lib/python3.7/site-packages/django/conf/locale/sq/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/sq/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/sr
         - /usr/lib/python3.7/site-packages/django/conf/locale/sr/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/sr/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/sr_Latn
         - /usr/lib/python3.7/site-packages/django/conf/locale/sr_Latn/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/sr_Latn/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/sv
         - /usr/lib/python3.7/site-packages/django/conf/locale/sv/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/sv/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/sw
         - /usr/lib/python3.7/site-packages/django/conf/locale/sw/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/ta
         - /usr/lib/python3.7/site-packages/django/conf/locale/ta/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/ta/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/te
         - /usr/lib/python3.7/site-packages/django/conf/locale/te/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/te/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/th
         - /usr/lib/python3.7/site-packages/django/conf/locale/th/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/th/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/tr
         - /usr/lib/python3.7/site-packages/django/conf/locale/tr/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/tr/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/tt
         - /usr/lib/python3.7/site-packages/django/conf/locale/tt/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/udm
         - /usr/lib/python3.7/site-packages/django/conf/locale/udm/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/uk
         - /usr/lib/python3.7/site-packages/django/conf/locale/uk/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/uk/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/ur
         - /usr/lib/python3.7/site-packages/django/conf/locale/ur/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/conf/locale/uz
         - /usr/lib/python3.7/site-packages/django/conf/locale/uz/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/uz/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/vi
         - /usr/lib/python3.7/site-packages/django/conf/locale/vi/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/vi/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/zh_Hans
         - /usr/lib/python3.7/site-packages/django/conf/locale/zh_Hans/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/zh_Hans/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/locale/zh_Hant
         - /usr/lib/python3.7/site-packages/django/conf/locale/zh_Hant/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/django/conf/locale/zh_Hant/__pycache__
         - /usr/lib/python3.7/site-packages/django/conf/project_template
         - /usr/lib/python3.7/site-packages/django/conf/project_template/project_name
         - /usr/lib/python3.7/site-packages/django/conf/urls
+        - /usr/lib/python3.7/site-packages/django/conf/urls/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib
+        - /usr/lib/python3.7/site-packages/django/contrib/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/admin
+        - /usr/lib/python3.7/site-packages/django/contrib/admin/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/admin/locale
         - /usr/lib/python3.7/site-packages/django/contrib/admin/locale/af
         - /usr/lib/python3.7/site-packages/django/contrib/admin/locale/af/LC_MESSAGES
@@ -5078,6 +5177,7 @@ classified:
         - /usr/lib/python3.7/site-packages/django/contrib/admin/locale/zh_Hant
         - /usr/lib/python3.7/site-packages/django/contrib/admin/locale/zh_Hant/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/contrib/admin/migrations
+        - /usr/lib/python3.7/site-packages/django/contrib/admin/migrations/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/admin/static
         - /usr/lib/python3.7/site-packages/django/contrib/admin/static/admin
         - /usr/lib/python3.7/site-packages/django/contrib/admin/static/admin/css
@@ -5102,8 +5202,11 @@ classified:
         - /usr/lib/python3.7/site-packages/django/contrib/admin/templates/admin/widgets
         - /usr/lib/python3.7/site-packages/django/contrib/admin/templates/registration
         - /usr/lib/python3.7/site-packages/django/contrib/admin/templatetags
+        - /usr/lib/python3.7/site-packages/django/contrib/admin/templatetags/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/admin/views
+        - /usr/lib/python3.7/site-packages/django/contrib/admin/views/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/admindocs
+        - /usr/lib/python3.7/site-packages/django/contrib/admindocs/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/admindocs/locale
         - /usr/lib/python3.7/site-packages/django/contrib/admindocs/locale/af
         - /usr/lib/python3.7/site-packages/django/contrib/admindocs/locale/af/LC_MESSAGES
@@ -5284,7 +5387,9 @@ classified:
         - /usr/lib/python3.7/site-packages/django/contrib/admindocs/templates
         - /usr/lib/python3.7/site-packages/django/contrib/admindocs/templates/admin_doc
         - /usr/lib/python3.7/site-packages/django/contrib/auth
+        - /usr/lib/python3.7/site-packages/django/contrib/auth/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/auth/handlers
+        - /usr/lib/python3.7/site-packages/django/contrib/auth/handlers/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/auth/locale
         - /usr/lib/python3.7/site-packages/django/contrib/auth/locale/af
         - /usr/lib/python3.7/site-packages/django/contrib/auth/locale/af/LC_MESSAGES
@@ -5467,13 +5572,17 @@ classified:
         - /usr/lib/python3.7/site-packages/django/contrib/auth/locale/zh_Hant
         - /usr/lib/python3.7/site-packages/django/contrib/auth/locale/zh_Hant/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/contrib/auth/management
+        - /usr/lib/python3.7/site-packages/django/contrib/auth/management/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/auth/management/commands
+        - /usr/lib/python3.7/site-packages/django/contrib/auth/management/commands/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/auth/migrations
+        - /usr/lib/python3.7/site-packages/django/contrib/auth/migrations/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/auth/templates
         - /usr/lib/python3.7/site-packages/django/contrib/auth/templates/auth
         - /usr/lib/python3.7/site-packages/django/contrib/auth/templates/auth/widgets
         - /usr/lib/python3.7/site-packages/django/contrib/auth/templates/registration
         - /usr/lib/python3.7/site-packages/django/contrib/contenttypes
+        - /usr/lib/python3.7/site-packages/django/contrib/contenttypes/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/contenttypes/locale
         - /usr/lib/python3.7/site-packages/django/contrib/contenttypes/locale/af
         - /usr/lib/python3.7/site-packages/django/contrib/contenttypes/locale/af/LC_MESSAGES
@@ -5652,9 +5761,13 @@ classified:
         - /usr/lib/python3.7/site-packages/django/contrib/contenttypes/locale/zh_Hant
         - /usr/lib/python3.7/site-packages/django/contrib/contenttypes/locale/zh_Hant/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/contrib/contenttypes/management
+        - /usr/lib/python3.7/site-packages/django/contrib/contenttypes/management/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/contenttypes/management/commands
+        - /usr/lib/python3.7/site-packages/django/contrib/contenttypes/management/commands/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/contenttypes/migrations
+        - /usr/lib/python3.7/site-packages/django/contrib/contenttypes/migrations/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/flatpages
+        - /usr/lib/python3.7/site-packages/django/contrib/flatpages/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/flatpages/locale
         - /usr/lib/python3.7/site-packages/django/contrib/flatpages/locale/af
         - /usr/lib/python3.7/site-packages/django/contrib/flatpages/locale/af/LC_MESSAGES
@@ -5833,25 +5946,45 @@ classified:
         - /usr/lib/python3.7/site-packages/django/contrib/flatpages/locale/zh_Hant
         - /usr/lib/python3.7/site-packages/django/contrib/flatpages/locale/zh_Hant/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/contrib/flatpages/migrations
+        - /usr/lib/python3.7/site-packages/django/contrib/flatpages/migrations/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/flatpages/templatetags
+        - /usr/lib/python3.7/site-packages/django/contrib/flatpages/templatetags/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/admin
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/admin/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/db
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/db/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/base
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/base/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/mysql
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/mysql/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/oracle
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/oracle/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/postgis
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/postgis/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/spatialite
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/spatialite/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/db/models
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/db/models/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/db/models/sql
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/db/models/sql/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/forms
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/forms/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/gdal
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/gdal/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/gdal/prototypes
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/gdal/prototypes/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/gdal/raster
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/gdal/raster/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/geoip2
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/geoip2/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/geos
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/geos/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/geos/prototypes
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/geos/prototypes/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/locale
         - /usr/lib/python3.7/site-packages/django/contrib/gis/locale/af
         - /usr/lib/python3.7/site-packages/django/contrib/gis/locale/af/LC_MESSAGES
@@ -6031,8 +6164,11 @@ classified:
         - /usr/lib/python3.7/site-packages/django/contrib/gis/locale/zh_Hant/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/contrib/gis/management
         - /usr/lib/python3.7/site-packages/django/contrib/gis/management/commands
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/management/commands/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/serializers
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/serializers/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/sitemaps
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/sitemaps/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/gis/static
         - /usr/lib/python3.7/site-packages/django/contrib/gis/static/gis
         - /usr/lib/python3.7/site-packages/django/contrib/gis/static/gis/css
@@ -6043,7 +6179,9 @@ classified:
         - /usr/lib/python3.7/site-packages/django/contrib/gis/templates/gis/admin
         - /usr/lib/python3.7/site-packages/django/contrib/gis/templates/gis/kml
         - /usr/lib/python3.7/site-packages/django/contrib/gis/utils
+        - /usr/lib/python3.7/site-packages/django/contrib/gis/utils/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/humanize
+        - /usr/lib/python3.7/site-packages/django/contrib/humanize/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/humanize/locale
         - /usr/lib/python3.7/site-packages/django/contrib/humanize/locale/af
         - /usr/lib/python3.7/site-packages/django/contrib/humanize/locale/af/LC_MESSAGES
@@ -6226,12 +6364,19 @@ classified:
         - /usr/lib/python3.7/site-packages/django/contrib/humanize/locale/zh_Hant
         - /usr/lib/python3.7/site-packages/django/contrib/humanize/locale/zh_Hant/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/contrib/humanize/templatetags
+        - /usr/lib/python3.7/site-packages/django/contrib/humanize/templatetags/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/messages
+        - /usr/lib/python3.7/site-packages/django/contrib/messages/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/messages/storage
+        - /usr/lib/python3.7/site-packages/django/contrib/messages/storage/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/postgres
+        - /usr/lib/python3.7/site-packages/django/contrib/postgres/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/postgres/aggregates
+        - /usr/lib/python3.7/site-packages/django/contrib/postgres/aggregates/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/postgres/fields
+        - /usr/lib/python3.7/site-packages/django/contrib/postgres/fields/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/postgres/forms
+        - /usr/lib/python3.7/site-packages/django/contrib/postgres/forms/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/postgres/jinja2
         - /usr/lib/python3.7/site-packages/django/contrib/postgres/jinja2/postgres
         - /usr/lib/python3.7/site-packages/django/contrib/postgres/jinja2/postgres/widgets
@@ -6358,6 +6503,7 @@ classified:
         - /usr/lib/python3.7/site-packages/django/contrib/postgres/templates/postgres
         - /usr/lib/python3.7/site-packages/django/contrib/postgres/templates/postgres/widgets
         - /usr/lib/python3.7/site-packages/django/contrib/redirects
+        - /usr/lib/python3.7/site-packages/django/contrib/redirects/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/redirects/locale
         - /usr/lib/python3.7/site-packages/django/contrib/redirects/locale/af
         - /usr/lib/python3.7/site-packages/django/contrib/redirects/locale/af/LC_MESSAGES
@@ -6540,8 +6686,11 @@ classified:
         - /usr/lib/python3.7/site-packages/django/contrib/redirects/locale/zh_Hant
         - /usr/lib/python3.7/site-packages/django/contrib/redirects/locale/zh_Hant/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/contrib/redirects/migrations
+        - /usr/lib/python3.7/site-packages/django/contrib/redirects/migrations/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/sessions
+        - /usr/lib/python3.7/site-packages/django/contrib/sessions/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/sessions/backends
+        - /usr/lib/python3.7/site-packages/django/contrib/sessions/backends/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/sessions/locale
         - /usr/lib/python3.7/site-packages/django/contrib/sessions/locale/af
         - /usr/lib/python3.7/site-packages/django/contrib/sessions/locale/af/LC_MESSAGES
@@ -6725,12 +6874,17 @@ classified:
         - /usr/lib/python3.7/site-packages/django/contrib/sessions/locale/zh_Hant/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/contrib/sessions/management
         - /usr/lib/python3.7/site-packages/django/contrib/sessions/management/commands
+        - /usr/lib/python3.7/site-packages/django/contrib/sessions/management/commands/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/sessions/migrations
+        - /usr/lib/python3.7/site-packages/django/contrib/sessions/migrations/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/sitemaps
+        - /usr/lib/python3.7/site-packages/django/contrib/sitemaps/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/sitemaps/management
         - /usr/lib/python3.7/site-packages/django/contrib/sitemaps/management/commands
+        - /usr/lib/python3.7/site-packages/django/contrib/sitemaps/management/commands/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/sitemaps/templates
         - /usr/lib/python3.7/site-packages/django/contrib/sites
+        - /usr/lib/python3.7/site-packages/django/contrib/sites/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/sites/locale
         - /usr/lib/python3.7/site-packages/django/contrib/sites/locale/af
         - /usr/lib/python3.7/site-packages/django/contrib/sites/locale/af/LC_MESSAGES
@@ -6913,40 +7067,74 @@ classified:
         - /usr/lib/python3.7/site-packages/django/contrib/sites/locale/zh_Hant
         - /usr/lib/python3.7/site-packages/django/contrib/sites/locale/zh_Hant/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/django/contrib/sites/migrations
+        - /usr/lib/python3.7/site-packages/django/contrib/sites/migrations/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/staticfiles
+        - /usr/lib/python3.7/site-packages/django/contrib/staticfiles/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/staticfiles/management
         - /usr/lib/python3.7/site-packages/django/contrib/staticfiles/management/commands
+        - /usr/lib/python3.7/site-packages/django/contrib/staticfiles/management/commands/__pycache__
         - /usr/lib/python3.7/site-packages/django/contrib/syndication
+        - /usr/lib/python3.7/site-packages/django/contrib/syndication/__pycache__
         - /usr/lib/python3.7/site-packages/django/core
+        - /usr/lib/python3.7/site-packages/django/core/__pycache__
         - /usr/lib/python3.7/site-packages/django/core/cache
+        - /usr/lib/python3.7/site-packages/django/core/cache/__pycache__
         - /usr/lib/python3.7/site-packages/django/core/cache/backends
+        - /usr/lib/python3.7/site-packages/django/core/cache/backends/__pycache__
         - /usr/lib/python3.7/site-packages/django/core/checks
+        - /usr/lib/python3.7/site-packages/django/core/checks/__pycache__
         - /usr/lib/python3.7/site-packages/django/core/checks/compatibility
+        - /usr/lib/python3.7/site-packages/django/core/checks/compatibility/__pycache__
         - /usr/lib/python3.7/site-packages/django/core/checks/security
+        - /usr/lib/python3.7/site-packages/django/core/checks/security/__pycache__
         - /usr/lib/python3.7/site-packages/django/core/files
+        - /usr/lib/python3.7/site-packages/django/core/files/__pycache__
         - /usr/lib/python3.7/site-packages/django/core/handlers
+        - /usr/lib/python3.7/site-packages/django/core/handlers/__pycache__
         - /usr/lib/python3.7/site-packages/django/core/mail
+        - /usr/lib/python3.7/site-packages/django/core/mail/__pycache__
         - /usr/lib/python3.7/site-packages/django/core/mail/backends
+        - /usr/lib/python3.7/site-packages/django/core/mail/backends/__pycache__
         - /usr/lib/python3.7/site-packages/django/core/management
+        - /usr/lib/python3.7/site-packages/django/core/management/__pycache__
         - /usr/lib/python3.7/site-packages/django/core/management/commands
+        - /usr/lib/python3.7/site-packages/django/core/management/commands/__pycache__
         - /usr/lib/python3.7/site-packages/django/core/serializers
+        - /usr/lib/python3.7/site-packages/django/core/serializers/__pycache__
         - /usr/lib/python3.7/site-packages/django/core/servers
+        - /usr/lib/python3.7/site-packages/django/core/servers/__pycache__
         - /usr/lib/python3.7/site-packages/django/db
+        - /usr/lib/python3.7/site-packages/django/db/__pycache__
         - /usr/lib/python3.7/site-packages/django/db/backends
+        - /usr/lib/python3.7/site-packages/django/db/backends/__pycache__
         - /usr/lib/python3.7/site-packages/django/db/backends/base
+        - /usr/lib/python3.7/site-packages/django/db/backends/base/__pycache__
         - /usr/lib/python3.7/site-packages/django/db/backends/dummy
+        - /usr/lib/python3.7/site-packages/django/db/backends/dummy/__pycache__
         - /usr/lib/python3.7/site-packages/django/db/backends/mysql
+        - /usr/lib/python3.7/site-packages/django/db/backends/mysql/__pycache__
         - /usr/lib/python3.7/site-packages/django/db/backends/oracle
+        - /usr/lib/python3.7/site-packages/django/db/backends/oracle/__pycache__
         - /usr/lib/python3.7/site-packages/django/db/backends/postgresql
+        - /usr/lib/python3.7/site-packages/django/db/backends/postgresql/__pycache__
         - /usr/lib/python3.7/site-packages/django/db/backends/sqlite3
+        - /usr/lib/python3.7/site-packages/django/db/backends/sqlite3/__pycache__
         - /usr/lib/python3.7/site-packages/django/db/migrations
+        - /usr/lib/python3.7/site-packages/django/db/migrations/__pycache__
         - /usr/lib/python3.7/site-packages/django/db/migrations/operations
+        - /usr/lib/python3.7/site-packages/django/db/migrations/operations/__pycache__
         - /usr/lib/python3.7/site-packages/django/db/models
+        - /usr/lib/python3.7/site-packages/django/db/models/__pycache__
         - /usr/lib/python3.7/site-packages/django/db/models/fields
+        - /usr/lib/python3.7/site-packages/django/db/models/fields/__pycache__
         - /usr/lib/python3.7/site-packages/django/db/models/functions
+        - /usr/lib/python3.7/site-packages/django/db/models/functions/__pycache__
         - /usr/lib/python3.7/site-packages/django/db/models/sql
+        - /usr/lib/python3.7/site-packages/django/db/models/sql/__pycache__
         - /usr/lib/python3.7/site-packages/django/dispatch
+        - /usr/lib/python3.7/site-packages/django/dispatch/__pycache__
         - /usr/lib/python3.7/site-packages/django/forms
+        - /usr/lib/python3.7/site-packages/django/forms/__pycache__
         - /usr/lib/python3.7/site-packages/django/forms/jinja2
         - /usr/lib/python3.7/site-packages/django/forms/jinja2/django
         - /usr/lib/python3.7/site-packages/django/forms/jinja2/django/forms
@@ -6956,18 +7144,31 @@ classified:
         - /usr/lib/python3.7/site-packages/django/forms/templates/django/forms
         - /usr/lib/python3.7/site-packages/django/forms/templates/django/forms/widgets
         - /usr/lib/python3.7/site-packages/django/http
+        - /usr/lib/python3.7/site-packages/django/http/__pycache__
         - /usr/lib/python3.7/site-packages/django/middleware
+        - /usr/lib/python3.7/site-packages/django/middleware/__pycache__
         - /usr/lib/python3.7/site-packages/django/template
+        - /usr/lib/python3.7/site-packages/django/template/__pycache__
         - /usr/lib/python3.7/site-packages/django/template/backends
+        - /usr/lib/python3.7/site-packages/django/template/backends/__pycache__
         - /usr/lib/python3.7/site-packages/django/template/loaders
+        - /usr/lib/python3.7/site-packages/django/template/loaders/__pycache__
         - /usr/lib/python3.7/site-packages/django/templatetags
+        - /usr/lib/python3.7/site-packages/django/templatetags/__pycache__
         - /usr/lib/python3.7/site-packages/django/test
+        - /usr/lib/python3.7/site-packages/django/test/__pycache__
         - /usr/lib/python3.7/site-packages/django/urls
+        - /usr/lib/python3.7/site-packages/django/urls/__pycache__
         - /usr/lib/python3.7/site-packages/django/utils
+        - /usr/lib/python3.7/site-packages/django/utils/__pycache__
         - /usr/lib/python3.7/site-packages/django/utils/translation
+        - /usr/lib/python3.7/site-packages/django/utils/translation/__pycache__
         - /usr/lib/python3.7/site-packages/django/views
+        - /usr/lib/python3.7/site-packages/django/views/__pycache__
         - /usr/lib/python3.7/site-packages/django/views/decorators
+        - /usr/lib/python3.7/site-packages/django/views/decorators/__pycache__
         - /usr/lib/python3.7/site-packages/django/views/generic
+        - /usr/lib/python3.7/site-packages/django/views/generic/__pycache__
         - /usr/lib/python3.7/site-packages/django/views/templates
         type: package
     other:
@@ -7093,12 +7294,19 @@ classified:
         - /usr/lib/python3.7/site-packages/printrun/zscaper.py
         dirs:
         - /usr/lib/python3.7/site-packages/printrun
+        - /usr/lib/python3.7/site-packages/printrun/__pycache__
         - /usr/lib/python3.7/site-packages/printrun/gl
+        - /usr/lib/python3.7/site-packages/printrun/gl/__pycache__
         - /usr/lib/python3.7/site-packages/printrun/gl/libtatlin
+        - /usr/lib/python3.7/site-packages/printrun/gl/libtatlin/__pycache__
         - /usr/lib/python3.7/site-packages/printrun/gui
+        - /usr/lib/python3.7/site-packages/printrun/gui/__pycache__
         - /usr/lib/python3.7/site-packages/printrun/plugins
+        - /usr/lib/python3.7/site-packages/printrun/plugins/__pycache__
         - /usr/lib/python3.7/site-packages/printrun/power
+        - /usr/lib/python3.7/site-packages/printrun/power/__pycache__
         - /usr/lib/python3.7/site-packages/printrun/spoolmanager
+        - /usr/lib/python3.7/site-packages/printrun/spoolmanager/__pycache__
         type: package
     other:
       files:
@@ -7143,9 +7351,13 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/tensorflow_core/include/tensorflow/core/common_runtime'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow-2.1.0.dist-info'
+    - '%dir /usr/lib64/python3.7/site-packages/tensorflow/__pycache__'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core'
+    - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/__pycache__'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/_api'
+    - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/_api/__pycache__'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/_api/v2'
+    - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/_api/v2/__pycache__'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/include'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/include/external'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/include/external/aws'
@@ -7155,14 +7367,21 @@ dumped:
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/include/external/aws/aws-cpp-sdk-s3/include/aws/s3'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/include/external/aws/aws-cpp-sdk-s3/include/aws/s3/model'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/lite'
+    - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/lite/__pycache__'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/lite/experimental'
+    - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/lite/experimental/__pycache__'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/python'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/python/autograph'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/python/autograph/converters'
+    - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/python/autograph/converters/__pycache__'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/tools'
+    - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/tools/__pycache__'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/tools/common'
+    - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/tools/common/__pycache__'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/tools/docs'
+    - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/tools/docs/__pycache__'
     - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/tools/pip_package'
+    - '%dir /usr/lib64/python3.7/site-packages/tensorflow_core/tools/pip_package/__pycache__'
     - /usr/bin/estimator_ckpt_converter
     - /usr/bin/saved_model_cli
     - /usr/bin/tensorboard
@@ -7214,6 +7433,7 @@ dumped:
   - requests
   - - '%dir /usr/lib/python3.7/site-packages/requests'
     - '%dir /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info'
+    - '%dir /usr/lib/python3.7/site-packages/requests/__pycache__'
     - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/INSTALLER
     - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/LICENSE
     - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/METADATA
@@ -7282,13 +7502,20 @@ dumped:
   - ipykernel
   - - '%dir /usr/lib/python3.7/site-packages/ipykernel'
     - '%dir /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/comm'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/comm/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/gui'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/gui/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/inprocess'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/inprocess/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/inprocess/tests'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/inprocess/tests/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/pylab'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/pylab/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/resources'
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/tests'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/tests/__pycache__'
     - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/COPYING.md
     - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/INSTALLER
     - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/METADATA
@@ -7424,6 +7651,7 @@ dumped:
   - - '%dir /usr/lib/python3.7/site-packages/zope'
     - '%dir /usr/lib/python3.7/site-packages/zope.event-4.4.dist-info'
     - '%dir /usr/lib/python3.7/site-packages/zope/event'
+    - '%dir /usr/lib/python3.7/site-packages/zope/event/__pycache__'
     - /usr/lib/python3.7/site-packages/zope.event-4.4-py3.7-nspkg.pth
     - /usr/lib/python3.7/site-packages/zope.event-4.4.dist-info/DESCRIPTION.rst
     - /usr/lib/python3.7/site-packages/zope.event-4.4.dist-info/INSTALLER
@@ -7442,200 +7670,279 @@ dumped:
   - django
   - - '%dir /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info'
     - '%dir /usr/lib/python3.7/site-packages/django'
+    - '%dir /usr/lib/python3.7/site-packages/django/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/apps'
+    - '%dir /usr/lib/python3.7/site-packages/django/apps/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/bin'
+    - '%dir /usr/lib/python3.7/site-packages/django/bin/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/app_template'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/app_template/migrations'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/af'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/af/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ar'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ar/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ar/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ast'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ast/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/az'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/az/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/az/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/be'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/be/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/bg'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/bg/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/bg/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/bn'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/bn/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/bn/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/br'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/br/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/bs'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/bs/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/bs/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ca'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ca/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ca/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/cs'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/cs/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/cs/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/cy'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/cy/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/cy/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/da'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/da/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/da/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/de'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/de/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/de/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/de_CH'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/de_CH/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/dsb'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/dsb/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/el'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/el/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/el/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/en'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/en/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/en/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/en_AU'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/en_AU/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/en_AU/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/en_GB'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/en_GB/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/en_GB/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/eo'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/eo/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/eo/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es_AR'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es_AR/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es_AR/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es_CO'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es_CO/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es_CO/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es_MX'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es_MX/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es_MX/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es_NI'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es_NI/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es_PR'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es_PR/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es_VE'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/es_VE/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/et'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/et/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/et/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/eu'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/eu/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/eu/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/fa'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/fa/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/fa/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/fi'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/fi/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/fi/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/fr'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/fr/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/fr/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/fy'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/fy/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/fy/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ga'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ga/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ga/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/gd'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/gd/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/gd/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/gl'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/gl/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/gl/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/he'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/he/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/he/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/hi'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/hi/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/hi/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/hr'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/hr/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/hr/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/hsb'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/hsb/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/hu'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/hu/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/hu/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/hy'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/hy/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ia'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ia/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/id'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/id/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/id/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/io'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/io/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/is'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/is/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/is/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/it'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/it/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/it/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ja'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ja/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ja/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ka'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ka/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ka/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/kab'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/kab/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/kk'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/kk/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/km'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/km/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/km/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/kn'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/kn/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/kn/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ko'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ko/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ko/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/lb'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/lb/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/lt'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/lt/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/lt/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/lv'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/lv/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/lv/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/mk'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/mk/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/mk/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ml'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ml/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ml/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/mn'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/mn/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/mn/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/mr'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/mr/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/my'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/my/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/nb'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/nb/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/nb/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ne'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ne/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/nl'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/nl/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/nl/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/nn'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/nn/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/nn/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/os'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/os/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/pa'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/pa/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/pl'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/pl/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/pl/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/pt'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/pt/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/pt/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/pt_BR'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/pt_BR/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/pt_BR/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ro'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ro/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ro/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ru'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ru/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ru/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sk'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sk/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sk/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sl'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sl/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sl/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sq'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sq/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sq/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sr'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sr/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sr/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sr_Latn'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sr_Latn/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sr_Latn/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sv'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sv/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sv/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sw'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/sw/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ta'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ta/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ta/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/te'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/te/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/te/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/th'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/th/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/th/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/tr'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/tr/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/tr/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/tt'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/tt/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/udm'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/udm/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/uk'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/uk/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/uk/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ur'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/ur/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/uz'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/uz/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/uz/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/vi'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/vi/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/vi/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/zh_Hans'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/zh_Hans/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/zh_Hans/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/zh_Hant'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/zh_Hant/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/locale/zh_Hant/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/project_template'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/project_template/project_name'
     - '%dir /usr/lib/python3.7/site-packages/django/conf/urls'
+    - '%dir /usr/lib/python3.7/site-packages/django/conf/urls/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/locale'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/locale/af'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/locale/af/LC_MESSAGES'
@@ -7820,6 +8127,7 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/locale/zh_Hant'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/locale/zh_Hant/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/migrations'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/migrations/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/static'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/static/admin'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/static/admin/css'
@@ -7844,8 +8152,11 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/templates/admin/widgets'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/templates/registration'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/templatetags'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/templatetags/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/views'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/admin/views/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admindocs'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/admindocs/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admindocs/locale'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admindocs/locale/af'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admindocs/locale/af/LC_MESSAGES'
@@ -8026,7 +8337,9 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admindocs/templates'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/admindocs/templates/admin_doc'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/handlers'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/handlers/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/locale'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/locale/af'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/locale/af/LC_MESSAGES'
@@ -8209,13 +8522,17 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/locale/zh_Hant'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/locale/zh_Hant/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/management'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/management/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/management/commands'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/management/commands/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/migrations'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/migrations/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/templates'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/templates/auth'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/templates/auth/widgets'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/auth/templates/registration'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/contenttypes'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/contenttypes/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/contenttypes/locale'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/contenttypes/locale/af'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/contenttypes/locale/af/LC_MESSAGES'
@@ -8394,9 +8711,13 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/contenttypes/locale/zh_Hant'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/contenttypes/locale/zh_Hant/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/contenttypes/management'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/contenttypes/management/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/contenttypes/management/commands'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/contenttypes/management/commands/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/contenttypes/migrations'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/contenttypes/migrations/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/flatpages'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/flatpages/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/flatpages/locale'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/flatpages/locale/af'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/flatpages/locale/af/LC_MESSAGES'
@@ -8575,25 +8896,45 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/flatpages/locale/zh_Hant'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/flatpages/locale/zh_Hant/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/flatpages/migrations'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/flatpages/migrations/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/flatpages/templatetags'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/flatpages/templatetags/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/admin'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/admin/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/base'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/base/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/mysql'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/mysql/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/oracle'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/oracle/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/postgis'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/postgis/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/spatialite'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/backends/spatialite/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/models'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/models/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/models/sql'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/db/models/sql/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/forms'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/forms/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/gdal'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/gdal/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/gdal/prototypes'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/gdal/prototypes/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/gdal/raster'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/gdal/raster/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/geoip2'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/geoip2/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/geos'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/geos/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/geos/prototypes'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/geos/prototypes/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/locale'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/locale/af'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/locale/af/LC_MESSAGES'
@@ -8773,8 +9114,11 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/locale/zh_Hant/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/management'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/management/commands'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/management/commands/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/serializers'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/serializers/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/sitemaps'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/sitemaps/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/static'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/static/gis'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/static/gis/css'
@@ -8785,7 +9129,9 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/templates/gis/admin'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/templates/gis/kml'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/utils'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/gis/utils/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/humanize'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/humanize/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/humanize/locale'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/humanize/locale/af'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/humanize/locale/af/LC_MESSAGES'
@@ -8968,12 +9314,19 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/humanize/locale/zh_Hant'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/humanize/locale/zh_Hant/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/humanize/templatetags'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/humanize/templatetags/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/messages'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/messages/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/messages/storage'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/messages/storage/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/postgres'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/postgres/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/postgres/aggregates'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/postgres/aggregates/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/postgres/fields'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/postgres/fields/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/postgres/forms'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/postgres/forms/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/postgres/jinja2'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/postgres/jinja2/postgres'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/postgres/jinja2/postgres/widgets'
@@ -9100,6 +9453,7 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/postgres/templates/postgres'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/postgres/templates/postgres/widgets'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/redirects'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/redirects/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/redirects/locale'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/redirects/locale/af'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/redirects/locale/af/LC_MESSAGES'
@@ -9282,8 +9636,11 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/redirects/locale/zh_Hant'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/redirects/locale/zh_Hant/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/redirects/migrations'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/redirects/migrations/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sessions'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/sessions/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sessions/backends'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/sessions/backends/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sessions/locale'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sessions/locale/af'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sessions/locale/af/LC_MESSAGES'
@@ -9467,12 +9824,17 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sessions/locale/zh_Hant/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sessions/management'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sessions/management/commands'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/sessions/management/commands/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sessions/migrations'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/sessions/migrations/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sitemaps'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/sitemaps/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sitemaps/management'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sitemaps/management/commands'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/sitemaps/management/commands/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sitemaps/templates'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sites'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/sites/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sites/locale'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sites/locale/af'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sites/locale/af/LC_MESSAGES'
@@ -9655,40 +10017,74 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sites/locale/zh_Hant'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sites/locale/zh_Hant/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/sites/migrations'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/sites/migrations/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/staticfiles'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/staticfiles/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/staticfiles/management'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/staticfiles/management/commands'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/staticfiles/management/commands/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/contrib/syndication'
+    - '%dir /usr/lib/python3.7/site-packages/django/contrib/syndication/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/core'
+    - '%dir /usr/lib/python3.7/site-packages/django/core/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/core/cache'
+    - '%dir /usr/lib/python3.7/site-packages/django/core/cache/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/core/cache/backends'
+    - '%dir /usr/lib/python3.7/site-packages/django/core/cache/backends/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/core/checks'
+    - '%dir /usr/lib/python3.7/site-packages/django/core/checks/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/core/checks/compatibility'
+    - '%dir /usr/lib/python3.7/site-packages/django/core/checks/compatibility/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/core/checks/security'
+    - '%dir /usr/lib/python3.7/site-packages/django/core/checks/security/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/core/files'
+    - '%dir /usr/lib/python3.7/site-packages/django/core/files/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/core/handlers'
+    - '%dir /usr/lib/python3.7/site-packages/django/core/handlers/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/core/mail'
+    - '%dir /usr/lib/python3.7/site-packages/django/core/mail/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/core/mail/backends'
+    - '%dir /usr/lib/python3.7/site-packages/django/core/mail/backends/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/core/management'
+    - '%dir /usr/lib/python3.7/site-packages/django/core/management/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/core/management/commands'
+    - '%dir /usr/lib/python3.7/site-packages/django/core/management/commands/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/core/serializers'
+    - '%dir /usr/lib/python3.7/site-packages/django/core/serializers/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/core/servers'
+    - '%dir /usr/lib/python3.7/site-packages/django/core/servers/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/db'
+    - '%dir /usr/lib/python3.7/site-packages/django/db/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/db/backends'
+    - '%dir /usr/lib/python3.7/site-packages/django/db/backends/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/db/backends/base'
+    - '%dir /usr/lib/python3.7/site-packages/django/db/backends/base/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/db/backends/dummy'
+    - '%dir /usr/lib/python3.7/site-packages/django/db/backends/dummy/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/db/backends/mysql'
+    - '%dir /usr/lib/python3.7/site-packages/django/db/backends/mysql/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/db/backends/oracle'
+    - '%dir /usr/lib/python3.7/site-packages/django/db/backends/oracle/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/db/backends/postgresql'
+    - '%dir /usr/lib/python3.7/site-packages/django/db/backends/postgresql/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/db/backends/sqlite3'
+    - '%dir /usr/lib/python3.7/site-packages/django/db/backends/sqlite3/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/db/migrations'
+    - '%dir /usr/lib/python3.7/site-packages/django/db/migrations/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/db/migrations/operations'
+    - '%dir /usr/lib/python3.7/site-packages/django/db/migrations/operations/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/db/models'
+    - '%dir /usr/lib/python3.7/site-packages/django/db/models/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/db/models/fields'
+    - '%dir /usr/lib/python3.7/site-packages/django/db/models/fields/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/db/models/functions'
+    - '%dir /usr/lib/python3.7/site-packages/django/db/models/functions/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/db/models/sql'
+    - '%dir /usr/lib/python3.7/site-packages/django/db/models/sql/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/dispatch'
+    - '%dir /usr/lib/python3.7/site-packages/django/dispatch/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/forms'
+    - '%dir /usr/lib/python3.7/site-packages/django/forms/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/forms/jinja2'
     - '%dir /usr/lib/python3.7/site-packages/django/forms/jinja2/django'
     - '%dir /usr/lib/python3.7/site-packages/django/forms/jinja2/django/forms'
@@ -9698,18 +10094,31 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/django/forms/templates/django/forms'
     - '%dir /usr/lib/python3.7/site-packages/django/forms/templates/django/forms/widgets'
     - '%dir /usr/lib/python3.7/site-packages/django/http'
+    - '%dir /usr/lib/python3.7/site-packages/django/http/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/middleware'
+    - '%dir /usr/lib/python3.7/site-packages/django/middleware/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/template'
+    - '%dir /usr/lib/python3.7/site-packages/django/template/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/template/backends'
+    - '%dir /usr/lib/python3.7/site-packages/django/template/backends/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/template/loaders'
+    - '%dir /usr/lib/python3.7/site-packages/django/template/loaders/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/templatetags'
+    - '%dir /usr/lib/python3.7/site-packages/django/templatetags/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/test'
+    - '%dir /usr/lib/python3.7/site-packages/django/test/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/urls'
+    - '%dir /usr/lib/python3.7/site-packages/django/urls/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/utils'
+    - '%dir /usr/lib/python3.7/site-packages/django/utils/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/utils/translation'
+    - '%dir /usr/lib/python3.7/site-packages/django/utils/translation/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/views'
+    - '%dir /usr/lib/python3.7/site-packages/django/views/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/views/decorators'
+    - '%dir /usr/lib/python3.7/site-packages/django/views/decorators/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/views/generic'
+    - '%dir /usr/lib/python3.7/site-packages/django/views/generic/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/views/templates'
     - '%lang(af) /usr/lib/python3.7/site-packages/django/conf/locale/af/LC_MESSAGES/django.mo'
     - '%lang(af) /usr/lib/python3.7/site-packages/django/contrib/admin/locale/af/LC_MESSAGES/django.mo'
@@ -13933,12 +14342,19 @@ dumped:
   - printrun
   - - '%dir /usr/lib/python3.7/site-packages/Printrun-2.0.0rc6.dist-info'
     - '%dir /usr/lib/python3.7/site-packages/printrun'
+    - '%dir /usr/lib/python3.7/site-packages/printrun/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/printrun/gl'
+    - '%dir /usr/lib/python3.7/site-packages/printrun/gl/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/printrun/gl/libtatlin'
+    - '%dir /usr/lib/python3.7/site-packages/printrun/gl/libtatlin/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/printrun/gui'
+    - '%dir /usr/lib/python3.7/site-packages/printrun/gui/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/printrun/plugins'
+    - '%dir /usr/lib/python3.7/site-packages/printrun/plugins/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/printrun/power'
+    - '%dir /usr/lib/python3.7/site-packages/printrun/power/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/printrun/spoolmanager'
+    - '%dir /usr/lib/python3.7/site-packages/printrun/spoolmanager/__pycache__'
     - '%lang(de) /usr/share/locale/de/LC_MESSAGES/plater.mo'
     - '%lang(de) /usr/share/locale/de/LC_MESSAGES/pronterface.mo'
     - '%lang(fr) /usr/share/locale/fr/LC_MESSAGES/plater.mo'

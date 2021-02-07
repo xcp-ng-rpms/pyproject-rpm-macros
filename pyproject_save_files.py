@@ -55,6 +55,21 @@ class BuildrootPath(PurePosixPath):
         return type(self)(os.path.normpath(self))
 
 
+def pycache_dir(script):
+    """
+    For a script BuildrootPath, return a BuildrootPath of its __pycache__ directory.
+
+    Example:
+
+        >>> pycache_dir(BuildrootPath('/whatever/bar.py'))
+        BuildrootPath('/whatever/__pycache__')
+
+        >>> pycache_dir(BuildrootPath('/opt/python3.10/foo.py'))
+        BuildrootPath('/opt/python3.10/__pycache__')
+    """
+    return script.parent / "__pycache__"
+
+
 def pycached(script, python_version):
     """
     For a script BuildrootPath, return a list with that path and its bytecode glob.
@@ -73,7 +88,7 @@ def pycached(script, python_version):
     assert script.suffix == ".py"
     pyver = "".join(python_version.split(".")[:2])
     pycname = f"{script.stem}.cpython-{pyver}{{,.opt-?}}.pyc"
-    pyc = script.parent / "__pycache__" / pycname
+    pyc = pycache_dir(script) / pycname
     return [script, pyc]
 
 
@@ -90,6 +105,18 @@ def add_file_to_module(paths, module_name, module_type, files_dirs, *files):
         paths["modules"][module_name].append(
             {"type": module_type, "files": [], "dirs": [], files_dirs: list(files)}
         )
+
+
+def add_py_file_to_module(paths, module_name, module_type, path, python_version,
+                          *, include_pycache_dir):
+    """
+    Helper procedure, adds given .py file to the module_name of a given module_type
+    Always also adds the bytecode cache.
+    If include_pycache_dir is set, also include the __pycache__ directory.
+    """
+    add_file_to_module(paths, module_name, module_type, "files", *pycached(path, python_version))
+    if include_pycache_dir:
+        add_file_to_module(paths, module_name, module_type, "dirs", pycache_dir(path))
 
 
 def add_lang_to_module(paths, module_name, path):
@@ -162,8 +189,10 @@ def classify_paths(
                         add_file_to_module(paths, name, "extension", "files", path)
                     elif path.suffix == ".py":
                         name = path.stem
-                        add_file_to_module(
-                            paths, name, "script", "files", *pycached(path, python_version)
+                        # we add the .pyc files, but not top-level __pycache__
+                        add_py_file_to_module(
+                            paths, name, "script", path, python_version,
+                            include_pycache_dir=False
                         )
                     else:
                         paths["other"]["files"].append(path)
@@ -177,8 +206,14 @@ def classify_paths(
                     if path.suffix == ".mo":
                         is_lang = add_lang_to_module(paths, module_dir.name, path)
                     if not is_lang:
-                        path = pycached(path, python_version) if path.suffix == ".py" else [path]
-                        add_file_to_module(paths, module_dir.name, "package", "files", *path)
+                        if path.suffix == ".py":
+                            # we add the .pyc files, and their __pycache__
+                            add_py_file_to_module(
+                                paths, module_dir.name, "package", path, python_version,
+                                include_pycache_dir=True
+                            )
+                        else:
+                            add_file_to_module(paths, module_dir.name, "package", "files", path)
                 break
         else:
             if path.suffix == ".mo":

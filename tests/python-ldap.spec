@@ -70,8 +70,8 @@ test -f %{buildroot}%{python3_sitearch}/_ldap.cpython-*.so
 ! grep -F %{python3_sitearch}/slapdtest %{pyproject_files}
 
 # Internal check: Top level __pycache__ is never owned
-! grep -E '/__pycache__$' %{pyproject_files}
-! grep -E '/__pycache__/$' %{pyproject_files}
+! grep -E '/site-packages/__pycache__$' %{pyproject_files}
+! grep -E '/site-packages/__pycache__/$' %{pyproject_files}
 
 
 %files -n python3-ldap -f %{pyproject_files}

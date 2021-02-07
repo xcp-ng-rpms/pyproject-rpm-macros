@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        37%{?dist}
+Release:        38%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -104,6 +104,10 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Sun Feb 07 2021 Miro Hrončok <mhroncok@redhat.com> - 0-38
+- Include nested __pycache__ directories in %%pyproject_save_files
+- Fixes: rhbz#1925963
+
 * Tue Feb 02 2021 Miro Hrončok <mhroncok@redhat.com> - 0-37
 - Remove support for Python 3.7 from %%pyproject_buildrequires
 - Generate python3dist(toml) BR with pyproject.toml earlier to avoid extra install round

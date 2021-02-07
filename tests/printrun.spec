@@ -46,6 +46,9 @@ grep '^%%lang' %{pyproject_files} | sort > tested.lang
 sort pronterface.lang plater.lang > expected.lang
 diff tested.lang expected.lang
 
+# Internal check that generated files contain nested __pycache__ directories
+grep -E '/printrun/__pycache__$' %{pyproject_files}
+
 
 %files -f %{pyproject_files}
 %doc README*
