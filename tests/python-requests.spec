@@ -1,5 +1,5 @@
 Name:           python-requests
-Version:        2.24.0
+Version:        2.25.1
 Release:        0%{?dist}
 Summary:        Requests is an elegant and simple HTTP library for Python
 
