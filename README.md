@@ -111,6 +111,11 @@ Use `%{default_toxenv}` to get the default value.
 
 The `-t`/`-e` option uses [tox-current-env]'s `--print-deps-to-file` behind the scenes.
 
+If your package specifies some tox plugins in `tox.requires`,
+such plugins will be BuildRequired as well.
+Not all plugins are guaranteed to play well with [tox-current-env],
+in worst case, patch/sed the requirement out from the tox configuration.
+
 Note that both `-x` and `-t` imply `-r`,
 because runtime dependencies are always required for testing.
 

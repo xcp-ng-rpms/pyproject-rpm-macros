@@ -6,6 +6,7 @@ import functools
 import traceback
 import contextlib
 from io import StringIO
+import json
 import subprocess
 import re
 import tempfile
@@ -248,13 +249,16 @@ def parse_tox_requires_lines(lines):
 
 def generate_tox_requirements(toxenv, requirements):
     toxenv = ','.join(toxenv)
-    requirements.add('tox-current-env >= 0.0.3', source='tox itself')
+    requirements.add('tox-current-env >= 0.0.6', source='tox itself')
     requirements.check(source='tox itself')
-    with tempfile.NamedTemporaryFile('r') as deps, tempfile.NamedTemporaryFile('r') as extras:
+    with tempfile.NamedTemporaryFile('r') as deps, \
+        tempfile.NamedTemporaryFile('r') as extras, \
+            tempfile.NamedTemporaryFile('r') as provision:
         r = subprocess.run(
             [sys.executable, '-m', 'tox',
              '--print-deps-to', deps.name,
              '--print-extras-to', extras.name,
+             '--no-provision', provision.name,
              '-qre', toxenv],
             check=False,
             encoding='utf-8',
@@ -263,7 +267,22 @@ def generate_tox_requirements(toxenv, requirements):
         )
         if r.stdout:
             print_err(r.stdout, end='')
-        r.check_returncode()
+
+        provision_content = provision.read()
+        if provision_content and r.returncode != 0:
+            provision_requires = json.loads(provision_content)
+            if 'minversion' in provision_requires:
+                requirements.add(f'tox >= {provision_requires["minversion"]}',
+                                 source='tox provision (minversion)')
+            if 'requires' in provision_requires:
+                requirements.extend(provision_requires["requires"],
+                                    source='tox provision (requires)')
+            requirements.check(source='tox provision')  # this terminates the script
+            raise RuntimeError(
+                'Dependencies requested by tox provisioning appear installed, '
+                'but tox disagreed.')
+        else:
+            r.check_returncode()
 
         deplines = deps.read().splitlines()
         packages = parse_tox_requires_lines(deplines)

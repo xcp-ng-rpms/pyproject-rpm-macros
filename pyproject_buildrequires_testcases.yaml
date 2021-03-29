@@ -290,7 +290,7 @@ Tox dependencies:
     setuptools: 50
     wheel: 1
     tox: 3.5.3
-    tox-current-env: 0.0.3
+    tox-current-env: 0.0.6
   toxenv:
     - py3
   setup.py: |
@@ -313,7 +313,7 @@ Tox dependencies:
     python3dist(setuptools) >= 40.8
     python3dist(wheel)
     python3dist(wheel)
-    python3dist(tox-current-env) >= 0.0.3
+    python3dist(tox-current-env) >= 0.0.6
     python3dist(toxdep1)
     python3dist(toxdep2)
     python3dist(inst)
@@ -324,7 +324,7 @@ Tox extras:
     setuptools: 50
     wheel: 1
     tox: 3.5.3
-    tox-current-env: 0.0.3
+    tox-current-env: 0.0.6
   toxenv:
     - py3
   setup.py: |
@@ -354,7 +354,7 @@ Tox extras:
     python3dist(setuptools) >= 40.8
     python3dist(wheel)
     python3dist(wheel)
-    python3dist(tox-current-env) >= 0.0.3
+    python3dist(tox-current-env) >= 0.0.6
     python3dist(toxdep)
     python3dist(inst)
     python3dist(dep11) > 11
@@ -362,4 +362,75 @@ Tox extras:
     python3dist(dep21)
     python3dist(dep22)
     python3dist(dep23)
+  result: 0
+
+Tox provision unsatisfied:
+  installed:
+    setuptools: 50
+    wheel: 1
+    tox: 3.5.3
+    tox-current-env: 0.0.6
+  toxenv:
+    - py3
+  setup.py: |
+    from setuptools import setup
+    setup(
+        name='test',
+        version='0.1',
+        install_requires=['inst'],
+    )
+  tox.ini: |
+    [tox]
+    minversion = 3.999
+    requires =
+        setuptools > 40
+        wheel > 2
+    [testenv]
+    deps =
+        toxdep1
+        toxdep2
+  expected: |
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+    python3dist(wheel)
+    python3dist(tox-current-env) >= 0.0.6
+    python3dist(tox) >= 3.999
+    python3dist(setuptools) > 40
+    python3dist(wheel) > 2
+  result: 0
+
+Tox provision satisfied:
+  installed:
+    setuptools: 50
+    wheel: 1
+    tox: 3.5.3
+    tox-current-env: 0.0.6
+  toxenv:
+    - py3
+  setup.py: |
+    from setuptools import setup
+    setup(
+        name='test',
+        version='0.1',
+        install_requires=['inst'],
+    )
+  tox.ini: |
+    [tox]
+    minversion = 3.5
+    requires =
+        setuptools > 40
+    [testenv]
+    deps =
+        toxdep1
+        toxdep2
+  expected: |
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+    python3dist(wheel)
+    python3dist(tox-current-env) >= 0.0.6
+    python3dist(tox) >= 3.5
+    python3dist(setuptools) > 40
+    python3dist(toxdep1)
+    python3dist(toxdep2)
+    python3dist(inst)
   result: 0

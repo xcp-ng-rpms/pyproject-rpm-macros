@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        38%{?dist}
+Release:        39%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -42,7 +42,7 @@ BuildRequires: python3dist(packaging)
 BuildRequires: python3dist(pip)
 BuildRequires: python3dist(setuptools)
 BuildRequires: python3dist(toml)
-BuildRequires: python3dist(tox-current-env) >= 0.0.3
+BuildRequires: python3dist(tox-current-env) >= 0.0.6
 BuildRequires: python3dist(wheel)
 %endif
 
@@ -104,6 +104,10 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Mon Mar 29 2021 Miro Hrončok <mhroncok@redhat.com> - 0-39
+- Handle tox provision (tox.requires / tox.minversion)
+- Fixes: rhbz#1922495
+
 * Sun Feb 07 2021 Miro Hrončok <mhroncok@redhat.com> - 0-38
 - Include nested __pycache__ directories in %%pyproject_save_files
 - Fixes: rhbz#1925963
