@@ -79,13 +79,13 @@ Build system dependencies in pyproject.toml with extras:
     [build-system]
     requires = [
         "foo",
-        "bar[baz] > 5",
+        "bar[bAz] > 5",
         "ne!=1",
         "ge>=1.2",
         "le <= 1.2.3",
         "lt < 1.2.3.4      ",
         "    gt > 1.2.3.4.5",
-        "multi[extras1,extras2] == 6.0",
+        "multi[Extras1,Extras2] == 6.0",
         "combo >2, <5, != 3.0.0",
         "invalid!!ignored",
         "py2 ; python_version < '2.7'",
@@ -118,7 +118,7 @@ Build system dependencies in pyproject.toml without extras:
   pyproject.toml: |
     [build-system]
     requires = [
-        "bar[baz] > 5",
+        "bar[Baz] > 5",
         "multi[extras1,extras2] == 6.0",
     ]
   expected: |
@@ -262,6 +262,7 @@ Run dependencies with multiple extras:
     wheel: 1
     pyyaml: 1
   include_runtime: true
+  generate_extras: true
   extras:
     - testing,more-testing
     - even-more-testing , cool-feature
@@ -272,7 +273,7 @@ Run dependencies with multiple extras:
             'testing': ['dep1'],
             'more-testing': ['dep2'],
             'even-more-testing': ['dep3'],
-            'cool-feature': ['dep4'],
+            'cool-feature': ['dep4[FOO,BAR]'],
         },
     )
   expected: |
@@ -280,6 +281,8 @@ Run dependencies with multiple extras:
     python3dist(wheel)
     python3dist(wheel)
     python3dist(dep4)
+    python3dist(dep4[bar])
+    python3dist(dep4[foo])
     python3dist(dep3)
     python3dist(dep2)
     python3dist(dep1)
@@ -325,6 +328,7 @@ Tox extras:
     wheel: 1
     tox: 3.5.3
     tox-current-env: 0.0.6
+  generate_extras: true
   toxenv:
     - py3
   setup.py: |
@@ -335,7 +339,7 @@ Tox extras:
         install_requires=['inst'],
         extras_require={
             'extra1':  ['dep11 > 11', 'dep12'],
-            'extra2': ['dep21', 'dep22', 'dep23'],
+            'extra2': ['dep21', 'dep22', 'dep23', 'extra_dep[EXTRA_DEP]'],
             'nope': ['nopedep'],
         }
     )
@@ -362,6 +366,8 @@ Tox extras:
     python3dist(dep21)
     python3dist(dep22)
     python3dist(dep23)
+    python3dist(extra-dep)
+    python3dist(extra-dep[extra_dep])
   result: 0
 
 Tox provision unsatisfied:

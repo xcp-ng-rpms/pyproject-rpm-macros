@@ -109,7 +109,7 @@ class Requirements:
             self.missing_requirements = True
 
         if self.generate_extras:
-            extra_names = [f'{name}[{extra}]' for extra in sorted(requirement.extras)]
+            extra_names = [f'{name}[{extra.lower()}]' for extra in sorted(requirement.extras)]
         else:
             extra_names = []
 

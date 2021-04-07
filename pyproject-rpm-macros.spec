@@ -107,6 +107,8 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 * Mon Mar 29 2021 Miro Hrončok <mhroncok@redhat.com> - 0-39
 - Handle tox provision (tox.requires / tox.minversion)
 - Fixes: rhbz#1922495
+- Generate BuildRequires on extras in lower case
+- Fixes: rhbz#1937944
 
 * Sun Feb 07 2021 Miro Hrončok <mhroncok@redhat.com> - 0-38
 - Include nested __pycache__ directories in %%pyproject_save_files
