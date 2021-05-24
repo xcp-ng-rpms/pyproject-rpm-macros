@@ -49,9 +49,6 @@
     - setuptools_scm:
         dir: .
         run: ./mocktest.sh python-setuptools_scm
-    - requests:
-        dir: .
-        run: ./mocktest.sh python-requests
     - ipykernel:
         dir: .
         run: ./mocktest.sh python-ipykernel

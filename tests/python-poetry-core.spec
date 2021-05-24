@@ -32,10 +32,6 @@ Summary:        %{summary}
 
 
 %build
-%if 0%{?fedora} < 33 && 0%{?rhel} < 9
-# the old pip version cannot handle backend-path properly, let's help it:
-export PYTHONPATH=$PWD
-%endif
 %pyproject_wheel
 
 

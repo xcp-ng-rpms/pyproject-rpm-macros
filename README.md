@@ -245,9 +245,6 @@ These arguments are still required:
 * Positional arguments: the extra name(s).
   Multiple subpackages are generated when multiple names are provided.
 
-The macro does nothing on Fedora 32 and lower, as automation around
-extras was only added in f33.
-
 
 Limitations
 -----------

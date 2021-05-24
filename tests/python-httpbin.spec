@@ -17,14 +17,6 @@ This package buildrequires a package with extra: raven[flask].
 %package -n python3-httpbin
 Summary:            %{summary}
 
-%if 0%{?fedora} < 33 && 0%{?rhel} < 9
-# Old Fedoras don't understand Python extras yet
-# This package needs raven[flask]
-# So we add the transitive dependencies manually:
-BuildRequires:  %{py3_dist blinker flask}
-Requires:       %{py3_dist blinker flask}
-%endif
-
 %description -n python3-httpbin
 %{summary}.
 

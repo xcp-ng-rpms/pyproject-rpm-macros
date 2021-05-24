@@ -26,12 +26,6 @@ Summary:        %{summary}
 %autosetup -p1 -n Django-%{version}
 %py3_shebang_fix django/conf/project_template/manage.py-tpl django/bin/django-admin.py
 
-%if 0%{?fedora} < 32 && 0%{?rhel} < 9
-# Python RPM dependency generator doesn't support ~= yet
-# https://bugzilla.redhat.com/show_bug.cgi?id=1758141
-sed -i 's/asgiref ~= /asgiref >= /' setup.py
-%endif
-
 
 %generate_buildrequires
 %pyproject_buildrequires

@@ -49,14 +49,9 @@ sed -i \
 
 
 %generate_buildrequires
-%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
 # We use the "light" toxenv because the default one installs the [full] extra and we don't have all the deps.
 # Note that [full] contains [plesk] and [route53] but we specify them manually instead:
 %pyproject_buildrequires -e light -x plesk -x route53
-%else
-# older Fedoras don't have the required runtime dependencies, so we don't test it there
-%pyproject_buildrequires
-%endif
 
 
 %build
@@ -68,12 +63,10 @@ sed -i \
 %pyproject_save_files lexicon
 
 
-%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9
 %check
 # we cannot use %%tox here, because the configured commands call poetry directly :/
 # we use %%pytest instead, running a subset of tests not to waste CI time
 %pytest -k "test_route53 or test_plesk"
-%endif
 
 
 %files -n python3-dns-lexicon -f %{pyproject_files}
