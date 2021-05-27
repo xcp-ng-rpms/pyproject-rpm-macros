@@ -1,5 +1,5 @@
 # This is a directory where wheels are stored and installed from, relative to PWD
-%_pyproject_wheeldir pyproject-wheeldir
+%_pyproject_wheeldir %{_builddir}%{?buildsubdir:/%{buildsubdir}}/pyproject-wheeldir
 
 # This is a directory used as TMPDIR, where pip copies sources to and builds from, relative to PWD
 # For proper debugsource packages, we create TMPDIR within PWD
@@ -8,22 +8,22 @@
 # This will be used in debugsource package paths (applies to extension modules only)
 # NB: pytest collects tests from here if not hidden
 #     https://docs.pytest.org/en/latest/reference.html#confval-norecursedirs
-%_pyproject_builddir .pyproject-builddir
+%_pyproject_builddir %{_builddir}%{?buildsubdir:/%{buildsubdir}}/.pyproject-builddir
 
 %pyproject_files %{_builddir}/pyproject-files
 %pyproject_ghost_distinfo %{_builddir}/pyproject-ghost-distinfo
 %pyproject_record %{_builddir}/pyproject-record
 
 %pyproject_wheel() %{expand:\\\
-mkdir -p "${PWD}/%{_pyproject_builddir}"
-CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" TMPDIR="${PWD}/%{_pyproject_builddir}" \\\
+mkdir -p "%{_pyproject_builddir}"
+CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" TMPDIR="%{_pyproject_builddir}" \\\
 %{__python3} -m pip wheel --wheel-dir %{_pyproject_wheeldir} --no-deps --use-pep517 --no-build-isolation --disable-pip-version-check --no-clean --progress-bar off --verbose .
 }
 
 
 %pyproject_install() %{expand:\\\
 specifier=$(ls %{_pyproject_wheeldir}/*.whl | xargs basename --multiple | sed -E 's/([^-]+)-([^-]+)-.+\\\.whl/\\\1==\\\2/')
-TMPDIR="${PWD}/%{_pyproject_builddir}" %{__python3} -m pip install --root %{buildroot} --no-deps --disable-pip-version-check --progress-bar off --verbose --ignore-installed --no-warn-script-location --no-index --no-cache-dir --find-links %{_pyproject_wheeldir} $specifier
+TMPDIR="%{_pyproject_builddir}" %{__python3} -m pip install --root %{buildroot} --no-deps --disable-pip-version-check --progress-bar off --verbose --ignore-installed --no-warn-script-location --no-index --no-cache-dir --find-links %{_pyproject_wheeldir} $specifier
 if [ -d %{buildroot}%{_bindir} ]; then
   %py3_shebang_fix %{buildroot}%{_bindir}/*
   rm -rfv %{buildroot}%{_bindir}/__pycache__

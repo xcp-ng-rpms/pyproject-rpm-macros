@@ -106,6 +106,7 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %changelog
 * Thu May 27 2021 Miro Hrončok <mhroncok@redhat.com> - 0-40
 - Don't leak $TMPDIR outside of pyproject macros
+- Set %%_pyproject_wheeldir and %%_pyproject_builddir relative to the source tree, not $PWD
 
 * Mon Mar 29 2021 Miro Hrončok <mhroncok@redhat.com> - 0-39
 - Handle tox provision (tox.requires / tox.minversion)

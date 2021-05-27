@@ -60,7 +60,7 @@ And install the wheel in `%install` with `%pyproject_install`:
     %install
     %pyproject_install
 
-`%pyproject_install` installs all wheels in `$PWD/pyproject-wheeldir/`.
+`%pyproject_install` installs all wheels in `pyproject-wheeldir/` located in the root of the source tree.
 
 
 Adding run-time and test-time dependencies

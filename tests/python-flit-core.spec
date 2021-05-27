@@ -5,13 +5,14 @@ Summary:        Distribution-building parts of Flit
 
 License:        BSD
 URL:            https://pypi.org/project/flit-core/
-Source0:        %{pypi_source flit_core}
+Source0:        https://github.com/takluyver/flit/archive/%{version}/flit-%{version}.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
 
 %description
+Test a wheel built from a subdirectory.
 Test a build with pyproject.toml backend-path = .
 flit-core builds with flit-core.
 
@@ -24,15 +25,18 @@ Summary:        %{summary}
 
 
 %prep
-%autosetup -p1 -n flit_core-%{version}
+%autosetup -p1 -n flit-%{version}
 
 
 %generate_buildrequires
+cd flit_core
 %pyproject_buildrequires
-
+cd ..
 
 %build
+cd flit_core
 %pyproject_wheel
+cd ..
 
 
 %install
