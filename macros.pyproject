@@ -54,7 +54,7 @@ for site_dir in ${site_dirs[@]}; do
 done
 lines=$(wc -l %{pyproject_ghost_distinfo} | cut -f1 -d" ")
 if [ $lines -ne 1 ]; then
-  echo -e "\\n\\nWARNING: %%%%pyproject_extras_subpkg won't work without explicit -i or -F, found $lines dist-info directories.\\n\\n" >/dev/stderr
+  echo -e "\\n\\nWARNING: %%%%pyproject_extras_subpkg won't work without explicit -i or -F, found $lines dist-info directories.\\n\\n" >&2
   rm %{pyproject_ghost_distinfo}  # any attempt to use this will fail
 fi
 }
