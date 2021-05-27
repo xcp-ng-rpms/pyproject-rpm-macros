@@ -36,7 +36,14 @@ Summary:        %{summary}
 
 
 %install
+# Internal check that $TMPDIR is not changed
+TPMDIR_original="$TMPDIR"
+
 %pyproject_install
+
+# Internal check that $TMPDIR is not changed
+test "$TMPDIR" == "$TPMDIR_original"
+
 
 %check
 # Internal check that the RECORD and REQUESTED files are

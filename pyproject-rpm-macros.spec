@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        39%{?dist}
+Release:        40%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -104,6 +104,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Thu May 27 2021 Miro Hrončok <mhroncok@redhat.com> - 0-40
+- Don't leak $TMPDIR outside of pyproject macros
+
 * Mon Mar 29 2021 Miro Hrončok <mhroncok@redhat.com> - 0-39
 - Handle tox provision (tox.requires / tox.minversion)
 - Fixes: rhbz#1922495
