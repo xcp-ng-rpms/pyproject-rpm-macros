@@ -218,7 +218,7 @@ def generate_run_requirements(backend, requirements):
     if not prepare_metadata:
         raise ValueError(
             'build backend cannot provide build metadata '
-            + '(incl. runtime requirements) before buld'
+            + '(incl. runtime requirements) before build'
         )
     with hook_call():
         dir_basename = prepare_metadata('.')
