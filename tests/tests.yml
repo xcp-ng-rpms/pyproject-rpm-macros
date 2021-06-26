@@ -70,6 +70,9 @@
     - poetry_core:
         dir: .
         run: ./mocktest.sh python-poetry-core
+    - setuptools:
+        dir: .
+        run: ./mocktest.sh python-setuptools
     required_packages:
     - mock
     - rpmdevtools

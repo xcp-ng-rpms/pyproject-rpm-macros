@@ -14,7 +14,13 @@
 %pyproject_ghost_distinfo %{_builddir}/pyproject-ghost-distinfo
 %pyproject_record %{_builddir}/pyproject-record
 
+# Avoid leaking %%{_pyproject_builddir} to pytest collection
+# https://bugzilla.redhat.com/show_bug.cgi?id=1935212
+# The value is read and used by the %%pytest and %%tox macros:
+%_set_pytest_addopts %global __pytest_addopts --ignore=%{_pyproject_builddir}
+
 %pyproject_wheel() %{expand:\\\
+%_set_pytest_addopts
 mkdir -p "%{_pyproject_builddir}"
 CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" TMPDIR="%{_pyproject_builddir}" \\\
 %{__python3} -m pip wheel --wheel-dir %{_pyproject_wheeldir} --no-deps --use-pep517 --no-build-isolation --disable-pip-version-check --no-clean --progress-bar off --verbose .
@@ -109,6 +115,7 @@ TOX_TESTENV_PASSENV="${TOX_TESTENV_PASSENV:-*}" \\
 PYTHONDONTWRITEBYTECODE=1 \\
 PATH="%{buildroot}%{_bindir}:$PATH" \\
 PYTHONPATH="${PYTHONPATH:-%{buildroot}%{python3_sitearch}:%{buildroot}%{python3_sitelib}}" \\
+%{?__pytest_addopts:PYTEST_ADDOPTS="${PYTEST_ADDOPTS:-} %{__pytest_addopts}"} \\
 HOSTNAME="rpmbuild" \\
 %{__python3} -m tox --current-env -q --recreate -e "%{-e:%{-e*}}%{!-e:%{toxenv}}" %{?*}
 }

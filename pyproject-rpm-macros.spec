@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        40%{?dist}
+Release:        41%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -104,6 +104,10 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Mon Jun 28 2021 Miro Hrončok <mhroncok@redhat.com> - 0-41
+- Don't leak %%{_pyproject_builddir} to pytest collection
+- Fixes rhzb#1935212
+
 * Thu May 27 2021 Miro Hrončok <mhroncok@redhat.com> - 0-40
 - Don't leak $TMPDIR outside of pyproject macros
 - Set %%_pyproject_wheeldir and %%_pyproject_builddir relative to the source tree, not $PWD
