@@ -11,6 +11,7 @@ import subprocess
 import re
 import tempfile
 import email.parser
+import pathlib
 
 print_err = functools.partial(print, file=sys.stderr)
 
@@ -228,14 +229,23 @@ def generate_run_requirements(backend, requirements):
         requirements.extend(requires, source=f'wheel metadata: {key}')
 
 
-def parse_tox_requires_lines(lines):
+def parse_requirements_lines(lines, path=None):
     packages = []
     for line in lines:
+        line, _, comment = line.partition('#')
+        if comment.startswith('egg='):
+            # not a real comment
+            # e.g. git+https://github.com/monty/spam.git@master#egg=spam&...
+            egg, *_ = comment.strip().partition(' ')
+            egg, *_ = egg.strip().partition('&')
+            line = egg[4:]
         line = line.strip()
         if line.startswith('-r'):
-            path = line[2:]
-            with open(path) as f:
-                packages.extend(parse_tox_requires_lines(f.read().splitlines()))
+            recursed_path = line[2:].strip()
+            if path:
+                recursed_path = path.parent / recursed_path
+            with open(recursed_path) as f:
+                packages.extend(parse_requirements_lines(f.read().splitlines(), recursed_path))
         elif line.startswith('-'):
             print_err(
                 f'WARNING: Skipping dependency line: {line}\n'
@@ -284,7 +294,7 @@ def generate_tox_requirements(toxenv, requirements):
             r.check_returncode()
 
         deplines = deps.read().splitlines()
-        packages = parse_tox_requires_lines(deplines)
+        packages = parse_requirements_lines(deplines)
         requirements.add_extras(*extras.read().splitlines())
         requirements.extend(packages,
                             source=f'tox --print-deps-only: {toxenv}')
@@ -304,7 +314,7 @@ def python3dist(name, op=None, version=None, python3_pkgversion="3"):
 def generate_requires(
     *, include_runtime=False, toxenv=None, extras=None,
     get_installed_version=importlib.metadata.version,  # for dep injection
-    generate_extras=False, python3_pkgversion="3",
+    generate_extras=False, python3_pkgversion="3", requirement_files=None, use_build_system=True
 ):
     """Generate the BuildRequires for the project in the current directory
 
@@ -317,8 +327,18 @@ def generate_requires(
     )
 
     try:
-        backend = get_backend(requirements)
-        generate_build_requirements(backend, requirements)
+        if (include_runtime or toxenv) and not use_build_system:
+            raise ValueError('-N option cannot be used in combination with -r, -e, -t, -x options')
+        if requirement_files:
+            for req_file in requirement_files:
+                lines = req_file.read().splitlines()
+                packages = parse_requirements_lines(lines, pathlib.Path(req_file.name))
+                requirements.extend(packages,
+                                    source=f'requirements file {req_file.name}')
+            requirements.check(source='all requirement files')
+        if use_build_system:
+            backend = get_backend(requirements)
+            generate_build_requirements(backend, requirements)
         if toxenv:
             include_runtime = True
             generate_tox_requirements(toxenv, requirements)
@@ -360,6 +380,14 @@ def main(argv):
         default="3", help=('Python version for pythonXdist()'
                            'or pythonX.Ydist() requirements'),
     )
+    parser.add_argument(
+        '-N', '--no-use-build-system', dest='use_build_system',
+        action='store_false', help='Use -N to indicate that project does not use any build system',
+    )
+    parser.add_argument(
+       'requirement_files', nargs='*', type=argparse.FileType('r'),
+        help=('Add buildrequires from file'),
+    )
 
     args = parser.parse_args(argv)
 
@@ -382,6 +410,8 @@ def main(argv):
             extras=args.extras,
             generate_extras=args.generate_extras,
             python3_pkgversion=args.python3_pkgversion,
+            requirement_files=args.requirement_files,
+            use_build_system=args.use_build_system,
         )
     except Exception:
         # Log the traceback explicitly (it's useful debug info)

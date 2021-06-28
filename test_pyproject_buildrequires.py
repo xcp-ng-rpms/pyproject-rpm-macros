@@ -24,8 +24,9 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
     if case.get('xfail'):
         pytest.xfail(case.get('xfail'))
 
-    for filename in 'pyproject.toml', 'setup.py', 'tox.ini':
-        if filename in case:
+    for filename in case:
+        file_types = ('.toml', '.py', '.in', '.ini', '.txt')
+        if filename.endswith(file_types):
             cwd.joinpath(filename).write_text(case[filename])
 
     def get_installed_version(dist_name):
@@ -35,7 +36,8 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
             raise importlib.metadata.PackageNotFoundError(
                 f'info not found for {dist_name}'
             )
-
+    requirement_files = case.get('requirement_files', [])
+    requirement_files = [open(f) for f in requirement_files]
     try:
         generate_requires(
             get_installed_version=get_installed_version,
@@ -43,6 +45,8 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
             extras=case.get('extras', []),
             toxenv=case.get('toxenv', None),
             generate_extras=case.get('generate_extras', False),
+            requirement_files=requirement_files,
+            use_build_system=case.get('use_build_system', True),
         )
     except SystemExit as e:
         assert e.code == case['result']
@@ -55,3 +59,6 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
 
         captured = capsys.readouterr()
         assert captured.out == case['expected']
+    finally:
+        for req in requirement_files:
+            req.close()

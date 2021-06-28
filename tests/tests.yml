@@ -73,6 +73,12 @@
     - setuptools:
         dir: .
         run: ./mocktest.sh python-setuptools
+    - markupsafe:
+        dir: .
+        run: ./mocktest.sh python-markupsafe
+    - fake_requirements:
+        dir: .
+        run: ./mocktest.sh fake-requirements
     required_packages:
     - mock
     - rpmdevtools

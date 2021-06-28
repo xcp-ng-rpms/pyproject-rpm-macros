@@ -446,3 +446,156 @@ Tox provision satisfied:
     python3dist(toxdep2)
     python3dist(inst)
   result: 0
+
+Default build system, unmet deps in requirements file:
+  installed:
+    setuptools: 50
+    wheel: 1
+  setup.py: |
+    from setuptools import setup
+    setup(
+        name='test',
+        version='0.1',
+    )
+  requirements.txt: |
+    lxml
+    ncclient
+    cryptography
+    paramiko
+    SQLAlchemy
+  requirement_files:
+    - requirements.txt
+  expected: |
+    python3dist(lxml)
+    python3dist(ncclient)
+    python3dist(cryptography)
+    python3dist(paramiko)
+    python3dist(sqlalchemy)
+  result: 0
+
+Default build system, met deps in requirements file:
+  installed:
+    setuptools: 50
+    wheel: 1
+    lxml: 3.9
+    ncclient: 1
+    cryptography: 2
+    paramiko: 1
+    SQLAlchemy: 1.0.90
+  setup.py: |
+    from setuptools import setup
+    setup(
+        name='test',
+        version='0.1',
+    )
+  requirements.txt: |
+    lxml!=3.7.0,>=2.3    # OF-Config
+    ncclient  # OF-Config
+    cryptography!=1.5.2  # Required by paramiko
+    paramiko  # NETCONF, BGP speaker (SSH console)
+    SQLAlchemy>=1.0.10,<1.1.0  # Zebra protocol service
+  requirement_files:
+    - requirements.txt
+  expected: |
+    ((python3dist(lxml) < 3.7 or python3dist(lxml) > 3.7) with python3dist(lxml) >= 2.3)
+    python3dist(ncclient)
+    (python3dist(cryptography) < 1.5.2 or python3dist(cryptography) > 1.5.2)
+    python3dist(paramiko)
+    (python3dist(sqlalchemy) < 1.1 with python3dist(sqlalchemy) >= 1.0.10)
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+    python3dist(wheel)
+  result: 0
+
+With pyproject.toml, requirements file and with -N option:
+  use_build_system: false
+  installed:
+    setuptools: 50
+    wheel: 1
+    toml: 1
+    lxml: 3.9
+    ncclient: 1
+    cryptography: 2
+    paramiko: 1
+    SQLAlchemy: 1.0.90
+  pyproject.toml: |
+    [build-system]
+    requires = [
+        "foo",
+    ]
+    build-backend = "foo.build"
+  requirements.txt: |
+    lxml
+    ncclient
+    cryptography
+    paramiko
+    SQLAlchemy
+    git+https://github.com/monty/spam.git@master#egg=spam
+  requirement_files:
+    - requirements.txt
+  expected: |
+    python3dist(lxml)
+    python3dist(ncclient)
+    python3dist(cryptography)
+    python3dist(paramiko)
+    python3dist(sqlalchemy)
+    python3dist(spam)
+  result: 0
+
+With pyproject.toml, requirements file and without -N option:
+  use_build_system: true
+  installed:
+    setuptools: 50
+    wheel: 1
+    toml: 1
+    lxml: 3.9
+    ncclient: 1
+    cryptography: 2
+    paramiko: 1
+    SQLAlchemy: 1.0.90
+    argcomplete: 1
+    hypothesis: 1
+  pyproject.toml: |
+    [build-system]
+    requires = [
+        "foo",
+    ]
+    build-backend = "foo.build"
+  requirements.txt: |
+    lxml
+    ncclient
+    cryptography
+    paramiko
+    SQLAlchemy
+  requirements1.in: |
+    argcomplete
+    hypothesis
+  requirement_files:
+    - requirements.txt
+    - requirements1.in
+  expected: |
+    python3dist(lxml)
+    python3dist(ncclient)
+    python3dist(cryptography)
+    python3dist(paramiko)
+    python3dist(sqlalchemy)
+    python3dist(argcomplete)
+    python3dist(hypothesis)
+    python3dist(foo)
+  result: 0
+
+Value error if -N and -r arguments are present:
+  installed:
+    # empty
+  include_runtime: true
+  use_build_system: false
+  except: ValueError
+
+Value error if -N and -e arguments are present:
+  installed:
+    # empty
+  toxenv:
+    - py3
+  use_build_system: false
+  except: ValueError
+

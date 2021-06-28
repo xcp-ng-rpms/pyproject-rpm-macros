@@ -122,6 +122,15 @@ because runtime dependencies are always required for testing.
 [tox]: https://tox.readthedocs.io/
 [tox-current-env]: https://github.com/fedora-python/tox-current-env/
 
+Additionaly to generated requirements you can supply multiple file names to `%pyproject_buildrequires` macro.
+Dependencies will be loaded from them:
+
+    %pyproject_buildrequires -r requirements/tests.in requirements/docs.in requirements/dev.in
+
+For packages not using build system you can use `-N` to entirely skip automatical
+generation of requirements and install requirements only from manually specified files.
+`-N` option cannot be used in combination with other options mentioned above
+(`-r`, `-e`, `-t`, `-x`).
 
 Running tox based tests
 -----------------------

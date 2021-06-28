@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        42%{?dist}
+Release:        43%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -104,6 +104,10 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Thu Jul 01 2021 Tomas Hrnciar <thrnciar@redhat.com> - 0-43
+- Generate BuildRequires from file
+- Fixes: rhbz#1936448
+
 * Tue Jun 29 2021 Miro Hrončok <mhroncok@redhat.com> - 0-42
 - Don't accidentally treat "~= X.0" requirement as "~= X"
 - Fixes rhzb#1977060
