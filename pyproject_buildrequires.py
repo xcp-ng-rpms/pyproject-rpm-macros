@@ -25,7 +25,7 @@ class EndPass(Exception):
 
 try:
     from packaging.requirements import Requirement, InvalidRequirement
-    from packaging.utils import canonicalize_name, canonicalize_version
+    from packaging.utils import canonicalize_name
 except ImportError as e:
     print_err('Import error:', e)
     # already echoed by the %pyproject_buildrequires macro
@@ -119,14 +119,13 @@ class Requirements:
                 requirement.specifier,
                 key=lambda s: (s.operator, s.version),
             ):
-                version = canonicalize_version(specifier.version)
                 if not VERSION_RE.fullmatch(str(specifier.version)):
                     raise ValueError(
                         f'Unknown character in version: {specifier.version}. '
                         + '(This is probably a bug in pyproject-rpm-macros.)',
                     )
                 together.append(convert(python3dist(name, python3_pkgversion=self.python3_pkgversion),
-                                        specifier.operator, version))
+                                        specifier.operator, specifier.version))
             if len(together) == 0:
                 print(python3dist(name,
                                   python3_pkgversion=self.python3_pkgversion))
