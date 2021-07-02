@@ -7,6 +7,10 @@ from collections import defaultdict
 from pathlib import PosixPath, PurePosixPath
 
 
+# From RPM's build/files.c strtokWithQuotes delim argument
+RPM_FILES_DELIMETERS = ' \n\t'
+
+
 class BuildrootPath(PurePosixPath):
     """
     This path represents a path in a buildroot.
@@ -224,6 +228,53 @@ def classify_paths(
     return paths
 
 
+def escape_rpm_path(path):
+    """
+    Escape special characters in string-paths or BuildrootPaths
+
+    E.g. a space in path otherwise makes RPM think it's multiple paths,
+    unless we put it in "quotes".
+    Or a literal % symbol in path might be expanded as a macro if not escaped.
+
+    Due to limitations in RPM, paths with spaces and double quotes are not supported.
+
+    Examples:
+
+        >>> escape_rpm_path(BuildrootPath('/usr/lib/python3.9/site-packages/setuptools'))
+        '/usr/lib/python3.9/site-packages/setuptools'
+
+        >>> escape_rpm_path('/usr/lib/python3.9/site-packages/setuptools/script (dev).tmpl')
+        '"/usr/lib/python3.9/site-packages/setuptools/script (dev).tmpl"'
+
+        >>> escape_rpm_path('/usr/share/data/100%valid.path')
+        '/usr/share/data/100%%%%%%%%valid.path'
+
+        >>> escape_rpm_path('/usr/share/data/100 % valid.path')
+        '"/usr/share/data/100 %%%%%%%% valid.path"'
+
+        >>> escape_rpm_path('/usr/share/data/1000 %% valid.path')
+        '"/usr/share/data/1000 %%%%%%%%%%%%%%%% valid.path"'
+
+        >>> escape_rpm_path('/usr/share/data/spaces and "quotes"')
+        Traceback (most recent call last):
+          ...
+        NotImplementedError: ...
+    """
+    orig_path = path = str(path)
+    if "%" in path:
+        # Escaping by 8 %s has been verified in RPM 4.16 and 4.17, but probably not stable
+        # See this thread http://lists.rpm.org/pipermail/rpm-list/2021-June/002048.html
+        # On the CI, we build tests/escape_percentages.spec to verify this assumption
+        path = path.replace("%", "%" * 8)
+    if any(symbol in path for symbol in RPM_FILES_DELIMETERS):
+        if '"' in path:
+            # As far as we know, RPM cannot list such file individually
+            # See this thread http://lists.rpm.org/pipermail/rpm-list/2021-June/002048.html
+            raise NotImplementedError(f'" symbol in path with spaces is not supported by %pyproject_save_files: {orig_path!r}')
+        return f'"{path}"'
+    return path
+
+
 def generate_file_list(paths_dict, module_globs, include_others=False):
     """
     This function takes the classified paths_dict and turns it into lines
@@ -238,16 +289,16 @@ def generate_file_list(paths_dict, module_globs, include_others=False):
     files = set()
 
     if include_others:
-        files.update(f"{p}" for p in paths_dict["other"]["files"])
+        files.update(f"{escape_rpm_path(p)}" for p in paths_dict["other"]["files"])
         try:
             for lang_code in paths_dict["lang"][None]:
-                files.update(f"%lang({lang_code}) {path}" for path in paths_dict["lang"][None][lang_code])
+                files.update(f"%lang({lang_code}) {escape_rpm_path(p)}" for p in paths_dict["lang"][None][lang_code])
         except KeyError:
             pass
 
-    files.update(f"{p}" for p in paths_dict["metadata"]["files"])
+    files.update(f"{escape_rpm_path(p)}" for p in paths_dict["metadata"]["files"])
     for macro in "dir", "doc", "license":
-        files.update(f"%{macro} {p}" for p in paths_dict["metadata"][f"{macro}s"])
+        files.update(f"%{macro} {escape_rpm_path(p)}" for p in paths_dict["metadata"][f"{macro}s"])
 
     modules = paths_dict["modules"]
     done_modules = set()
@@ -259,12 +310,12 @@ def generate_file_list(paths_dict, module_globs, include_others=False):
                 if name not in done_modules:
                     try:
                         for lang_code in paths_dict["lang"][name]:
-                            files.update(f"%lang({lang_code}) {path}" for path in paths_dict["lang"][name][lang_code])
+                            files.update(f"%lang({lang_code}) {escape_rpm_path(p)}" for p in paths_dict["lang"][name][lang_code])
                     except KeyError:
                         pass
                     for module in modules[name]:
-                        files.update(f"%dir {p}" for p in module["dirs"])
-                        files.update(f"{p}" for p in module["files"])
+                        files.update(f"%dir {escape_rpm_path(p)}" for p in module["dirs"])
+                        files.update(f"{escape_rpm_path(p)}" for p in module["files"])
                     done_modules.add(name)
                 done_globs.add(glob)
 

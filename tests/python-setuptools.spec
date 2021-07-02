@@ -59,11 +59,6 @@ sed -i pytest.ini -e 's/ --flake8//' \
 rm -rf %{buildroot}%{python3_sitelib}/pkg_resources/tests/
 sed -i '/tests/d' %{pyproject_files}
 
-# Paths with spaces are not properly protected by %%pyproject_save_files
-# https://bugzilla.redhat.com/show_bug.cgi?id=1976363
-# This workaround will most likely break once fixed
-sed -Ei 's|/(.+) (.+)|"/\1 \2"|' %{pyproject_files}
-
 
 %check
 # https://github.com/pypa/setuptools/discussions/2607
