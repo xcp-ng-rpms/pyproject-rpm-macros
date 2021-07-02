@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        43%{?dist}
+Release:        44%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -110,11 +110,11 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 
 * Tue Jun 29 2021 Miro Hrončok <mhroncok@redhat.com> - 0-42
 - Don't accidentally treat "~= X.0" requirement as "~= X"
-- Fixes rhzb#1977060
+- Fixes rhbz#1977060
 
 * Mon Jun 28 2021 Miro Hrončok <mhroncok@redhat.com> - 0-41
 - Don't leak %%{_pyproject_builddir} to pytest collection
-- Fixes rhzb#1935212
+- Fixes rhbz#1935212
 
 * Thu May 27 2021 Miro Hrončok <mhroncok@redhat.com> - 0-40
 - Don't leak $TMPDIR outside of pyproject macros
