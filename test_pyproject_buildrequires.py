@@ -57,8 +57,16 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
     else:
         assert 0 == case['result']
 
-        captured = capsys.readouterr()
-        assert captured.out == case['expected']
+        # this prevents us from accidentally writing "empty" tests
+        # if we ever need to do that, we can remove the check or change it:
+        assert 'expected' in case or 'stderr_contains' in case
+
+        out, err = capsys.readouterr()
+
+        if 'expected' in case:
+            assert out == case['expected']
+        if 'stderr_contains' in case:
+            assert case['stderr_contains'] in err
     finally:
         for req in requirement_files:
             req.close()

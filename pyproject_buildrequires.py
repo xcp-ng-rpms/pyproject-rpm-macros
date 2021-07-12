@@ -2,7 +2,6 @@ import os
 import sys
 import importlib.metadata
 import argparse
-import functools
 import traceback
 import contextlib
 from io import StringIO
@@ -13,15 +12,21 @@ import tempfile
 import email.parser
 import pathlib
 
-print_err = functools.partial(print, file=sys.stderr)
 
 # Some valid Python version specifiers are not supported.
-# Whitelist characters we can handle.
-VERSION_RE = re.compile('[a-zA-Z0-9.-]+')
+# Allow only the forms we know we can handle.
+VERSION_RE = re.compile(r'[a-zA-Z0-9.-]+(\.\*)?')
 
 
 class EndPass(Exception):
     """End current pass of generating requirements"""
+
+
+# nb: we don't use functools.partial to be able to use pytest's capsys
+# see https://github.com/pytest-dev/pytest/issues/8900
+def print_err(*args, **kwargs):
+    kwargs.setdefault('file', sys.stderr)
+    print(*args, **kwargs)
 
 
 try:
