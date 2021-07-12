@@ -20,7 +20,7 @@ Source0:        %{pypi_source}
 # Fix Python 3.10 test issues
 # Merged upstream, https://github.com/pytest-dev/pytest/pull/8555
 # Rebased slightly
-Patch2:         https://src.fedoraproject.org/rpms/pytest/raw/a368ab2b2249b5d03a145f1d8b70e5636fc6eca8/f/8555.patch
+Patch2:         https://src.fedoraproject.org/rpms/pytest/raw/cad86f73367eff59a1d6daff44d262c3852f01f9/f/8555.patch
 %endif
 
 BuildArch:      noarch
