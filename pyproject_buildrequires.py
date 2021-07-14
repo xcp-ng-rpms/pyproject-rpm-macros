@@ -181,6 +181,10 @@ def get_backend(requirements):
         # missing, the source tree is not using this specification, and tools
         # should revert to the legacy behaviour of running setup.py
         # (either directly, or by implicitly invoking the [following] backend).
+        # If setup.py is also not present program will mimick pip's behavior
+        # and end with an error.
+        if not os.path.exists('setup.py'):
+            raise FileNotFoundError('File "setup.py" not found for legacy project.')
         backend_name = 'setuptools.build_meta:__legacy__'
 
         # Note: For projects without pyproject.toml, this was already echoed

@@ -97,10 +97,13 @@ echo 'python%{python3_pkgversion}dist(pip) >= 19'
 echo 'python%{python3_pkgversion}dist(packaging)'
 %{!-N:if [ -f pyproject.toml ]; then
   echo 'python%{python3_pkgversion}dist(toml)'
-else
+elif [ -f setup.py ]; then
   # Note: If the default requirements change, also change them in the script!
   echo 'python%{python3_pkgversion}dist(setuptools) >= 40.8'
   echo 'python%{python3_pkgversion}dist(wheel)'
+else
+  echo 'ERROR: Neither pyproject.toml nor setup.py found, consider using %%%%pyproject_buildrequires -N <requirements-file> if this is not a Python package.' >&2
+  exit 1
 fi}
 # Check if we can generate dependencies on Python extras
 if [ "%{py_dist_name []}" == "[]" ]; then

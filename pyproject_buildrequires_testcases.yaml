@@ -1,10 +1,7 @@
 No pyproject.toml, nothing installed:
   installed:
     # empty
-  expected: |
-    python3dist(setuptools) >= 40.8
-    python3dist(wheel)
-  result: 0
+  except: FileNotFoundError
 
 Nothing installed yet:
   installed:
@@ -14,7 +11,7 @@ Nothing installed yet:
   expected: |
     python3dist(setuptools) >= 40.8
     python3dist(wheel)
-  result: 0
+  except: FileNotFoundError
 
 Insufficient version of setuptools:
   installed:
@@ -23,6 +20,7 @@ Insufficient version of setuptools:
     toml: 1
   pyproject.toml: |
     # empty
+  setup.py: |
   expected: |
     python3dist(setuptools) >= 40.8
     python3dist(wheel)
@@ -53,6 +51,24 @@ Default build system, empty setup.py:
     python3dist(wheel)
   result: 0
 
+pyproject.toml with build-backend and setup.py:
+  generate_extras: true
+  installed:
+    setuptools: 50
+    wheel: 1
+    toml: 1
+  setup.py: |
+    # empty
+  pyproject.toml: |
+    [build-system]
+    requires = [
+        "foo",
+    ]
+    build-backend = "foo.build"
+  expected: |
+    python3dist(foo)
+  result: 0
+
 Erroring setup.py:
   installed:
     setuptools: 50
@@ -74,7 +90,8 @@ Single value version with unsupported compatible operator:
     toml: 1
   pyproject.toml: |
     [build-system]
-    requires = ["pkg ~= 42"]
+    requires = ["pkg ~= 42", "foo"]
+    build-backend = "foo.build"
   stderr_contains: "WARNING: Skipping invalid requirement: pkg ~= 42"
   result: 0
 
@@ -83,7 +100,8 @@ Asterisk in version with unsupported compatible operator:
     toml: 1
   pyproject.toml: |
     [build-system]
-    requires = ["pkg ~= 0.1.*"]
+    requires = ["pkg ~= 0.1.*", "foo"]
+    build-backend = "foo.build"
   stderr_contains: "WARNING: Skipping invalid requirement: pkg ~= 0.1.*"
   result: 0
 
@@ -113,6 +131,7 @@ Build system dependencies in pyproject.toml with extras:
         "py2 ; python_version < '2.7'",
         "py3 ; python_version > '3.0'",
     ]
+    build-backend = "foo.build"
   expected: |
     python3dist(foo)
     python3dist(bar) > 5
@@ -131,8 +150,6 @@ Build system dependencies in pyproject.toml with extras:
     python3dist(multi[extras2]) = 6
     ((python3dist(combo) < 3 or python3dist(combo) > 3) with python3dist(combo) < 5 with python3dist(combo) > 2)
     python3dist(py3)
-    python3dist(setuptools) >= 40.8
-    python3dist(wheel)
   result: 0
 
 Build system dependencies in pyproject.toml without extras:
@@ -147,11 +164,10 @@ Build system dependencies in pyproject.toml without extras:
         "bar[Baz] > 5",
         "multi[extras1,extras2] == 6.0",
     ]
+    build-backend = "foo.build"
   expected: |
     python3dist(bar) > 5
     python3dist(multi) = 6
-    python3dist(setuptools) >= 40.8
-    python3dist(wheel)
   result: 0
 
 Default build system, build dependencies in setup.py:
