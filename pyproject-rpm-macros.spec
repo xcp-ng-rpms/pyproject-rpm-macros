@@ -46,6 +46,11 @@ BuildRequires: python3dist(tox-current-env) >= 0.0.6
 BuildRequires: python3dist(wheel)
 %endif
 
+# We build on top of those:
+Requires:      python-rpm-macros
+Requires:      python-srpm-macros
+Requires:      python3-rpm-macros
+
 
 %description
 These macros allow projects that follow the Python packaging specifications
@@ -111,6 +116,7 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 - Fixes rhbz#1981558
 - %%pyproject_buildrequires fallbacks to setuptools only if setup.py exists
 - Fixes: rhbz#1976459
+- Explicitly require the "basic" Python RPM macros
 
 * Thu Jul 01 2021 Tomas Hrnciar <thrnciar@redhat.com> - 0-43
 - Generate BuildRequires from file
