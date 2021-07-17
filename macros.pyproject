@@ -105,16 +105,10 @@ else
   echo 'ERROR: Neither pyproject.toml nor setup.py found, consider using %%%%pyproject_buildrequires -N <requirements-file> if this is not a Python package.' >&2
   exit 1
 fi}
-# Check if we can generate dependencies on Python extras
-if [ "%{py_dist_name []}" == "[]" ]; then
-  extras_flag=%{?!_python_no_extras_requires:--generate-extras}
-else
-  extras_flag=
-fi
 # setuptools assumes no pre-existing dist-info
 rm -rfv *.dist-info/ >&2
 if [ -f %{__python3} ]; then
-  RPM_TOXENV="%{toxenv}" HOSTNAME="rpmbuild" %{__python3} -s %{_rpmconfigdir}/redhat/pyproject_buildrequires.py $extras_flag --python3_pkgversion %{python3_pkgversion} %{?**}
+  RPM_TOXENV="%{toxenv}" HOSTNAME="rpmbuild" %{__python3} -s %{_rpmconfigdir}/redhat/pyproject_buildrequires.py %{?!_python_no_extras_requires:--generate-extras} --python3_pkgversion %{python3_pkgversion} %{?**}
 fi
 }
 
