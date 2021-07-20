@@ -116,6 +116,7 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 * Fri Jul 23 2021 Miro Hrončok <miro@hroncok.cz> - 0-46
 - %%pyproject_buildrequires now fails when it encounters an invalid requirement
 - Fixes: rhbz#1983053
+- Rename %%_pyproject_ghost_distinfo and %%_pyproject_record to indicate they are private
 
 * Fri Jul 23 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0-45
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild

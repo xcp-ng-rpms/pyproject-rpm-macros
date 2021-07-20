@@ -59,9 +59,9 @@ grep -F 'py%{python3_version_nodots}-test: commands succeeded' toxlog
 grep -F 'flake8: commands succeeded' toxlog
 
 # Internal check for our macros
-# making sure that %%{pyproject_ghost_distinfo} has the right content
-test -f %{pyproject_ghost_distinfo}
-test "$(cat %{pyproject_ghost_distinfo})" == "%ghost %{python3_sitelib}/setuptools_scm-%{version}.dist-info"
+# making sure that %%{_pyproject_ghost_distinfo} has the right content
+test -f %{_pyproject_ghost_distinfo}
+test "$(cat %{_pyproject_ghost_distinfo})" == "%ghost %{python3_sitelib}/setuptools_scm-%{version}.dist-info"
 
 
 %files -n python3-setuptools_scm -f %{pyproject_files}

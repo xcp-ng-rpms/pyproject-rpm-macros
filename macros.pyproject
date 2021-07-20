@@ -11,8 +11,8 @@
 %_pyproject_builddir %{_builddir}%{?buildsubdir:/%{buildsubdir}}/.pyproject-builddir
 
 %pyproject_files %{_builddir}/pyproject-files
-%pyproject_ghost_distinfo %{_builddir}/pyproject-ghost-distinfo
-%pyproject_record %{_builddir}/pyproject-record
+%_pyproject_ghost_distinfo %{_builddir}/pyproject-ghost-distinfo
+%_pyproject_record %{_builddir}/pyproject-record
 
 # Avoid leaking %%{_pyproject_builddir} to pytest collection
 # https://bugzilla.redhat.com/show_bug.cgi?id=1935212
@@ -34,7 +34,7 @@ if [ -d %{buildroot}%{_bindir} ]; then
   %py3_shebang_fix %{buildroot}%{_bindir}/*
   rm -rfv %{buildroot}%{_bindir}/__pycache__
 fi
-rm -f %{pyproject_ghost_distinfo}
+rm -f %{_pyproject_ghost_distinfo}
 site_dirs=()
 # Process %%{python3_sitelib} if exists
 if [ -d %{buildroot}%{python3_sitelib} ]; then
@@ -47,25 +47,25 @@ fi
 # Process all *.dist-info dirs in sitelib/sitearch
 for site_dir in ${site_dirs[@]}; do
   for distinfo in %{buildroot}$site_dir/*.dist-info; do
-    echo "%ghost ${distinfo#%{buildroot}}" >> %{pyproject_ghost_distinfo}
+    echo "%ghost ${distinfo#%{buildroot}}" >> %{_pyproject_ghost_distinfo}
     sed -i 's/pip/rpm/' ${distinfo}/INSTALLER
     PYTHONPATH=%{_rpmconfigdir}/redhat \\
       %{__python3} -B %{_rpmconfigdir}/redhat/pyproject_preprocess_record.py \\
-      --buildroot %{buildroot} --record ${distinfo}/RECORD --output %{pyproject_record}
+      --buildroot %{buildroot} --record ${distinfo}/RECORD --output %{_pyproject_record}
     rm -fv ${distinfo}/RECORD
     rm -fv ${distinfo}/REQUESTED
   done
 done
-lines=$(wc -l %{pyproject_ghost_distinfo} | cut -f1 -d" ")
+lines=$(wc -l %{_pyproject_ghost_distinfo} | cut -f1 -d" ")
 if [ $lines -ne 1 ]; then
   echo -e "\\n\\nWARNING: %%%%pyproject_extras_subpkg won't work without explicit -i or -F, found $lines dist-info directories.\\n\\n" >&2
-  rm %{pyproject_ghost_distinfo}  # any attempt to use this will fail
+  rm %{_pyproject_ghost_distinfo}  # any attempt to use this will fail
 fi
 }
 
 
 # Note: the three times nested questionmarked -i -f -F pattern means: If none of those options was used -- in that case, we inject our own -f
-%pyproject_extras_subpkg(n:i:f:F) %{expand:%{?python_extras_subpkg:%{python_extras_subpkg%{?!-i:%{?!-f:%{?!-F: -f %{pyproject_ghost_distinfo}}}} %**}}}
+%pyproject_extras_subpkg(n:i:f:F) %{expand:%{?python_extras_subpkg:%{python_extras_subpkg%{?!-i:%{?!-f:%{?!-F: -f %{_pyproject_ghost_distinfo}}}} %**}}}
 
 
 %pyproject_save_files() %{expand:\\\
@@ -75,7 +75,7 @@ fi
   --sitelib "%{python3_sitelib}" \\
   --sitearch "%{python3_sitearch}" \\
   --python-version "%{python3_version}" \\
-  --pyproject-record "%{pyproject_record}" \\
+  --pyproject-record "%{_pyproject_record}" \\
   %{*}
 }
 
