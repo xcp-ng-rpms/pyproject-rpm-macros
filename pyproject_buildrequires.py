@@ -11,11 +11,15 @@ import re
 import tempfile
 import email.parser
 import pathlib
+import urllib
 
 
 # Some valid Python version specifiers are not supported.
 # Allow only the forms we know we can handle.
 VERSION_RE = re.compile(r'[a-zA-Z0-9.-]+(\.\*)?')
+
+# We treat this as comment in requirements files, as does pip
+COMMENT_RE = re.compile(r'(^|\s+)#.*$')
 
 
 class EndPass(Exception):
@@ -50,6 +54,31 @@ def hook_call():
         print_err('HOOK STDOUT:', line)
 
 
+def pkgname_from_egg_fragment(requirement_str):
+    parsed_url = urllib.parse.urlparse(requirement_str)
+    parsed_fragment = urllib.parse.parse_qs(parsed_url.fragment)
+    if 'egg' in parsed_fragment:
+        return parsed_fragment['egg'][0]
+    return None
+
+
+def guess_reason_for_invalid_requirement(requirement_str):
+    if ':' in requirement_str:
+        return (
+            'It might be an URL. '
+            '%pyproject_buildrequires cannot handle all URL-based requirements. '
+            'Add PackageName@ (see PEP 508) to the URL to at least require any version of PackageName.'
+        )
+    if '/' in requirement_str:
+        return (
+            'It might be a local path. '
+            '%pyproject_buildrequires cannot handle local paths as requirements. '
+            'Use an URL with PackageName@ (see PEP 508) to at least require any version of PackageName.'
+        )
+    # No more ideas
+    return None
+
+
 class Requirements:
     """Requirement printer"""
     def __init__(self, get_installed_version, extras=None,
@@ -81,18 +110,27 @@ class Requirements:
                 return True
         return False
 
-    def add(self, requirement_str, *, source=None):
+    def add(self, requirement_str, *, source=None, allow_egg_pkgname=False):
         """Output a Python-style requirement string as RPM dep"""
         print_err(f'Handling {requirement_str} from {source}')
 
         try:
             requirement = Requirement(requirement_str)
-        except InvalidRequirement as e:
+        except InvalidRequirement:
+            if allow_egg_pkgname and (egg_name := pkgname_from_egg_fragment(requirement_str)):
+                requirement = Requirement(egg_name)
+                requirement.url = requirement_str
+            else:
+                hint = guess_reason_for_invalid_requirement(requirement_str)
+                message = f'Requirement {requirement_str!r} from {source} is invalid.'
+                if hint:
+                    message += f' Hint: {hint}'
+                raise ValueError(message)
+
+        if requirement.url:
             print_err(
-                f'WARNING: Skipping invalid requirement: {requirement_str}\n'
-                + f'    {e}',
+                f'WARNING: Simplifying {requirement_str!r} to {requirement.name!r}.'
             )
-            return
 
         name = canonicalize_name(requirement.name)
         if (requirement.marker is not None and
@@ -128,7 +166,7 @@ class Requirements:
                 if not VERSION_RE.fullmatch(str(specifier.version)):
                     raise ValueError(
                         f'Unknown character in version: {specifier.version}. '
-                        + '(This is probably a bug in pyproject-rpm-macros.)',
+                        + '(This might be a bug in pyproject-rpm-macros.)',
                     )
                 together.append(convert(python3dist(name, python3_pkgversion=self.python3_pkgversion),
                                         specifier.operator, specifier.version))
@@ -146,10 +184,10 @@ class Requirements:
             print_err(f'Exiting dependency generation pass: {source}')
             raise EndPass(source)
 
-    def extend(self, requirement_strs, *, source=None):
+    def extend(self, requirement_strs, **kwargs):
         """add() several requirements"""
         for req_str in requirement_strs:
-            self.add(req_str, source=source)
+            self.add(req_str, **kwargs)
 
 
 def get_backend(requirements):
@@ -241,13 +279,7 @@ def generate_run_requirements(backend, requirements):
 def parse_requirements_lines(lines, path=None):
     packages = []
     for line in lines:
-        line, _, comment = line.partition('#')
-        if comment.startswith('egg='):
-            # not a real comment
-            # e.g. git+https://github.com/monty/spam.git@master#egg=spam&...
-            egg, *_ = comment.strip().partition(' ')
-            egg, *_ = egg.strip().partition('&')
-            line = egg[4:]
+        line = COMMENT_RE.sub('', line)
         line = line.strip()
         if line.startswith('-r'):
             recursed_path = line[2:].strip()
@@ -343,7 +375,8 @@ def generate_requires(
                 lines = req_file.read().splitlines()
                 packages = parse_requirements_lines(lines, pathlib.Path(req_file.name))
                 requirements.extend(packages,
-                                    source=f'requirements file {req_file.name}')
+                                    source=f'requirements file {req_file.name}',
+                                    allow_egg_pkgname=True)
             requirements.check(source='all requirement files')
         if use_build_system:
             backend = get_backend(requirements)

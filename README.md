@@ -268,8 +268,42 @@ undefine `%{py3_shbang_opt}` to turn it off.
 
 Some valid Python version specifiers are not supported.
 
+When a dependency is specified via an URL or local path, for example as:
+
+    https://github.com/ActiveState/appdirs/archive/8eacfa312d77aba28d483fbfb6f6fc54099622be.zip
+    /some/path/foo-1.2.3.tar.gz
+    git+https://github.com/sphinx-doc/sphinx.git@96dbe5e3
+
+The `%pyproject_buildrequires` macro is unable to convert it to an appropriate RPM requirement and will fail.
+If the URL contains the `packageName @` prefix as specified in [PEP 508],
+the requirement will be generated without a version constraint:
+
+    appdirs@https://github.com/ActiveState/appdirs/archive/8eacfa312d77aba28d483fbfb6f6fc54099622be.zip
+    foo@file:///some/path/foo-1.2.3.tar.gz
+
+Will be converted to:
+
+    python3dist(appdirs)
+    python3dist(foo)
+
+Alternatively, when an URL requirement parsed from a text file
+given as positional argument to `%pyproject_buildrequires`
+contains the `#egg=packageName` fragment,
+as documented in [pip's documentation]:
+
+    git+https://github.com/sphinx-doc/sphinx.git@96dbe5e3#egg=sphinx
+
+The requirements will be converted to package names without versions, e.g.:
+
+    python3dist(sphinx)
+
+However upstreams usually only use direct URLs for their requirements as workarounds,
+so be prepared for problems.
+
+[PEP 508]: https://www.python.org/dev/peps/pep-0508/
 [PEP 517]: https://www.python.org/dev/peps/pep-0517/
 [PEP 518]: https://www.python.org/dev/peps/pep-0518/
+[pip's documentation]: https://pip.pypa.io/en/stable/cli/pip_install/#vcs-support
 
 
 Testing the macros

@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        45%{?dist}
+Release:        46%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -109,6 +109,10 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Fri Jul 23 2021 Miro Hrončok <miro@hroncok.cz> - 0-46
+- %%pyproject_buildrequires now fails when it encounters an invalid requirement
+- Fixes: rhbz#1983053
+
 * Fri Jul 23 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0-45
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 

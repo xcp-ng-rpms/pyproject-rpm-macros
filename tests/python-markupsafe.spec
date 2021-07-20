@@ -28,6 +28,9 @@ Summary:        %{summary}
 # we don't have pip-tools packaged in Fedora yet
 sed -i /pip-tools/d requirements/dev.in
 
+# help the macros understand the URL in requirements/docs.in
+sed -Ei 's/sphinx\.git@([0-9a-f]+)/sphinx.git@\1#egg=sphinx/' requirements/docs.in
+
 
 %generate_buildrequires
 # requirements/dev.in recursively includes tests.in and docs.in

@@ -92,8 +92,7 @@ Single value version with unsupported compatible operator:
     [build-system]
     requires = ["pkg ~= 42", "foo"]
     build-backend = "foo.build"
-  stderr_contains: "WARNING: Skipping invalid requirement: pkg ~= 42"
-  result: 0
+  except: ValueError
 
 Asterisk in version with unsupported compatible operator:
   installed:
@@ -102,8 +101,34 @@ Asterisk in version with unsupported compatible operator:
     [build-system]
     requires = ["pkg ~= 0.1.*", "foo"]
     build-backend = "foo.build"
-  stderr_contains: "WARNING: Skipping invalid requirement: pkg ~= 0.1.*"
-  result: 0
+  except: ValueError
+
+Local path as requirement:
+  installed:
+    toml: 1
+  pyproject.toml: |
+    [build-system]
+    requires = ["./pkg-1.2.3.tar.gz", "foo"]
+    build-backend = "foo.build"
+  except: ValueError
+
+Pip's egg=pkgName requirement not in requirements file:
+  installed:
+    toml: 1
+  pyproject.toml: |
+    [build-system]
+    requires = ["git+https://github.com/monty/spam.git@master#egg=spam", "foo"]
+    build-backend = "foo.build"
+  except: ValueError
+
+URL without egg fragment as requirement:
+  installed:
+    toml: 1
+  pyproject.toml: |
+    [build-system]
+    requires = ["git+https://github.com/pkg-dev/pkg.git@96dbe5e3", "foo"]
+    build-backend = "foo.build"
+  except: ValueError
 
 Build system dependencies in pyproject.toml with extras:
   generate_extras: true
@@ -125,9 +150,9 @@ Build system dependencies in pyproject.toml with extras:
         "equal == 0.5.0",
         "arbitrary_equal === 0.6.0",
         "asterisk_equal == 0.6.*",
+        "appdirs@https://github.com/ActiveState/appdirs/archive/8eacfa312d77aba28d483fbfb6f6fc54099622be.zip",
         "multi[Extras1,Extras2] == 6.0",
         "combo >2, <5, != 3.0.0",
-        "invalid!!ignored",
         "py2 ; python_version < '2.7'",
         "py3 ; python_version > '3.0'",
     ]
@@ -145,11 +170,13 @@ Build system dependencies in pyproject.toml with extras:
     python3dist(equal) = 0.5
     python3dist(arbitrary-equal) = 0.6
     (python3dist(asterisk-equal) >= 0.6 with python3dist(asterisk-equal) < 0.7)
+    python3dist(appdirs)
     python3dist(multi) = 6
     python3dist(multi[extras1]) = 6
     python3dist(multi[extras2]) = 6
     ((python3dist(combo) < 3 or python3dist(combo) > 3) with python3dist(combo) < 5 with python3dist(combo) > 2)
     python3dist(py3)
+  stderr_contains: "WARNING: Simplifying 'appdirs@https://github.com/ActiveState/appdirs/archive/8eacfa312d77aba28d483fbfb6f6fc54099622be.zip' to 'appdirs'."
   result: 0
 
 Build system dependencies in pyproject.toml without extras:
@@ -576,6 +603,7 @@ With pyproject.toml, requirements file and with -N option:
     python3dist(paramiko)
     python3dist(sqlalchemy)
     python3dist(spam)
+  stderr_contains: "WARNING: Simplifying 'git+https://github.com/monty/spam.git@master#egg=spam' to 'spam'."
   result: 0
 
 With pyproject.toml, requirements file and without -N option:
