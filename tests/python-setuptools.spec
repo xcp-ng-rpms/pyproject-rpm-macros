@@ -67,8 +67,12 @@ rm pyproject.toml
 # We only run a subset of tests to speed things up and be less fragile
 PYTHONPATH=$(pwd) %pytest --ignore=pavement.py -k "sdist"
 
+# Internal check that license file was recognized correctly
+grep '^%%license' %{pyproject_files} > tested.license
+echo '%%license %{python3_sitelib}/setuptools-%{version}.dist-info/LICENSE' > expected.license
+diff tested.license expected.license
+
 
 %files -n python3-setuptools -f %{pyproject_files}
-%license LICENSE
 %doc docs/* CHANGES.rst README.rst
 %{python3_sitelib}/distutils-precedence.pth

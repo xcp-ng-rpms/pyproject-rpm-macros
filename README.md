@@ -184,11 +184,10 @@ For example, if a package provides the modules `requests` and `_requests`, write
     %pyproject_save_files requests _requests
 
 To add listed files to the `%files` section, use `%files -f %{pyproject_files}`.
-Note that you still need to add any documentation and license manually (for now).
+Note that you still need to add any documentation manually (for now).
 
     %files -n python3-requests -f %{pyproject_files}
     %doc README.rst
-    %license LICENSE
 
 You can use globs in the module names if listing them explicitly would be too tedious:
 
@@ -214,10 +213,12 @@ However, in Fedora packages, always list executables explicitly to avoid uninten
     
     %files -n python3-requests -f %{pyproject_files}
     %doc README.rst
-    %license LICENSE
     %{_bindir}/downloader
 
-`%pyproject_save_files` also automatically recognizes language (`*.mo`) files and marks them with `%lang` macro and appropriate language code.
+`%pyproject_save_files` can automatically mark license files with `%license` macro
+and  language (`*.mo`) files with `%lang` macro and appropriate language code.
+Only license files declared via [PEP 639] `License-Field` field are detected.
+[PEP 639] is still a draft and can be changed in the future.
 
 Note that `%pyproject_save_files` uses data from the [RECORD file](https://www.python.org/dev/peps/pep-0627/).
 If you wish to rename, remove or otherwise change the installed files of a package
@@ -303,6 +304,7 @@ so be prepared for problems.
 [PEP 508]: https://www.python.org/dev/peps/pep-0508/
 [PEP 517]: https://www.python.org/dev/peps/pep-0517/
 [PEP 518]: https://www.python.org/dev/peps/pep-0518/
+[PEP 639]: https://www.python.org/dev/peps/pep-0639/
 [pip's documentation]: https://pip.pypa.io/en/stable/cli/pip_install/#vcs-support
 
 

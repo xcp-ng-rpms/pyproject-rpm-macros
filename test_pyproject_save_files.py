@@ -20,6 +20,7 @@ yaml_data = yaml.safe_load(yaml_file.read_text())
 EXPECTED_DICT = yaml_data["classified"]
 EXPECTED_FILES = yaml_data["dumped"]
 TEST_RECORDS = yaml_data["records"]
+TEST_METADATAS = yaml_data["metadata"]
 
 
 @pytest.fixture
@@ -47,6 +48,10 @@ def prepare_pyproject_record(tmp_path, package=None, content=None):
         # Get test data and write dist-info/RECORD file
         record_path = BuildrootPath(TEST_RECORDS[package]["path"])
         record_file.write_text(TEST_RECORDS[package]["content"])
+        if package in TEST_METADATAS:
+            metadata_path = BuildrootPath(TEST_METADATAS[package]["path"]).to_real(tmp_path)
+            metadata_path.parent.mkdir(parents=True, exist_ok=True)
+            metadata_path.write_text(TEST_METADATAS[package]["content"])
         # Parse RECORD file
         parsed_record = parse_record(record_path, read_record(record_file))
         # Save JSON content to pyproject-record

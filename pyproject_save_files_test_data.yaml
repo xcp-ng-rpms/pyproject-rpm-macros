@@ -50,11 +50,11 @@ classified:
       docs: []
       files:
       - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/INSTALLER
-      - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/LICENSE
       - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/METADATA
       - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/WHEEL
       - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/top_level.txt
-      licenses: []
+      licenses:
+      - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/LICENSE
     modules:
       requests:
       - files:
@@ -415,13 +415,13 @@ classified:
       files:
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/AUTHORS
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/INSTALLER
-      - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE
-      - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE.python
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/METADATA
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/WHEEL
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/entry_points.txt
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/top_level.txt
-      licenses: []
+      licenses:
+      - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE
+      - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE.python
     lang:
       django:
         af:
@@ -7434,8 +7434,8 @@ dumped:
   - - '%dir /usr/lib/python3.7/site-packages/requests'
     - '%dir /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info'
     - '%dir /usr/lib/python3.7/site-packages/requests/__pycache__'
+    - '%license /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/LICENSE'
     - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/INSTALLER
-    - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/LICENSE
     - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/METADATA
     - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/WHEEL
     - /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/top_level.txt
@@ -11252,12 +11252,12 @@ dumped:
     - '%lang(zh) /usr/lib/python3.7/site-packages/django/contrib/sessions/locale/zh_Hant/LC_MESSAGES/django.mo'
     - '%lang(zh) /usr/lib/python3.7/site-packages/django/contrib/sites/locale/zh_Hans/LC_MESSAGES/django.mo'
     - '%lang(zh) /usr/lib/python3.7/site-packages/django/contrib/sites/locale/zh_Hant/LC_MESSAGES/django.mo'
+    - '%license /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE'
+    - '%license /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE.python'
     - /usr/bin/django-admin
     - /usr/bin/django-admin.py
     - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/AUTHORS
     - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/INSTALLER
-    - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE
-    - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE.python
     - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/METADATA
     - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/WHEEL
     - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/entry_points.txt
@@ -14486,6 +14486,23 @@ dumped:
     - /usr/share/pronterface/reset.png
     - /usr/share/pronterface/zoom_in.png
     - /usr/share/pronterface/zoom_out.png
+
+metadata:
+  requests:
+    path: /usr/lib/python3.7/site-packages/requests-2.22.0.dist-info/METADATA
+    content: |
+      Name: requests
+      Version: 2.22.0
+      License-File: LICENSE
+      Whatever: False data
+  django:
+    path: /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/METADATA
+    content: |
+      Name: Django
+      Version: 3.0.7
+      License-File: LICENSE
+      License-File: LICENSE.python
+      Whatever: False data
 
 records:
   kerberos:
