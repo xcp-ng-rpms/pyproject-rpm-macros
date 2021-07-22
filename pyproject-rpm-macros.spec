@@ -17,10 +17,12 @@ Source102:      pyproject_save_files.py
 Source103:      pyproject_convert.py
 Source104:      pyproject_preprocess_record.py
 Source105:      pyproject_construct_toxenv.py
+Source106:      pyproject_requirements_txt.py
 
 # Tests
 Source201:      test_pyproject_buildrequires.py
 Source202:      test_pyproject_save_files.py
+Source203:      test_pyproject_requirements_txt.py
 
 # Test data
 Source301:      pyproject_buildrequires_testcases.yaml
@@ -89,6 +91,7 @@ install -m 644 pyproject_convert.py %{buildroot}%{_rpmconfigdir}/redhat/
 install -m 644 pyproject_save_files.py  %{buildroot}%{_rpmconfigdir}/redhat/
 install -m 644 pyproject_preprocess_record.py %{buildroot}%{_rpmconfigdir}/redhat/
 install -m 644 pyproject_construct_toxenv.py %{buildroot}%{_rpmconfigdir}/redhat/
+install -m 644 pyproject_requirements_txt.py %{buildroot}%{_rpmconfigdir}/redhat/
 
 %if %{with tests}
 %check
@@ -104,6 +107,7 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %{_rpmconfigdir}/redhat/pyproject_save_files.py
 %{_rpmconfigdir}/redhat/pyproject_preprocess_record.py
 %{_rpmconfigdir}/redhat/pyproject_construct_toxenv.py
+%{_rpmconfigdir}/redhat/pyproject_requirements_txt.py
 
 %doc README.md
 %license LICENSE

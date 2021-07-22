@@ -603,7 +603,7 @@ With pyproject.toml, requirements file and with -N option:
     python3dist(paramiko)
     python3dist(sqlalchemy)
     python3dist(spam)
-  stderr_contains: "WARNING: Simplifying 'git+https://github.com/monty/spam.git@master#egg=spam' to 'spam'."
+  stderr_contains: "WARNING: Simplifying 'spam@git+https://github.com/monty/spam.git@master#egg=spam' to 'spam'."
   result: 0
 
 With pyproject.toml, requirements file and without -N option:
@@ -663,3 +663,57 @@ Value error if -N and -e arguments are present:
   use_build_system: false
   except: ValueError
 
+
+Weird and complex requirements file:
+  installed:
+    setuptools: 50
+    wheel: 1
+  setup.py: |
+    from setuptools import setup
+    setup(
+        name='test',
+        version='0.1',
+    )
+  requirements.txt: |
+    Normal_Req ~= 1.2.0
+
+    good@git+https://github.com/monty/spam.git@master#egg=bad
+    git+https://github.com/monty/spam.git@master#egg=ugly
+
+    this-name-is-too-\
+    long-for-this-file<\
+    =30  # even names and operators can be split
+
+    # this is not a multi-line comment \
+    some-dep
+    other-dep  # but this *is* a multi-line coment \
+    so any garbage can be here
+    dep-a # and this comment ends with the blank line below \
+
+    dep-b
+    -r requirements2.txt
+    ${PACKAGE}${WANTED_VERSION}
+  requirements2.txt: |
+    dep-from-included-file
+  requirement_files:
+    - requirements.txt
+  environ:
+    PACKAGE: package
+    WANTED_VERSION: -from-environ >= 1.2.3
+  expected: |
+    (python3dist(normal-req) >= 1.2 with python3dist(normal-req) < 1.3)
+    python3dist(good)
+    python3dist(ugly)
+    python3dist(this-name-is-too-long-for-this-file) <= 30
+    python3dist(some-dep)
+    python3dist(other-dep)
+    python3dist(dep-a)
+    python3dist(dep-b)
+    python3dist(dep-from-included-file)
+    python3dist(package-from-environ) >= 1.2.3
+  stderr_contains:
+  - "WARNING: Simplifying 'good@git+https://github.com/monty/spam.git@master#egg=bad' to 'good'."
+  # XXX: pyproject_requirements_txt adds a prefix that's not actually in the source;
+  # but that's good enough:
+  - "WARNING: Simplifying 'ugly@git+https://github.com/monty/spam.git@master#egg=ugly' to 'ugly'."
+  result: 0

@@ -11,15 +11,13 @@ import re
 import tempfile
 import email.parser
 import pathlib
-import urllib
+
+from pyproject_requirements_txt import convert_requirements_txt
 
 
 # Some valid Python version specifiers are not supported.
 # Allow only the forms we know we can handle.
 VERSION_RE = re.compile(r'[a-zA-Z0-9.-]+(\.\*)?')
-
-# We treat this as comment in requirements files, as does pip
-COMMENT_RE = re.compile(r'(^|\s+)#.*$')
 
 
 class EndPass(Exception):
@@ -54,21 +52,16 @@ def hook_call():
         print_err('HOOK STDOUT:', line)
 
 
-def pkgname_from_egg_fragment(requirement_str):
-    parsed_url = urllib.parse.urlparse(requirement_str)
-    parsed_fragment = urllib.parse.parse_qs(parsed_url.fragment)
-    if 'egg' in parsed_fragment:
-        return parsed_fragment['egg'][0]
-    return None
-
-
 def guess_reason_for_invalid_requirement(requirement_str):
     if ':' in requirement_str:
-        return (
+        message = (
             'It might be an URL. '
             '%pyproject_buildrequires cannot handle all URL-based requirements. '
             'Add PackageName@ (see PEP 508) to the URL to at least require any version of PackageName.'
         )
+        if '@' in requirement_str:
+            message += ' (but note that URLs might not work well with other features)'
+        return message
     if '/' in requirement_str:
         return (
             'It might be a local path. '
@@ -110,22 +103,18 @@ class Requirements:
                 return True
         return False
 
-    def add(self, requirement_str, *, source=None, allow_egg_pkgname=False):
+    def add(self, requirement_str, *, source=None):
         """Output a Python-style requirement string as RPM dep"""
         print_err(f'Handling {requirement_str} from {source}')
 
         try:
             requirement = Requirement(requirement_str)
         except InvalidRequirement:
-            if allow_egg_pkgname and (egg_name := pkgname_from_egg_fragment(requirement_str)):
-                requirement = Requirement(egg_name)
-                requirement.url = requirement_str
-            else:
-                hint = guess_reason_for_invalid_requirement(requirement_str)
-                message = f'Requirement {requirement_str!r} from {source} is invalid.'
-                if hint:
-                    message += f' Hint: {hint}'
-                raise ValueError(message)
+            hint = guess_reason_for_invalid_requirement(requirement_str)
+            message = f'Requirement {requirement_str!r} from {source} is invalid.'
+            if hint:
+                message += f' Hint: {hint}'
+            raise ValueError(message)
 
         if requirement.url:
             print_err(
@@ -276,27 +265,6 @@ def generate_run_requirements(backend, requirements):
         requirements.extend(requires, source=f'wheel metadata: {key}')
 
 
-def parse_requirements_lines(lines, path=None):
-    packages = []
-    for line in lines:
-        line = COMMENT_RE.sub('', line)
-        line = line.strip()
-        if line.startswith('-r'):
-            recursed_path = line[2:].strip()
-            if path:
-                recursed_path = path.parent / recursed_path
-            with open(recursed_path) as f:
-                packages.extend(parse_requirements_lines(f.read().splitlines(), recursed_path))
-        elif line.startswith('-'):
-            print_err(
-                f'WARNING: Skipping dependency line: {line}\n'
-                + f'    tox deps options other than -r are not supported (yet).',
-            )
-        elif line:
-            packages.append(line)
-    return packages
-
-
 def generate_tox_requirements(toxenv, requirements):
     toxenv = ','.join(toxenv)
     requirements.add('tox-current-env >= 0.0.6', source='tox itself')
@@ -335,7 +303,7 @@ def generate_tox_requirements(toxenv, requirements):
             r.check_returncode()
 
         deplines = deps.read().splitlines()
-        packages = parse_requirements_lines(deplines)
+        packages = convert_requirements_txt(deplines)
         requirements.add_extras(*extras.read().splitlines())
         requirements.extend(packages,
                             source=f'tox --print-deps-only: {toxenv}')
@@ -372,11 +340,10 @@ def generate_requires(
             raise ValueError('-N option cannot be used in combination with -r, -e, -t, -x options')
         if requirement_files:
             for req_file in requirement_files:
-                lines = req_file.read().splitlines()
-                packages = parse_requirements_lines(lines, pathlib.Path(req_file.name))
-                requirements.extend(packages,
-                                    source=f'requirements file {req_file.name}',
-                                    allow_egg_pkgname=True)
+                requirements.extend(
+                    convert_requirements_txt(req_file, pathlib.Path(req_file.name)),
+                    source=f'requirments file {req_file.name}'
+                )
             requirements.check(source='all requirement files')
         if use_build_system:
             backend = get_backend(requirements)

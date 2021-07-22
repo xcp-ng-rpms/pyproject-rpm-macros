@@ -1,6 +1,5 @@
 from pathlib import Path
 import importlib.metadata
-import io
 
 import pytest
 import yaml
@@ -28,6 +27,9 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
         file_types = ('.toml', '.py', '.in', '.ini', '.txt')
         if filename.endswith(file_types):
             cwd.joinpath(filename).write_text(case[filename])
+
+    for name, value in case.get('environ', {}).items():
+        monkeypatch.setenv(name, value)
 
     def get_installed_version(dist_name):
         try:
@@ -65,8 +67,14 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
 
         if 'expected' in case:
             assert out == case['expected']
-        if 'stderr_contains' in case:
-            assert case['stderr_contains'] in err
+
+        # stderr_contains may be a string or list of strings
+        stderr_contains = case.get('stderr_contains')
+        if stderr_contains is not None:
+            if isinstance(stderr_contains, str):
+                stderr_contains = [stderr_contains]
+            for expected_substring in stderr_contains:
+                assert expected_substring in err
     finally:
         for req in requirement_files:
             req.close()
