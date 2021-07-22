@@ -122,7 +122,7 @@ because runtime dependencies are always required for testing.
 [tox]: https://tox.readthedocs.io/
 [tox-current-env]: https://github.com/fedora-python/tox-current-env/
 
-Additionaly to generated requirements you can supply multiple file names to `%pyproject_buildrequires` macro.
+Additionally to generated requirements you can supply multiple file names to `%pyproject_buildrequires` macro.
 Dependencies will be loaded from them:
 
     %pyproject_buildrequires -r requirements/tests.in requirements/docs.in requirements/dev.in
