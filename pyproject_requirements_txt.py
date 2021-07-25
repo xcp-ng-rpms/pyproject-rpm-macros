@@ -20,7 +20,7 @@ PKGNAME_RE = re.compile(r'^[-_a-zA-Z0-9]+')
 def convert_requirements_txt(lines, path:Path = None):
     """Convert lines of a requirements file to PEP 440-style requirement strs
 
-    This does NOT handle all of requitrements.txt features (only pip can do
+    This does NOT handle all of requirements.txt features (only pip can do
     that), but tries its best.
 
     The resulting requirements might not actually be valid (either because

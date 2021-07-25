@@ -342,7 +342,7 @@ def generate_requires(
             for req_file in requirement_files:
                 requirements.extend(
                     convert_requirements_txt(req_file, pathlib.Path(req_file.name)),
-                    source=f'requirments file {req_file.name}'
+                    source=f'requirements file {req_file.name}'
                 )
             requirements.check(source='all requirement files')
         if use_build_system:
