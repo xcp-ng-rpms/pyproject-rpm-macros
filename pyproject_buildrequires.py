@@ -344,7 +344,7 @@ def generate_requires(
                     convert_requirements_txt(req_file, pathlib.Path(req_file.name)),
                     source=f'requirements file {req_file.name}'
                 )
-            requirements.check(source='all requirement files')
+            requirements.check(source='all requirements files')
         if use_build_system:
             backend = get_backend(requirements)
             generate_build_requirements(backend, requirements)
