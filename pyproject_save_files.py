@@ -381,16 +381,25 @@ def parse_varargs(varargs):
         >>> parse_varargs(['mod', 'mod.*'])
         Traceback (most recent call last):
           ...
-        ValueError: Attempted to use a namespaced package with dot in the glob: mod.*. ...
+        ValueError: Attempted to use a namespaced package with . in the glob: mod.*. ...
 
         >>> parse_varargs(['my.bad', '+bad'])
         Traceback (most recent call last):
           ...
-        ValueError: Attempted to use a namespaced package with dot in the glob: my.bad. ...
+        ValueError: Attempted to use a namespaced package with . in the glob: my.bad. ...
+
+        >>> parse_varargs(['mod/submod'])
+        Traceback (most recent call last):
+          ...
+        ValueError: Attempted to use a namespaced package with / in the glob: mod/submod. ...
     """
     include_auto = False
     globs = set()
-
+    namespace_error_template = (
+        "Attempted to use a namespaced package with {symbol} in the glob: {arg}. "
+        "That is not (yet) supported. Use {top} instead and see "
+        "https://bugzilla.redhat.com/1935266 for details."
+    )
     for arg in varargs:
         if arg.startswith("+"):
             if arg == "+auto":
@@ -399,11 +408,10 @@ def parse_varargs(varargs):
                 raise ValueError(f"Invalid argument: {arg}")
         elif "." in arg:
             top, *_ = arg.partition(".")
-            msg = (
-                f"Attempted to use a namespaced package with dot in the glob: {arg}. "
-                f"That is not (yet) supported. Use {top} instead and/or file a Bugzilla explaining your use case."
-            )
-            raise ValueError(msg)
+            raise ValueError(namespace_error_template.format(symbol=".", arg=arg, top=top))
+        elif "/" in arg:
+            top, *_ = arg.partition("/")
+            raise ValueError(namespace_error_template.format(symbol="/", arg=arg, top=top))
         else:
             globs.add(arg)
 
