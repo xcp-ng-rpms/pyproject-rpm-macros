@@ -115,6 +115,7 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %changelog
 * Thu Sep 09 2021 Miro Hrončok <mhroncok@redhat.com> - 0-47
 - %%pyproject_save_files: Expand the namespace error message, also display it with /
+- %%pyproject_save_files: Add a workaround error for spaces and [brackets]
 
 * Fri Jul 23 2021 Miro Hrončok <miro@hroncok.cz> - 0-46
 - %%pyproject_buildrequires now fails when it encounters an invalid requirement

@@ -240,7 +240,8 @@ def escape_rpm_path(path):
     unless we put it in "quotes".
     Or a literal % symbol in path might be expanded as a macro if not escaped.
 
-    Due to limitations in RPM, paths with spaces and double quotes are not supported.
+    Due to limitations in RPM,
+    some paths with spaces and other special characters are not supported.
 
     Examples:
 
@@ -263,6 +264,11 @@ def escape_rpm_path(path):
         Traceback (most recent call last):
           ...
         NotImplementedError: ...
+
+        >>> escape_rpm_path('/usr/share/data/spaces and [square brackets]')
+        Traceback (most recent call last):
+          ...
+        NotImplementedError: ...
     """
     orig_path = path = str(path)
     if "%" in path:
@@ -275,6 +281,10 @@ def escape_rpm_path(path):
             # As far as we know, RPM cannot list such file individually
             # See this thread http://lists.rpm.org/pipermail/rpm-list/2021-June/002048.html
             raise NotImplementedError(f'" symbol in path with spaces is not supported by %pyproject_save_files: {orig_path!r}')
+        if "[" in path or "]" in path:
+            # See https://bugzilla.redhat.com/show_bug.cgi?id=1990879
+            # and https://github.com/rpm-software-management/rpm/issues/1749
+            raise NotImplementedError(f'[ or ] symbol in path with spaces is not supported by %pyproject_save_files: {orig_path!r}')
         return f'"{path}"'
     return path
 
