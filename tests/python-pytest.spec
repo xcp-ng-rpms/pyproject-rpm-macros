@@ -5,7 +5,7 @@ Name:           python-%{pypi_name}
 # because otherwise we would miss some dependencies (pytest 6.2 needs tox 3.20+)
 # Please, don't write spec files like this in Fedora, it is forbidden.
 %if 0%{?fedora} > 33 || 0%{?rhel} > 9
-Version:        6.2.4
+Version:        6.2.5
 %else
 Version:        4.4.2
 %endif
@@ -15,13 +15,6 @@ Summary:        Simple powerful testing with Python
 License:        MIT
 URL:            https://pytest.org
 Source0:        %{pypi_source}
-
-%if v"%{version}" >= v"6.2"
-# Fix Python 3.10 test issues
-# Merged upstream, https://github.com/pytest-dev/pytest/pull/8555
-# Rebased slightly
-Patch2:         https://src.fedoraproject.org/rpms/pytest/raw/cad86f73367eff59a1d6daff44d262c3852f01f9/f/8555.patch
-%endif
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
@@ -44,11 +37,6 @@ Summary:        %{summary}
 
 %prep
 %autosetup -p1 -n %{pypi_name}-%{version}
-
-# Remove duplicate '>=' in setup.cfg
-# https://github.com/pytest-dev/pytest/pull/8336
-# https://github.com/pytest-dev/pytest/pull/8774
-sed -i 's/>=>=/>=/' setup.cfg
 
 
 %generate_buildrequires
