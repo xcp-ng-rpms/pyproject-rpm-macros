@@ -127,6 +127,11 @@ class Requirements:
             print_err(f'Ignoring alien requirement:', requirement_str)
             return
 
+        # We need to always accept pre-releases as satisfying the requirement
+        # Otherwise e.g. installed cffi version 1.15.0rc2 won't even satisfy the requirement for "cffi"
+        # https://bugzilla.redhat.com/show_bug.cgi?id=2014639#c3
+        requirement.specifier.prereleases = True
+
         try:
             # TODO: check if requirements with extras are satisfied
             installed = self.get_installed_version(requirement.name)

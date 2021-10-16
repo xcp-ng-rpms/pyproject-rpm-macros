@@ -717,3 +717,26 @@ Weird and complex requirements file:
   # but that's good enough:
   - "WARNING: Simplifying 'ugly@git+https://github.com/monty/spam.git@master#egg=ugly' to 'ugly'."
   result: 0
+
+
+Pre-releases are accepted:
+  installed:
+    setuptools: 50
+    wheel: 1
+    toml: 1
+    cffi: 1.15.0rc2
+  pyproject.toml: |
+    [build-system]
+    requires = [
+        "setuptools",
+        "wheel",
+        "cffi",
+    ]
+    build-backend = "setuptools.build_meta"
+  expected: |
+    python3dist(setuptools)
+    python3dist(wheel)
+    python3dist(cffi)
+    python3dist(wheel)
+  stderr_contains: "Requirement satisfied: cffi"
+  result: 0

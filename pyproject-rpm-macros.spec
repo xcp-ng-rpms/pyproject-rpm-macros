@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        47%{?dist}
+Release:        48%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -113,6 +113,10 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Sat Oct 16 2021 Miro Hrončok <mhroncok@redhat.com> - 0-48
+- %%pyproject_buildrequires: Accept installed pre-releases for all requirements
+- Fixes: rhbz#2014639
+
 * Thu Sep 09 2021 Miro Hrončok <mhroncok@redhat.com> - 0-47
 - %%pyproject_save_files: Expand the namespace error message, also display it with /
 - %%pyproject_save_files: Add a workaround error for spaces and [brackets]
