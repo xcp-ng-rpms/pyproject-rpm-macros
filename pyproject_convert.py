@@ -36,6 +36,9 @@ class RpmVersion():
             self.pre = version._version.pre
             self.dev = version._version.dev
             self.post = version._version.post
+            # version.local is ignored as it is not expected to appear
+            # in public releases
+            # https://www.python.org/dev/peps/pep-0440/#local-version-identifiers
 
     def increment(self):
         self.version[-1] += 1
@@ -93,17 +96,26 @@ def convert_not_equal(name, operator, version_id):
     if version_id.endswith('.*'):
         version_id = version_id[:-2]
         version = RpmVersion(version_id)
-        lower_version = RpmVersion(version_id).increment()
+        version_gt = RpmVersion(version_id).increment()
+        version_gt_operator = '>='
+        # Prevent dev and pre-releases from satisfying a < requirement
+        version = '{}~~'.format(version)
     else:
         version = RpmVersion(version_id)
-        lower_version = version
-    return '({} < {} or {} > {})'.format(
-        name, version, name, lower_version)
+        version_gt = version
+        version_gt_operator = '>'
+    return '({} < {} or {} {} {})'.format(
+        name, version, name, version_gt_operator, version_gt)
 
 def convert_ordered(name, operator, version_id):
     if version_id.endswith('.*'):
         # PEP 440 does not define semantics for prefix matching
         # with ordered comparisons
+        # see: https://github.com/pypa/packaging/issues/320
+        # and: https://github.com/pypa/packaging/issues/321
+        # This style of specifier is officially "unsupported",
+        # even though it is processed.  Support may be removed
+        # in version 21.0.
         version_id = version_id[:-2]
         version = RpmVersion(version_id)
         if operator == '>':
@@ -114,6 +126,12 @@ def convert_ordered(name, operator, version_id):
             operator = '<'
     else:
         version = RpmVersion(version_id)
+    # Prevent dev and pre-releases from satisfying a < requirement
+    if operator == '<' and not version.pre and not version.dev and not version.post:
+        version = '{}~~'.format(version)
+    # Prevent post-releases from satisfying a > requirement
+    if operator == '>' and not version.pre and not version.dev and not version.post:
+        version = '{}.0'.format(version)
     return '{} {} {}'.format(name, operator, version)
 
 OPERATORS = {'~=': convert_compatible,

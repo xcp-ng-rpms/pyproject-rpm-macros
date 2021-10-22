@@ -159,13 +159,13 @@ Build system dependencies in pyproject.toml with extras:
     build-backend = "foo.build"
   expected: |
     python3dist(foo)
-    python3dist(bar) > 5
-    python3dist(bar[baz]) > 5
+    python3dist(bar) > 5.0
+    python3dist(bar[baz]) > 5.0
     (python3dist(ne) < 1 or python3dist(ne) > 1)
     python3dist(ge) >= 1.2
     python3dist(le) <= 1.2.3
-    python3dist(lt) < 1.2.3.4
-    python3dist(gt) > 1.2.3.4.5
+    python3dist(lt) < 1.2.3.4~~
+    python3dist(gt) > 1.2.3.4.5.0
     (python3dist(compatible) >= 0.4 with python3dist(compatible) < 0.5)
     python3dist(equal) = 0.5
     python3dist(arbitrary-equal) = 0.6
@@ -174,7 +174,7 @@ Build system dependencies in pyproject.toml with extras:
     python3dist(multi) = 6
     python3dist(multi[extras1]) = 6
     python3dist(multi[extras2]) = 6
-    ((python3dist(combo) < 3 or python3dist(combo) > 3) with python3dist(combo) < 5 with python3dist(combo) > 2)
+    ((python3dist(combo) < 3 or python3dist(combo) > 3) with python3dist(combo) < 5~~ with python3dist(combo) > 2.0)
     python3dist(py3)
   stderr_contains: "WARNING: Simplifying 'appdirs@https://github.com/ActiveState/appdirs/archive/8eacfa312d77aba28d483fbfb6f6fc54099622be.zip' to 'appdirs'."
   result: 0
@@ -193,7 +193,7 @@ Build system dependencies in pyproject.toml without extras:
     ]
     build-backend = "foo.build"
   expected: |
-    python3dist(bar) > 5
+    python3dist(bar) > 5.0
     python3dist(multi) = 6
   result: 0
 
@@ -237,8 +237,8 @@ Default build system, run dependencies in setup.py:
     python3dist(wheel)
     python3dist(wheel)
     python3dist(pyyaml)
-    python3dist(inst) > 1
-    python3dist(inst2) < 3
+    python3dist(inst) > 1.0
+    python3dist(inst2) < 3~~
   result: 0
 
 Run dependencies with extras (not selected):
@@ -430,7 +430,7 @@ Tox extras:
     python3dist(tox-current-env) >= 0.0.6
     python3dist(toxdep)
     python3dist(inst)
-    python3dist(dep11) > 11
+    python3dist(dep11) > 11.0
     python3dist(dep12)
     python3dist(dep21)
     python3dist(dep22)
@@ -470,8 +470,8 @@ Tox provision unsatisfied:
     python3dist(wheel)
     python3dist(tox-current-env) >= 0.0.6
     python3dist(tox) >= 3.999
-    python3dist(setuptools) > 40
-    python3dist(wheel) > 2
+    python3dist(setuptools) > 40.0
+    python3dist(wheel) > 2.0
   result: 0
 
 Tox provision satisfied:
@@ -504,7 +504,7 @@ Tox provision satisfied:
     python3dist(wheel)
     python3dist(tox-current-env) >= 0.0.6
     python3dist(tox) >= 3.5
-    python3dist(setuptools) > 40
+    python3dist(setuptools) > 40.0
     python3dist(toxdep1)
     python3dist(toxdep2)
     python3dist(inst)
@@ -564,7 +564,7 @@ Default build system, met deps in requirements file:
     python3dist(ncclient)
     (python3dist(cryptography) < 1.5.2 or python3dist(cryptography) > 1.5.2)
     python3dist(paramiko)
-    (python3dist(sqlalchemy) < 1.1 with python3dist(sqlalchemy) >= 1.0.10)
+    (python3dist(sqlalchemy) < 1.1~~ with python3dist(sqlalchemy) >= 1.0.10)
     python3dist(setuptools) >= 40.8
     python3dist(wheel)
     python3dist(wheel)

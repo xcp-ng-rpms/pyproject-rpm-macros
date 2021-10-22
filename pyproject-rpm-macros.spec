@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        49%{?dist}
+Release:        50%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -113,6 +113,11 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Mon Nov 1 2021 Gordon Messmer <gordon.messmer@gmail.com> - 0-50
+- Improve handling of > operator, preventing post-release from satisfying most rpm requirements
+- Improve handling of < operator, preventing pre-release from satisfying rpm requirement
+- Improve handling of != operator with prefix matching, preventing pre-release from satisfying rpm requirements
+
 * Tue Oct 19 2021 Karolina Surma <ksurma@redhat.com> - 0-49
 - %%pyproject_save_files: Save %%_pyproject_modules file with importable module names
 - Introduce %%pyproject_check_import which passes %%_pyproject_modules to %%py3_check_import
