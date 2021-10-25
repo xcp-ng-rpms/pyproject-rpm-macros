@@ -4,7 +4,7 @@ Name:           python-dns-lexicon
 # because otherwise we would miss some dependencies.
 # Please, don't write spec files like this in Fedora, it is forbidden.
 %if 0%{?fedora} >= 34 || 0%{?rhel} >= 9
-Version:        3.5.2
+Version:        3.8.1
 %else
 Version:        3.4.0
 %endif
