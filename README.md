@@ -226,6 +226,53 @@ If you wish to rename, remove or otherwise change the installed files of a packa
 If possible, remove/rename such files in `%prep`.
 If not possible, avoid using `%pyproject_save_files` or edit/replace `%{pyproject_files}`.
 
+
+Performing an import check on all importable modules
+----------------------------------------------------
+
+If the upstream test suite cannot be used during the package build
+and you use `%pyproject_save_files`,
+you can benefit from the `%pyproject_check_import` macro.
+If `%pyproject_save_files` is not used, calling `%pyproject_check_import` will fail.
+
+When `%pyproject_save_files` is invoked,
+it creates a list of all valid and public (i.e. not starting with `_`)
+importable module names found in the package.
+This list is then usable by `%pyproject_check_import` which performs an import check for each listed module.
+When a module fails to import, the build fails.
+
+The modules are imported from both installed and buildroot's `%{python3_sitearch}`
+and `%{python3_sitelib}`, not from the current directory.
+
+Use the macro in `%check`:
+
+    %check
+    %pyproject_check_import
+
+By using the `-e` flag, you can exclude module names matching the given glob(s) from the import check
+(put it in single quotes to prevent Shell from expanding it).
+The flag can be used repeatedly.
+For example, to exclude all submodules ending with `config` and all submodules starting with `test`, you can use:
+
+    %pyproject_check_import -e '*.config' -e '*.test*'
+
+There must be at least one module left for the import check;
+if, as a result of greedy excluding, no modules are left to check, the check fails.
+
+When the `-t` flag is used, only top-level modules are checked,
+qualified module names with a dot (`.`) are excluded.
+If the modules detected by `%pyproject_save_files` are `requests`, `requests.models`, and `requests.packages`, this will only perform an import of `requests`:
+
+    %pyproject_check_import -t
+
+The modifying flags should only be used when there is a valid reason for not checking all available modules.
+The reason should be documented in a comment.
+
+The `%pyproject_check_import` macro also accepts positional arguments with
+additional qualified module names to check, useful for example if some modules are installed manually.
+Note that filtering by `-t`/`-e` also applies to the positional arguments.
+
+
 Generating Extras subpackages
 -----------------------------
 

@@ -16,6 +16,8 @@ BuildRequires:    git-core
 This package uses setuptools and pbr.
 It has setup_requires and tests that %%pyproject_buildrequires correctly
 handles that including runtime requirements.
+Run %%pyproject_check_import with top-level modules filtering.
+
 
 %package -n python3-distroinfo
 Summary:          %{summary}
@@ -43,6 +45,7 @@ Summary:          %{summary}
 
 %check
 %pytest
+%pyproject_check_import -t
 
 
 %files -n python3-distroinfo -f %{pyproject_files}

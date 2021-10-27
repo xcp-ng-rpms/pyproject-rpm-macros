@@ -11,6 +11,7 @@
 %_pyproject_builddir %{_builddir}%{?buildsubdir:/%{buildsubdir}}/.pyproject-builddir
 
 %pyproject_files %{_builddir}/pyproject-files
+%_pyproject_modules %{_builddir}/pyproject-modules
 %_pyproject_ghost_distinfo %{_builddir}/pyproject-ghost-distinfo
 %_pyproject_record %{_builddir}/pyproject-record
 
@@ -70,13 +71,24 @@ fi
 
 %pyproject_save_files() %{expand:\\\
 %{__python3} %{_rpmconfigdir}/redhat/pyproject_save_files.py \\
-  --output "%{pyproject_files}" \\
+  --output-files "%{pyproject_files}" \\
+  --output-modules "%{_pyproject_modules}" \\
   --buildroot "%{buildroot}" \\
   --sitelib "%{python3_sitelib}" \\
   --sitearch "%{python3_sitearch}" \\
   --python-version "%{python3_version}" \\
   --pyproject-record "%{_pyproject_record}" \\
   %{*}
+}
+
+# -t - Process only top-level modules
+# -e - Exclude the module names matching given glob, may be used repeatedly
+%pyproject_check_import(e:t) %{expand:\\\
+if [ ! -f "%{_pyproject_modules}" ]; then
+  echo 'ERROR: %%%%pyproject_check_import only works when %%%%pyproject_save_files is used' >&2
+  exit 1
+fi
+%py3_check_import -f "%{_pyproject_modules}" %{?**}
 }
 
 

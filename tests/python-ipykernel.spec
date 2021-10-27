@@ -15,6 +15,12 @@ BuildRequires:  python3-devel
 This package contains data files.
 Building this tests that data files are not listed when +auto is not used
 with %%pyproject_save_files.
+Run %%pyproject_check_import on installed package and exclude unwanted modules
+(if they're not excluded, build fails).
+- We don't want to pull test dependencies just to check import
+- The others fail to find `gi` and `matplotlib` which weren't declared
+  in the upstream metadata
+
 
 %package -n python3-ipykernel
 Summary:        %{summary}
@@ -26,7 +32,7 @@ Summary:        %{summary}
 %autosetup -p1 -n ipykernel-%{version}
 
 %generate_buildrequires
-%pyproject_buildrequires
+%pyproject_buildrequires -r
 
 %build
 %pyproject_wheel
@@ -34,6 +40,9 @@ Summary:        %{summary}
 %install
 %pyproject_install
 %pyproject_save_files 'ipykernel*' +auto
+
+%check
+%pyproject_check_import  -e '*.test*' -e 'ipykernel.gui*' -e 'ipykernel.pylab.backend_inline'
 
 %files -n python3-ipykernel -f %{pyproject_files}
 %license COPYING.md

@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        48%{?dist}
+Release:        49%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -113,6 +113,11 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Tue Oct 19 2021 Karolina Surma <ksurma@redhat.com> - 0-49
+- %%pyproject_save_files: Save %%_pyproject_modules file with importable module names
+- Introduce %%pyproject_check_import which passes %%_pyproject_modules to %%py3_check_import
+- Introduce -t, -e filtering options to %%pyproject_check_import
+
 * Sat Oct 16 2021 Miro Hrončok <mhroncok@redhat.com> - 0-48
 - %%pyproject_buildrequires: Accept installed pre-releases for all requirements
 - Fixes: rhbz#2014639

@@ -20,6 +20,7 @@ Has a script (.py) and extension (.so) with identical name.
 Building this tests:
 - installing both a script and an extension with the same name
 - default build backend without pyproject.toml
+Check %%pyproject_check_import basic functionality.
 
 
 %package -n python3-mistune
@@ -47,6 +48,8 @@ Summary:        %summary
 
 
 %check
+%pyproject_check_import
+
 # Internal check for our macros
 # making sure that pyproject_install outputs these files so that we can test behaviour of %%pyproject_save_files
 # when a package has multiple files with the same name (here script and extension)

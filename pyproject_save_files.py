@@ -4,6 +4,7 @@ import json
 import os
 
 from collections import defaultdict
+from keyword import iskeyword
 from pathlib import PosixPath, PurePosixPath
 from importlib.metadata import Distribution
 
@@ -144,12 +145,81 @@ def add_lang_to_module(paths, module_name, path):
     return True
 
 
+def is_valid_module_name(s):
+    """Return True if a string is considered a valid module name and False otherwise.
+
+    String must be a valid Python name, not a Python keyword and must not
+    start with underscore - we treat those as private.
+    Examples:
+
+        >>> is_valid_module_name('module_name')
+        True
+
+        >>> is_valid_module_name('12module_name')
+        False
+
+        >>> is_valid_module_name('module-name')
+        False
+
+        >>> is_valid_module_name('return')
+        False
+
+        >>> is_valid_module_name('_module_name')
+        False
+    """
+    if (s.isidentifier() and not iskeyword(s) and not s.startswith("_")):
+        return True
+    return False
+
+
+def module_names_from_path(path):
+    """Get all importable module names from given path.
+
+    Paths containing ".py" and ".so" files are considered importable modules,
+    and so their respective directories (ie. "foo/bar/baz.py": "foo", "foo.bar",
+    "foo.bar.baz").
+    Paths containing invalid Python strings are discarded.
+
+    Return set of all valid possibilities.
+    """
+    # Discard all files that are not valid modules
+    if path.suffix not in (".py", ".so"):
+        return set()
+
+    parts = list(path.parts)
+
+    # Modify the file names according to their suffixes
+    if path.suffix == ".py":
+        parts[-1] = path.stem
+    elif path.suffix == ".so":
+        # .so files can have two suffixes - cut both of them
+        parts[-1] = PosixPath(path.stem).stem
+
+    # '__init__' indicates a module but we don't want to import the actual file
+    # It's unclear whether there can be __init__.so files in the Python packages.
+    # The idea to implement this file was raised in 2008 on Python-ideas mailing list
+    # (https://mail.python.org/pipermail/python-ideas/2008-October/002292.html)
+    # and there are a few reports of people compiling their __init__.py to __init__.so.
+    # However it's not officially documented nor forbidden,
+    # so we're checking for the stem after stripping the suffix from the file.
+    if parts[-1] == "__init__":
+        del parts[-1]
+
+    # For each part of the path check whether it's valid
+    # If not, discard the whole path - return an empty set
+    for path_part in parts:
+        if not is_valid_module_name(path_part):
+            return set()
+    else:
+        return {'.'.join(parts[:x+1]) for x in range(len(parts))}
+
+
 def classify_paths(
     record_path, parsed_record_content, metadata, sitedirs, python_version
 ):
     """
     For each BuildrootPath in parsed_record_content classify it to a dict structure
-    that allows to filter the files for the %files section easier.
+    that allows to filter the files for the %files and %check section easier.
 
     For the dict structure, look at the beginning of this function's code.
 
@@ -165,6 +235,7 @@ def classify_paths(
         },
         "lang": {}, # %lang entries: [module_name or None][language_code] lists of .mo files
         "modules": defaultdict(list),  # each importable module (directory, .py, .so)
+        "module_names": set(),  # qualified names of each importable module ("foo.bar.baz")
         "other": {"files": []},  # regular %file entries we could not parse :(
     }
 
@@ -190,6 +261,9 @@ def classify_paths(
 
         for sitedir in sitedirs:
             if sitedir in path.parents:
+                # Get only the part without sitedir prefix to classify module names
+                relative_path = path.relative_to(sitedir)
+                paths["module_names"].update(module_names_from_path(relative_path))
                 if path.parent == sitedir:
                     if path.suffix == ".so":
                         # extension modules can have 2 suffixes
@@ -453,11 +527,13 @@ def dist_metadata(buildroot, record_path):
     dist = Distribution.at(real_dist_path)
     return dist.metadata
 
-def pyproject_save_files(buildroot, sitelib, sitearch, python_version, pyproject_record, varargs):
+
+def pyproject_save_files_and_modules(buildroot, sitelib, sitearch, python_version, pyproject_record, varargs):
     """
     Takes arguments from the %{pyproject_save_files} macro
 
-    Returns list of paths for the %files section
+    Returns tuple: list of paths for the %files section and list of module names
+    for the %check section
     """
     # On 32 bit architectures, sitelib equals to sitearch
     # This saves us browsing one directory twice
@@ -467,6 +543,7 @@ def pyproject_save_files(buildroot, sitelib, sitearch, python_version, pyproject
     parsed_records = load_parsed_record(pyproject_record)
 
     final_file_list = []
+    all_module_names = set()
 
     for record_path, files in parsed_records.items():
         metadata = dist_metadata(buildroot, record_path)
@@ -477,12 +554,16 @@ def pyproject_save_files(buildroot, sitelib, sitearch, python_version, pyproject
         final_file_list.extend(
             generate_file_list(paths_dict, globs, include_auto)
         )
+        all_module_names.update(paths_dict["module_names"])
 
-    return final_file_list
+    # Sort values, so they are always checked in the same order
+    all_module_names = sorted(all_module_names)
+
+    return final_file_list, all_module_names
 
 
 def main(cli_args):
-    file_section = pyproject_save_files(
+    file_section, module_names = pyproject_save_files_and_modules(
         cli_args.buildroot,
         cli_args.sitelib,
         cli_args.sitearch,
@@ -491,13 +572,15 @@ def main(cli_args):
         cli_args.varargs,
     )
 
-    cli_args.output.write_text("\n".join(file_section) + "\n", encoding="utf-8")
+    cli_args.output_files.write_text("\n".join(file_section) + "\n", encoding="utf-8")
+    cli_args.output_modules.write_text("\n".join(module_names) + "\n", encoding="utf-8")
 
 
 def argparser():
     parser = argparse.ArgumentParser()
     r = parser.add_argument_group("required arguments")
-    r.add_argument("--output", type=PosixPath, required=True)
+    r.add_argument("--output-files", type=PosixPath, required=True)
+    r.add_argument("--output-modules", type=PosixPath, required=True)
     r.add_argument("--buildroot", type=PosixPath, required=True)
     r.add_argument("--sitelib", type=BuildrootPath, required=True)
     r.add_argument("--sitearch", type=BuildrootPath, required=True)
