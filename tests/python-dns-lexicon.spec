@@ -1,14 +1,5 @@
 Name:           python-dns-lexicon
-
-# For testing purposes, we package different versions on different Fedoras,
-# because otherwise we would miss some dependencies.
-# Please, don't write spec files like this in Fedora, it is forbidden.
-%if 0%{?fedora} >= 34 || 0%{?rhel} >= 9
 Version:        3.8.1
-%else
-Version:        3.4.0
-%endif
-
 Release:        0%{?dist}
 Summary:        Manipulate DNS records on various DNS providers in a standardized/agnostic way
 License:        MIT

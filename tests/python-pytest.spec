@@ -1,15 +1,6 @@
 %global pypi_name pytest
 Name:           python-%{pypi_name}
-
-# For testing purposes, we package different versions on different Fedoras,
-# because otherwise we would miss some dependencies (pytest 6.2 needs tox 3.20+)
-# Please, don't write spec files like this in Fedora, it is forbidden.
-%if 0%{?fedora} > 33 || 0%{?rhel} > 9
 Version:        6.2.5
-%else
-Version:        4.4.2
-%endif
-
 Release:        0%{?dist}
 Summary:        Simple powerful testing with Python
 License:        MIT
