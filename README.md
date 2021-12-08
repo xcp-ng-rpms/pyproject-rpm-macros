@@ -303,6 +303,71 @@ These arguments are still required:
   Multiple subpackages are generated when multiple names are provided.
 
 
+PROVISIONAL: Importing just-built (extension) modules in %build
+---------------------------------------------------------------
+
+Sometimes, it is desired to be able to import the *just-built* extension modules
+in the `%build` section, e.g. to build the documentation with Sphinx.
+
+    %build
+    %pyproject_wheel
+    ... build the docs here ...
+
+With pure Python packages, it might be possible to set `PYTHONPATH=${PWD}` or `PYTHONPATH=${PWD}/src`.
+However, it is a bit more complicated with extension modules.
+
+The location of just-built modules might differ depending on Python version, architecture, pip version.
+Hence, the macro `%{pyproject_build_lib}` exists to be used like this:
+
+    %build
+    %pyproject_wheel
+    PYTHONPATH=%{pyproject_build_lib} ... build the docs here ...
+
+This macro is currently **provisional** and the behavior might change.
+
+The `%{pyproject_build_lib}` macro expands to an Shell `$(...)` expression and does not work when put into single quotes (`'`).
+
+Depending on the pip version, the expanded value will differ:
+
+
+### New pip 21.3+ with in-tree-build (Fedora 36+)
+
+Always use the macro from the same directory where you called `%pyproject_wheel` from.
+The value will expand to something like:
+
+* `/builddir/build/BUILD/%{name}-%{version}/build/lib.linux-x86_64-3.10` for wheels with extension modules
+* `/builddir/build/BUILD/%{name}-%{version}/build/lib` for pure Python wheels
+
+If multiple wheels were built from the same directory,
+some pure Python and some with extension modules,
+the expanded value will be combined with `:`:
+
+* `/builddir/build/BUILD/%{name}-%{version}/build/lib.linux-x86_64-3.10:/builddir/build/BUILD/%{name}-%{version}/build/lib`
+
+If multiple wheels were built from different directories,
+the value will differ depending on the current directory.
+
+
+### Older pip with out-of-tree-build (Fedora 34, 35, and EL 9)
+
+The value will expand to something like:
+
+* `/builddir/build/BUILD/%{name}-%{version}/.pyproject-builddir/pip-req-build-xxxxxxxx/build/lib.linux-x86_64-3.10` for wheels with extension modules
+* `/builddir/build/BUILD/%{name}-%{version}/.pyproject-builddir/pip-req-build-xxxxxxxx/build/lib` for pure Python wheels
+
+Note that the exact value is **not stable** between builds
+(the `xxxxxxxx` part is randomly generated,
+neither you should consider the `.pyproject-builddir` directory to remain stable).
+
+If multiple wheels are built,
+the expanded value will always be combined with `:` regardless of the current directory, e.g.:
+
+* `/builddir/build/BUILD/%{name}-%{version}/.pyproject-builddir/pip-req-build-xxxxxxxx/build/lib.linux-x86_64-3.10:/builddir/build/BUILD/%{name}-%{version}/.pyproject-builddir/pip-req-build-yyyyyyyy/build/lib.linux-x86_64-3.10:/builddir/build/BUILD/%{name}-%{version}/.pyproject-builddir/pip-req-build-zzzzzzzz/build/lib`
+
+**Note:** If you manage to build some wheels with in-tree-build and some with out-of-tree-build option,
+the expanded value will contain all relevant directories.
+
+
 Limitations
 -----------
 

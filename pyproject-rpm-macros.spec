@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        50%{?dist}
+Release:        51%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -54,6 +54,7 @@ Requires:      python-srpm-macros
 Requires:      python3-rpm-macros
 
 # We use the following tools outside of coreutils
+Requires:      /usr/bin/find
 Requires:      /usr/bin/sed
 
 %description
@@ -115,6 +116,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Wed Dec 08 2021 Miro Hrončok <mhroncok@redhat.com> - 0-51
+- Define provisional %%pyproject_build_lib
+
 * Mon Nov 1 2021 Gordon Messmer <gordon.messmer@gmail.com> - 0-50
 - Improve handling of > operator, preventing post-release from satisfying most rpm requirements
 - Improve handling of < operator, preventing pre-release from satisfying rpm requirement

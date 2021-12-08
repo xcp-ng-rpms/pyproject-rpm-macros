@@ -76,6 +76,9 @@
     - markupsafe:
         dir: .
         run: ./mocktest.sh python-markupsafe
+    - double_install:
+        dir: .
+        run: ./mocktest.sh double-install
     - fake_requirements:
         dir: .
         run: ./mocktest.sh fake-requirements

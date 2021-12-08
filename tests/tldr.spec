@@ -41,6 +41,13 @@ head -n1 %{buildroot}%{_bindir}/%{name}.py | grep -E '#!\s*%{python3}\s+%{py3_sh
 # Internal check for our macros: tests that direct_url.json file wasn't created
 test ! -e %{buildroot}%{python3_sitelib}/*.dist-info/direct_url.json
 
+# Internal check for the value of %%{pyproject_build_lib} in a noarch package
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 10
+test "%{pyproject_build_lib}" == "${PWD}/build/lib"
+%else
+test "%{pyproject_build_lib}" == "$(echo %{_pyproject_builddir}/pip-req-build-*/build/lib)"
+%endif
+
 %files -f %pyproject_files
 %license LICENSE
 %doc README.md

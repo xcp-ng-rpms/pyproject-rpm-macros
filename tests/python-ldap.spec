@@ -42,6 +42,9 @@ Summary:        %{summary}
 
 %build
 %pyproject_wheel
+# Internal check that we can import the built extension modules from %%{pyproject_build_lib}
+! %{python3} -c 'import _ldap'
+PYTHONPATH=%{pyproject_build_lib} %{python3} -c 'import _ldap'
 
 
 %install
@@ -72,6 +75,13 @@ test -f %{buildroot}%{python3_sitearch}/_ldap.cpython-*.so
 # Internal check: Top level __pycache__ is never owned
 ! grep -E '/site-packages/__pycache__$' %{pyproject_files}
 ! grep -E '/site-packages/__pycache__/$' %{pyproject_files}
+
+# Internal check for the value of %%{pyproject_build_lib} in an archful package
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 10
+test "%{pyproject_build_lib}" == "%{_builddir}/%{buildsubdir}/build/lib.%{python3_platform}-%{python3_version}"
+%else
+test "%{pyproject_build_lib}" == "$(echo %{_pyproject_builddir}/pip-req-build-*/build/lib.%{python3_platform}-%{python3_version})"
+%endif
 
 
 %files -n python3-ldap -f %{pyproject_files}

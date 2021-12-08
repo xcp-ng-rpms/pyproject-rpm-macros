@@ -28,6 +28,25 @@ CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" TMPDI
 }
 
 
+%pyproject_build_lib %{expand:\\\
+$(
+pyproject_build_lib=()
+if [ -d build/lib.%{python3_platform}-%{python3_version} ]; then
+  pyproject_build_lib+=( "${PWD}/build/lib.%{python3_platform}-%{python3_version}" )
+fi
+if [ -d build/lib ]; then
+  pyproject_build_lib+=( "${PWD}/build/lib" )
+fi
+for directory in $(find "%{_pyproject_builddir}" -type d -wholename "%{_pyproject_builddir}/pip-req-build-*/build/lib.%{python3_platform}-%{python3_version}" 2>/dev/null); do
+  pyproject_build_lib+=( "${directory}" )
+done
+for directory in $(find "%{_pyproject_builddir}" -type d -wholename "%{_pyproject_builddir}/pip-req-build-*/build/lib" 2>/dev/null); do
+  pyproject_build_lib+=( "${directory}" )
+done
+echo $(IFS=:; echo "${pyproject_build_lib[*]}")
+)}
+
+
 %pyproject_install() %{expand:\\\
 specifier=$(ls %{_pyproject_wheeldir}/*.whl | xargs basename --multiple | sed -E 's/([^-]+)-([^-]+)-.+\\\.whl/\\\1==\\\2/')
 TMPDIR="%{_pyproject_builddir}" %{__python3} -m pip install --root %{buildroot} --no-deps --disable-pip-version-check --progress-bar off --verbose --ignore-installed --no-warn-script-location --no-index --no-cache-dir --find-links %{_pyproject_wheeldir} $specifier
