@@ -53,6 +53,8 @@ Requires:      python-rpm-macros
 Requires:      python-srpm-macros
 Requires:      python3-rpm-macros
 
+# We use the following tools outside of coreutils
+Requires:      /usr/bin/sed
 
 %description
 These macros allow projects that follow the Python packaging specifications
