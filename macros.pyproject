@@ -125,6 +125,7 @@ fi
 %{-t:%{error:The -N and -t options are mutually exclusive}}
 }
 %{-e:%{expand:%global toxenv %(%{__python3} -s %{_rpmconfigdir}/redhat/pyproject_construct_toxenv.py %{?**})}}
+echo 'pyproject-rpm-macros'  # we already have this installed, but this way, it's repoqueryable
 echo 'python%{python3_pkgversion}-devel'
 echo 'python%{python3_pkgversion}dist(pip) >= 19'
 echo 'python%{python3_pkgversion}dist(packaging)'

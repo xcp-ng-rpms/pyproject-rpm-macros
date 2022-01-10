@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        54%{?dist}
+Release:        55%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -120,6 +120,10 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Mon Jan 24 2022 Miro Hrončok <mhroncok@redhat.com> - 0-55
+- %%pyproject_buildrequires: Generate BuildRequires for this package
+  This package is already installed, but this way, the resulting SRPM explicitly BuildRequires it
+
 * Wed Jan 19 2022 Karolina Surma <ksurma@redhat.com> - 0-54
 - Include compressed manpages to the package if flag '+auto' is provided to %%pyproject_save_files
 - Fixes: rhbz#2033254
