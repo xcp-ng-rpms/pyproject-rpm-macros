@@ -23,14 +23,16 @@ These macros replace `%py3_build` and `%py3_install`, which only work with `setu
 Usage
 -----
 
-To use these macros, first BuildRequire them:
+To use these macros, first BuildRequire the devel package for the Python you
+are building against. In Fedora, that's `python3-devel`.
 
+    BuildRequires: python3-devel
+
+The macros will be pulled in as a dependency on Fedora and EPEL 9+.  
+In other distributions you need to BuildRequire the macros as well:
+
+    BuildRequires: python3-devel
     BuildRequires: pyproject-rpm-macros
-
-Also BuildRequire the devel package for the Python you are building against.
-In Fedora, that's `python3-devel`.
-(In the future, we plan to make `python3-devel` itself require
-`pyproject-rpm-macros`.)
 
 Next, you need to generate more build dependencies (of your projects and
 the macros themselves) by running `%pyproject_buildrequires` in the
