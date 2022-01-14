@@ -115,7 +115,8 @@ fi
 %toxenv %{default_toxenv}
 
 
-%pyproject_buildrequires(rxtNe:) %{expand:\\\
+%pyproject_buildrequires(rRxtNe:) %{expand:\\\
+%{-R:%{-r:%{error:The -R and -r options are mutually exclusive}}}
 %{-N:
 %{-r:%{error:The -N and -r options are mutually exclusive}}
 %{-x:%{error:The -N and -x options are mutually exclusive}}

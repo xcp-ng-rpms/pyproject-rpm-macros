@@ -30,6 +30,7 @@ No pyproject.toml, empty setup.py:
   installed:
     setuptools: 50
     wheel: 1
+  include_runtime: false
   setup.py: |
   expected: |
     python3dist(setuptools) >= 40.8
@@ -42,6 +43,7 @@ Default build system, empty setup.py:
     setuptools: 50
     wheel: 1
     toml: 1
+  include_runtime: false
   pyproject.toml: |
     # empty
   setup.py: |
@@ -201,6 +203,7 @@ Default build system, build dependencies in setup.py:
   installed:
     setuptools: 50
     wheel: 1
+  include_runtime: false
   setup.py: |
     from setuptools import setup
     setup(
@@ -223,7 +226,6 @@ Default build system, run dependencies in setup.py:
     setuptools: 50
     wheel: 1
     pyyaml: 1
-  include_runtime: true
   setup.py: |
     from setuptools import setup
     setup(
@@ -246,7 +248,6 @@ Run dependencies with extras (not selected):
     setuptools: 50
     wheel: 1
     pyyaml: 1
-  include_runtime: true
   setup.py: &pytest_setup_py |
         # slightly abriged copy of pytest's setup.py
         from setuptools import setup

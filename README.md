@@ -42,7 +42,8 @@ the macros themselves) by running `%pyproject_buildrequires` in the
     %pyproject_buildrequires
 
 This will add build dependencies according to [PEP 517] and [PEP 518].
-To also add run-time and test-time dependencies, see the section below.
+This also adds run-time dependencies by default and
+can add test-time dependencies, see the section below.
 If you need more dependencies, such as non-Python libraries, BuildRequire
 them manually.
 
@@ -68,16 +69,21 @@ And install the wheel in `%install` with `%pyproject_install`:
 Adding run-time and test-time dependencies
 ------------------------------------------
 
-To run tests in the `%check` section, the package's runtime dependencies
-often need to also be included as build requirements.
-This can be done using the `-r` flag:
+To run tests or import checks in the `%check` section,
+the package's runtime dependencies need to also be included as build requirements.
 
-    %generate_buildrequires
-    %pyproject_buildrequires -r
+Hence, `%pyproject_buildrequires` also generates runtime dependencies by default.
 
 For this to work, the project's build system must support the
 [`prepare-metadata-for-build-wheel` hook](https://www.python.org/dev/peps/pep-0517/#prepare-metadata-for-build-wheel).
 The popular buildsystems (setuptools, flit, poetry) do support it.
+
+This behavior can be disabled
+(e.g. when the project's build system does not support it)
+using the `-R` flag:
+
+    %generate_buildrequires
+    %pyproject_buildrequires -R
 
 For projects that specify test requirements using an [`extra`
 provide](https://packaging.python.org/specifications/core-metadata/#provides-extra-multiple-use),

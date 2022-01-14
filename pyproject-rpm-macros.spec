@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        52%{?dist}
+Release:        53%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -116,6 +116,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Fri Jan 14 2022 Miro Hrončok <mhroncok@redhat.com> - 0-53
+- %%pyproject_buildrequires: Make -r (include runtime) the default, use -R to opt-out
+
 * Sun Dec 19 2021 Gordon Messmer <gordon.messmer@gmail.com> - 0-52
 - Handle legacy version specifiers that would previously raise exceptions.
 

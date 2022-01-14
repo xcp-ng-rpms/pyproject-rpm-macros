@@ -367,8 +367,12 @@ def main(argv):
         description='Generate BuildRequires for a Python project.'
     )
     parser.add_argument(
-        '-r', '--runtime', action='store_true',
-        help='Generate run-time requirements',
+        '-r', '--runtime', action='store_true', default=True,
+        help='Generate run-time requirements (default, disable with -R)',
+    )
+    parser.add_argument(
+        '-R', '--no-runtime', action='store_false', dest='runtime',
+        help="Don't generate run-time requirements (implied by -N)",
     )
     parser.add_argument(
         '-e', '--toxenv', metavar='TOXENVS', action='append',
@@ -404,6 +408,9 @@ def main(argv):
     )
 
     args = parser.parse_args(argv)
+
+    if not args.use_build_system:
+        args.runtime = False
 
     if args.toxenv:
         args.tox = True

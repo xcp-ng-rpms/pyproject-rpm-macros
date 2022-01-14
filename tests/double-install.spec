@@ -24,9 +24,9 @@ tar xf %{SOURCE2}
 
 %generate_buildrequires
 cd markupsafe-%{markupsafe_version}
-%pyproject_buildrequires
+%pyproject_buildrequires -R
 cd ../tldr-%{tldr_version}
-%pyproject_buildrequires
+%pyproject_buildrequires -R
 cd ..
 
 

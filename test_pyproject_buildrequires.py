@@ -40,15 +40,16 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
             )
     requirement_files = case.get('requirement_files', [])
     requirement_files = [open(f) for f in requirement_files]
+    use_build_system = case.get('use_build_system', True)
     try:
         generate_requires(
             get_installed_version=get_installed_version,
-            include_runtime=case.get('include_runtime', False),
+            include_runtime=case.get('include_runtime', use_build_system),
             extras=case.get('extras', []),
             toxenv=case.get('toxenv', None),
             generate_extras=case.get('generate_extras', False),
             requirement_files=requirement_files,
-            use_build_system=case.get('use_build_system', True),
+            use_build_system=use_build_system,
         )
     except SystemExit as e:
         assert e.code == case['result']

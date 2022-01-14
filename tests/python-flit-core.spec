@@ -30,7 +30,8 @@ Summary:        %{summary}
 
 %generate_buildrequires
 cd flit_core
-%pyproject_buildrequires
+# this runtime-requires pytoml which is no longer available in Fedora
+%pyproject_buildrequires -R
 cd ..
 
 %build

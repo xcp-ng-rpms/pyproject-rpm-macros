@@ -36,7 +36,7 @@ sed -Ei 's/sphinx\.git@([0-9a-f]+)/sphinx.git@\1#egg=sphinx/' requirements/docs.
 # requirements/dev.in recursively includes tests.in and docs.in
 # we also list tests.in manually to verify we can pass multiple arguments,
 # but it should be redundant if this was a real package
-%pyproject_buildrequires -r requirements/dev.in requirements/tests.in
+%pyproject_buildrequires requirements/dev.in requirements/tests.in
 
 
 %build

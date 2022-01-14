@@ -28,7 +28,8 @@ Summary:        %{summary}
 
 
 %generate_buildrequires
-%pyproject_buildrequires
+# this runtime-requires pastel<0.2 which is no longer available in Fedora
+%pyproject_buildrequires -R
 
 
 %build
