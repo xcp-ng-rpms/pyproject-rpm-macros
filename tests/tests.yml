@@ -76,6 +76,9 @@
     - markupsafe:
         dir: .
         run: ./mocktest.sh python-markupsafe
+    - getmac:
+        dir: .
+        run: ./mocktest.sh python-getmac
     - double_install:
         dir: .
         run: ./mocktest.sh double-install

@@ -97,6 +97,7 @@ fi
   --sitearch "%{python3_sitearch}" \\
   --python-version "%{python3_version}" \\
   --pyproject-record "%{_pyproject_record}" \\
+  --prefix "%{_prefix}" \\
   %{*}
 }
 

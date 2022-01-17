@@ -12,6 +12,28 @@ from importlib.metadata import Distribution
 # From RPM's build/files.c strtokWithQuotes delim argument
 RPM_FILES_DELIMETERS = ' \n\t'
 
+# RPM hardcodes the lists of manpage extensions and directories,
+# so we have to maintain separate ones :(
+# There is an issue for RPM to provide the lists as macros:
+# https://github.com/rpm-software-management/rpm/issues/1865
+# The original lists can be found here:
+# https://github.com/rpm-software-management/rpm/blob/master/scripts/brp-compress
+MANPAGE_EXTENSIONS = ['gz', 'Z', 'bz2', 'xz', 'lzma', 'zst', 'zstd']
+MANDIRS = [
+    '/man/man*',
+    '/man/*/man*',
+    '/info',
+    '/share/man/man*',
+    '/share/man/*/man*',
+    '/share/info',
+    '/kerberos/man',
+    '/X11R6/man/man*',
+    '/lib/perl5/man/man*',
+    '/share/doc/*/man/man*',
+    '/lib/*/man/man*',
+    '/share/fish/man/man*',
+]
+
 
 class BuildrootPath(PurePosixPath):
     """
@@ -145,6 +167,56 @@ def add_lang_to_module(paths, module_name, path):
     return True
 
 
+def prepend_mandirs(prefix):
+    """
+    Return the list of man page directories prepended with the given prefix.
+    """
+    return [str(prefix) + mandir for mandir in MANDIRS]
+
+
+def normalize_manpage_filename(prefix, path):
+    """
+    If a path is processed by RPM's brp-compress script, strip it of the extension
+    (if the extension matches one of the listed by brp-compress),
+    append '*' to the filename and return it. If not, return the unchanged path.
+    Rationale: https://docs.fedoraproject.org/en-US/packaging-guidelines/#_manpages
+
+    Examples:
+
+        >>> normalize_manpage_filename(PosixPath('/usr'), BuildrootPath('/usr/share/man/de/man1/linkchecker.1'))
+        BuildrootPath('/usr/share/man/de/man1/linkchecker.1*')
+
+        >>> normalize_manpage_filename(PosixPath('/usr'), BuildrootPath('/usr/share/doc/en/man/man1/getmac.1'))
+        BuildrootPath('/usr/share/doc/en/man/man1/getmac.1*')
+
+        >>> normalize_manpage_filename(PosixPath('/usr'), BuildrootPath('/usr/share/man/man8/abc.8.zstd'))
+        BuildrootPath('/usr/share/man/man8/abc.8*')
+
+        >>> normalize_manpage_filename(PosixPath('/usr'), BuildrootPath('/usr/kerberos/man/dir'))
+        BuildrootPath('/usr/kerberos/man/dir')
+
+        >>> normalize_manpage_filename(PosixPath('/usr'), BuildrootPath('/usr/kerberos/man/dir.1'))
+        BuildrootPath('/usr/kerberos/man/dir.1*')
+
+        >>> normalize_manpage_filename(PosixPath('/usr'), BuildrootPath('/usr/bin/getmac'))
+        BuildrootPath('/usr/bin/getmac')
+    """
+
+    prefixed_mandirs = prepend_mandirs(prefix)
+    for mandir in prefixed_mandirs:
+        # "dir" is explicitly excluded by RPM
+        # https://github.com/rpm-software-management/rpm/blob/rpm-4.17.0-release/scripts/brp-compress#L24
+        if fnmatch.fnmatch(str(path.parent), mandir) and path.name != "dir":
+            # "abc.1.gz2" -> "abc.1*"
+            if path.suffix[1:] in MANPAGE_EXTENSIONS:
+                return BuildrootPath(path.parent / (path.stem + "*"))
+            # "abc.1 -> abc.1*"
+            else:
+                return BuildrootPath(path.parent / (path.name + "*"))
+    else:
+        return path
+
+
 def is_valid_module_name(s):
     """Return True if a string is considered a valid module name and False otherwise.
 
@@ -215,7 +287,7 @@ def module_names_from_path(path):
 
 
 def classify_paths(
-    record_path, parsed_record_content, metadata, sitedirs, python_version
+    record_path, parsed_record_content, metadata, sitedirs, python_version, prefix
 ):
     """
     For each BuildrootPath in parsed_record_content classify it to a dict structure
@@ -301,6 +373,7 @@ def classify_paths(
             if path.suffix == ".mo":
                 add_lang_to_module(paths, None, path) or paths["other"]["files"].append(path)
             else:
+                path = normalize_manpage_filename(prefix, path)
                 paths["other"]["files"].append(path)
 
     return paths
@@ -528,7 +601,7 @@ def dist_metadata(buildroot, record_path):
     return dist.metadata
 
 
-def pyproject_save_files_and_modules(buildroot, sitelib, sitearch, python_version, pyproject_record, varargs):
+def pyproject_save_files_and_modules(buildroot, sitelib, sitearch, python_version, pyproject_record, prefix, varargs):
     """
     Takes arguments from the %{pyproject_save_files} macro
 
@@ -548,7 +621,7 @@ def pyproject_save_files_and_modules(buildroot, sitelib, sitearch, python_versio
     for record_path, files in parsed_records.items():
         metadata = dist_metadata(buildroot, record_path)
         paths_dict = classify_paths(
-            record_path, files, metadata, sitedirs, python_version
+            record_path, files, metadata, sitedirs, python_version, prefix
         )
 
         final_file_list.extend(
@@ -569,6 +642,7 @@ def main(cli_args):
         cli_args.sitearch,
         cli_args.python_version,
         cli_args.pyproject_record,
+        cli_args.prefix,
         cli_args.varargs,
     )
 
@@ -586,6 +660,7 @@ def argparser():
     r.add_argument("--sitearch", type=BuildrootPath, required=True)
     r.add_argument("--python-version", type=str, required=True)
     r.add_argument("--pyproject-record", type=PosixPath, required=True)
+    r.add_argument("--prefix", type=PosixPath, required=True)
     parser.add_argument("varargs", nargs="+")
     return parser
 

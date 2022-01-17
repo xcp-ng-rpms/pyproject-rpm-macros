@@ -11,6 +11,7 @@ from pyproject_save_files import main as save_files_main
 from pyproject_save_files import module_names_from_path
 
 DIR = Path(__file__).parent
+PREFIX = Path("/usr")
 BINDIR = BuildrootPath("/usr/bin")
 DATADIR = BuildrootPath("/usr/share")
 SITELIB = BuildrootPath("/usr/lib/python3.7/site-packages")
@@ -110,7 +111,15 @@ def test_parse_record_tensorflow():
 
 
 def remove_others(expected):
-    return [p for p in expected if not (p.startswith(str(BINDIR)) or p.endswith(".pth") or p.rpartition(' ')[-1].startswith(str(DATADIR)))]
+    return [
+        p for p in expected
+        if not (
+            p.startswith(str(BINDIR)) or
+            p.endswith(".pth") or
+            p.endswith("*") or
+            p.rpartition(' ')[-1].startswith(str(DATADIR))
+        )
+    ]
 
 
 @pytest.mark.parametrize("include_auto", (True, False))
@@ -179,7 +188,9 @@ def default_options(output_files, output_modules, mock_root, pyproject_record):
         "--python-version",
         "3.7",  # test data are for 3.7,
         "--pyproject-record",
-        str(pyproject_record)
+        str(pyproject_record),
+        "--prefix",
+        str(PREFIX),
     ]
 
 

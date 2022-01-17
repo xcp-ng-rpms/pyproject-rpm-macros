@@ -217,6 +217,7 @@ classified:
       files:
       - /usr/bin/tldr
       - /usr/bin/tldr.py
+      - /usr/share/man/man1/tldr*
   ipykernel:
     metadata:
       dirs:
@@ -376,6 +377,7 @@ classified:
       - /usr/share/jupyter/kernels/python3/logo-64x64.png
       - /usr/share/jupyter/kernels/python3/logo-32x32.png
       - /usr/share/jupyter/kernels/python3/kernel.json
+      - /usr/man/man5/ipykernel.5*
   zope:
     metadata:
       dirs:
@@ -7517,6 +7519,7 @@ dumped:
     - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info/WHEEL
     - /usr/lib/python3.7/site-packages/tldr-0.5.dist-info/top_level.txt
     - /usr/lib/python3.7/site-packages/tldr.py
+    - /usr/share/man/man1/tldr*
   - - tldr
 - - mistune
   - mistune
@@ -7675,6 +7678,7 @@ dumped:
     - /usr/lib/python3.7/site-packages/ipykernel/tests/utils.py
     - /usr/lib/python3.7/site-packages/ipykernel/trio_runner.py
     - /usr/lib/python3.7/site-packages/ipykernel/zmqshell.py
+    - /usr/man/man5/ipykernel.5*
     - /usr/share/jupyter/kernels/python3/kernel.json
     - /usr/share/jupyter/kernels/python3/logo-32x32.png
     - /usr/share/jupyter/kernels/python3/logo-64x64.png
@@ -15559,6 +15563,7 @@ records:
       ../../../bin/__pycache__/tldr.cpython-37.pyc,,
       ../../../bin/tldr,sha256=6MUiLCWhldmV8OelT2dvPgS7q5GFwuhvd6th0Bb-LH4,12766
       ../../../bin/tldr.py,sha256=6MUiLCWhldmV8OelT2dvPgS7q5GFwuhvd6th0Bb-LH4,12766
+      ../../../share/man/man1/tldr.bz2,sha256=xp_kqadh3PjDb4OaU8D8RQDcakrwl5AMmCnaOUV7ioo,10957
       __pycache__/tldr.cpython-37.pyc,,
       tldr-0.5.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
       tldr-0.5.dist-info/LICENSE,sha256=q7quAfjDWCYKC_WRk_uaP6d2wwVpOpVjUSkv8l6H7xI,1075
@@ -15587,6 +15592,7 @@ records:
       ../../../share/jupyter/kernels/python3/kernel.json,sha256=7o0-HNZRKjrk7Fqb71O3gptCssqWqfd_sxw5FNFeYO0,143
       ../../../share/jupyter/kernels/python3/logo-32x32.png,sha256=4ytcKCBy1xeIe2DacxeP3TWmXcPK6sunoCblpCVcyZc,1084
       ../../../share/jupyter/kernels/python3/logo-64x64.png,sha256=XJBjtDbO3wVnSA_kh-zg0UeeqVRfMQy6k_oYTMurKQ0,2180
+      ../../../man/man5/ipykernel.5,sha256=xp_kqadh3PjDb4OaU8D8RQDcakrwl5AMmCnaOUV7ioo,10957
       __pycache__/ipykernel_launcher.cpython-37.pyc,,
       ipykernel-5.2.1.dist-info/COPYING.md,sha256=YMWypaSJDUjGk7i5CKSWdbUkuErBWn7ByVY-Bea__ho,2835
       ipykernel-5.2.1.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4

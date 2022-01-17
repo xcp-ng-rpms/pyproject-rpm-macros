@@ -6,7 +6,7 @@ License:        MIT
 
 # Keep the version at zero and increment only release
 Version:        0
-Release:        53%{?dist}
+Release:        54%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -23,6 +23,7 @@ Source106:      pyproject_requirements_txt.py
 Source201:      test_pyproject_buildrequires.py
 Source202:      test_pyproject_save_files.py
 Source203:      test_pyproject_requirements_txt.py
+Source204:      compare_mandata.py
 
 # Test data
 Source301:      pyproject_buildrequires_testcases.yaml
@@ -100,6 +101,9 @@ install -m 644 pyproject_requirements_txt.py %{buildroot}%{_rpmconfigdir}/redhat
 %check
 export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856356
 %{python3} -m pytest -vv --doctest-modules
+
+# brp-compress is provided as an argument to get the right directory macro expansion
+%{python3} compare_mandata.py -f %{_rpmconfigdir}/brp-compress
 %endif
 
 
@@ -116,6 +120,10 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Wed Jan 19 2022 Karolina Surma <ksurma@redhat.com> - 0-54
+- Include compressed manpages to the package if flag '+auto' is provided to %%pyproject_save_files
+- Fixes: rhbz#2033254
+
 * Fri Jan 14 2022 Miro Hrončok <mhroncok@redhat.com> - 0-53
 - %%pyproject_buildrequires: Make -r (include runtime) the default, use -R to opt-out
 
