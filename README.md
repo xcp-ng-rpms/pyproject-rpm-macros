@@ -4,10 +4,6 @@ pyproject RPM macros
 These macros allow projects that follow the Python [packaging specifications]
 to be packaged as RPMs.
 
-They are still *provisional*: we can make non-backwards-compatible changes to
-the API.
-Please subscribe to Fedora's [python-devel list] if you use the macros.
-
 They work for:
 
 * traditional Setuptools-based projects that use the `setup.py` file,
@@ -17,7 +13,6 @@ They work for:
 These macros replace `%py3_build` and `%py3_install`, which only work with `setup.py`.
 
 [packaging specifications]: https://packaging.python.org/specifications/
-[python-devel list]: https://lists.fedoraproject.org/archives/list/python-devel@lists.fedoraproject.org/
 
 
 Usage
@@ -332,11 +327,13 @@ Hence, the macro `%{pyproject_build_lib}` exists to be used like this:
     PYTHONPATH=%{pyproject_build_lib} ... build the docs here ...
 
 This macro is currently **provisional** and the behavior might change.
+Please subscribe to Fedora's [python-devel list] if you use the macro.
 
 The `%{pyproject_build_lib}` macro expands to an Shell `$(...)` expression and does not work when put into single quotes (`'`).
 
 Depending on the pip version, the expanded value will differ:
 
+[python-devel list]: https://lists.fedoraproject.org/archives/list/python-devel@lists.fedoraproject.org/
 
 ### New pip 21.3+ with in-tree-build (Fedora 36+)
 

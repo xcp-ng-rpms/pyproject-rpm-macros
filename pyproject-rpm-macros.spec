@@ -4,9 +4,14 @@ License:        MIT
 
 %bcond_without tests
 
-# Keep the version at zero and increment only release
-Version:        0
-Release:        55%{?dist}
+# The idea is to follow the spirit of semver
+# Given version X.Y.Z:
+#   Increment X and reset Y.Z when there is a *major* incompatibility
+#   Increment Y and reset Z when new macros or features are added
+#   Increment Z when this is a bugfix or a cosmetic change
+# Dropping support for EOL Fedoras is *not* considered a breaking change
+Version:        1.0.0~rc1
+Release:        1%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -62,10 +67,6 @@ Requires:      /usr/bin/sed
 These macros allow projects that follow the Python packaging specifications
 to be packaged as RPMs.
 
-They are still provisional: we can make non-backwards-compatible changes to
-the API.
-Please subscribe to Fedora's python-devel list if you use the macros.
-
 They work for:
 
 * traditional Setuptools-based projects that use the setup.py file,
@@ -120,6 +121,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Tue Jan 25 2022 Miro Hrončok <mhroncok@redhat.com> - 1.0.0~rc1-1
+- Release version 1.0.0, first release candidate
+
 * Mon Jan 24 2022 Miro Hrončok <mhroncok@redhat.com> - 0-55
 - %%pyproject_buildrequires: Generate BuildRequires for this package
   This package is already installed, but this way, the resulting SRPM explicitly BuildRequires it
