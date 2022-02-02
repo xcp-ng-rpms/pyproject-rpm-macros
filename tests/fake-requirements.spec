@@ -8,7 +8,7 @@ License:        MIT
 BuildRequires:  pyproject-rpm-macros
 
 
-%description 
+%description
 Fake spec file to test %%pyproject_buildrequires -N works as expected
 
 %prep
@@ -25,4 +25,3 @@ EOF
 pip show toml click
 ! pip show setuptools
 ! pip show wheel
-
