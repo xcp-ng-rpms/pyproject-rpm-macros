@@ -282,7 +282,7 @@ def generate_tox_requirements(toxenv, requirements):
              '--print-deps-to', deps.name,
              '--print-extras-to', extras.name,
              '--no-provision', provision.name,
-             '-qre', toxenv],
+             '-q', '-r', '-e', toxenv],
             check=False,
             encoding='utf-8',
             stdout=subprocess.PIPE,
