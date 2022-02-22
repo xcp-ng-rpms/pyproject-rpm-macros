@@ -5,6 +5,11 @@ License:        Python
 Summary:        An object-oriented API to access LDAP directory servers
 Source0:        %{pypi_source}
 
+# OpenLDAP 2.5+ is not yet supported by python-ldap
+# https://github.com/python-ldap/python-ldap/issues/432
+# Fedora has this patch to make it build, but the tests will fail anyway
+Patch0:         https://src.fedoraproject.org/rpms/python-ldap/raw/a237d9b212bd1581e07f4f1a8f54c26a7190843c/f/python-ldap-always-use-ldap-library.patch
+
 BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
 
@@ -34,6 +39,12 @@ Summary:        %{summary}
 
 %prep
 %autosetup
+
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 10
+# Hack: We remove tests that are broken by OpenLDAP 2.5+
+# Don't do this in the regular Fedora package, please
+rm Tests/t_ldapobject.py Tests/t_cext.py Tests/t_edit.py Tests/t_ldap_sasl.py Tests/t_ldap_syncrepl.py Tests/t_slapdobject.py Tests/t_bind.py Tests/t_ldap_options.py Tests/t_ldap_schema_subentry.py
+%endif
 
 
 %generate_buildrequires
