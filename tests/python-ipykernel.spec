@@ -31,6 +31,12 @@ Summary:        %{summary}
 %prep
 %autosetup -p1 -n ipykernel-%{version}
 
+# Add dependency on IPython genutils
+# https://github.com/ipython/ipykernel/pull/756
+# Patch does not apply, so we dirty-sed it in
+sed -i 's/install_requires=\[/install_requires=["ipython_genutils",/' setup.py
+
+
 %generate_buildrequires
 %pyproject_buildrequires -r
 
