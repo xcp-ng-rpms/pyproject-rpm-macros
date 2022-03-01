@@ -10,7 +10,7 @@ License:        MIT
 #   Increment Y and reset Z when new macros or features are added
 #   Increment Z when this is a bugfix or a cosmetic change
 # Dropping support for EOL Fedoras is *not* considered a breaking change
-Version:        1.0.0~rc2
+Version:        1.0.0
 Release:        1%{?dist}
 
 # Macro files
@@ -121,6 +121,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Tue Mar 01 2022 Miro Hrončok <mhroncok@redhat.com> - 1.0.0-1
+- Release final version 1.0.0
+
 * Mon Feb 07 2022 Lumír Balhar <lbalhar@redhat.com> - 1.0.0~rc2-1
 - Updated compatibility with tox4
 
