@@ -11,6 +11,13 @@ BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
 
+# no xmlschema packaged for EPEL 9 yet, cannot run tests on EPEL
+%if 0%{?fedora}
+%bcond_without tests
+%else
+%bcond_with tests
+%endif
+
 %description
 This is a pure Python package with executables. It has a test suite in tox.ini
 and test dependencies specified via the [test] extra.
@@ -28,10 +35,13 @@ Summary:        %{summary}
 
 %prep
 %autosetup -p1 -n %{pypi_name}-%{version}
+# remove optional test dependencies we don't like to pull in
+sed -E -i '/mock|nose/d' setup.cfg
 
 
 %generate_buildrequires
-%pyproject_buildrequires -x testing -t
+%pyproject_buildrequires %{?with_tests:-x testing -t}
+
 
 %build
 %pyproject_wheel
@@ -43,9 +53,13 @@ Summary:        %{summary}
 
 
 %check
+%if %{with tests}
 # Only run one test (which uses a test-only dependency, hypothesis)
 # See how to pass options trough the macro to tox, trough tox to pytest
 %tox -- -- -k metafunc
+%else
+%pyproject_check_import
+%endif
 
 
 %files -n python3-%{pypi_name} -f %{pyproject_files}

@@ -28,6 +28,8 @@ Summary:          %{summary}
 
 %prep
 %autosetup -p1 -n distroinfo-%{version}
+# we don't need pytest-runner
+sed -Ei "s/(, )?'pytest-runner'//" setup.py
 
 
 %generate_buildrequires

@@ -13,6 +13,13 @@ BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
 BuildRequires:  gcc
 
+# too many missing tests deps in EPEL 9
+%if 0%{?fedora}
+%bcond_without tests
+%else
+%bcond_with tests
+%endif
+
 %description
 This package tests 2 things:
 
@@ -44,7 +51,7 @@ sed -i pytest.ini -e 's/ --flake8//' \
 
 
 %generate_buildrequires
-%pyproject_buildrequires -r -x testing
+%pyproject_buildrequires -r %{?with_tests:-x testing}
 
 
 %build
@@ -64,8 +71,12 @@ sed -i '/tests/d' %{pyproject_files}
 # https://github.com/pypa/setuptools/discussions/2607
 rm pyproject.toml
 
+%if %{with tests}
 # We only run a subset of tests to speed things up and be less fragile
 PYTHONPATH=$(pwd) %pytest --ignore=pavement.py -k "sdist"
+%else
+%pyproject_check_import
+%endif
 
 # Internal check that license file was recognized correctly
 grep '^%%license' %{pyproject_files} > tested.license

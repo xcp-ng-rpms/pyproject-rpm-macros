@@ -30,6 +30,10 @@ Summary:        %{summary}
 # we sed it out to save ourselves a dependency, but that is not strictly required
 sed -i -e 's., "setuptools-git"..g' pyproject.toml
 
+# the tests don't actually need mock, they use unittest.mock
+# https://github.com/os-autoinst/openQA-python-client/pull/21
+sed -i '/mock/d' tests.requires
+
 
 %generate_buildrequires
 %pyproject_buildrequires -t

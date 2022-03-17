@@ -24,7 +24,7 @@ Building this tests that lang files are marked with %%lang in filelist.
 
 
 %generate_buildrequires
-%pyproject_buildrequires
+%pyproject_buildrequires -R
 
 
 %build

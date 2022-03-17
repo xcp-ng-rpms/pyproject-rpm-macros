@@ -10,6 +10,14 @@ BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
 
+# no flask, itsdangerous, raven, werkzeug packaged for EPEL 9 yet
+# cannot run tests on EPEL and also cannot BuildRequire runtime deps
+%if 0%{?fedora}
+%bcond_without tests
+%else
+%bcond_with tests
+%endif
+
 %description
 This package buildrequires a package with extra: raven[flask].
 
@@ -34,7 +42,7 @@ sed -i /Content-Length/d test_httpbin.py
 sed -Ei 's/\bdef (test_(relative_)?redirect_(to_post|n_(equals_to|higher_than)_1))/def no\1/' test_httpbin.py
 
 %generate_buildrequires
-%pyproject_buildrequires -t
+%pyproject_buildrequires %{?with_tests:-t}%{?!with_tests:-R}
 
 
 %build
@@ -46,6 +54,7 @@ sed -Ei 's/\bdef (test_(relative_)?redirect_(to_post|n_(equals_to|higher_than)_1
 %pyproject_save_files httpbin
 
 
+%if %{with tests}
 %check
 %tox
 
@@ -53,6 +62,7 @@ sed -Ei 's/\bdef (test_(relative_)?redirect_(to_post|n_(equals_to|higher_than)_1
 # The runtime dependencies contain raven[flask], we assert we got them.
 # The %%tox above also dies without it, but this makes it more explicit
 %{python3} -c 'import blinker, flask'  # transitive deps
+%endif
 
 
 %files -n python3-httpbin -f %{pyproject_files}

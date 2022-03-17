@@ -11,7 +11,13 @@ BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
 BuildRequires:  /usr/bin/git
-BuildRequires:  /usr/bin/hg
+
+# flake8 is still missing tests deps in EPEL 9
+%if 0%{?fedora}
+%bcond_without flake8
+%else
+%bcond_with flake8
+%endif
 
 %description
 Here we test that %%pyproject_extras_subpkg works and generates
@@ -37,7 +43,7 @@ Summary:        %{summary}
 %generate_buildrequires
 # Note that you should not run flake8-like linters in Fedora spec files,
 # here we do it solely to check the *ability* to use multiple toxenvs.
-%pyproject_buildrequires -e %{default_toxenv}-test -e flake8
+%pyproject_buildrequires -e %{default_toxenv}-test %{?with_flake8:-e flake8}
 
 
 %build
@@ -56,7 +62,7 @@ Summary:        %{summary}
 
 # Internal check for our macros: Assert both toxenvs were executed.
 grep -F 'py%{python3_version_nodots}-test: commands succeeded' toxlog
-grep -F 'flake8: commands succeeded' toxlog
+%{?!with_flake8:! }grep -F 'flake8: commands succeeded' toxlog
 
 # Internal check for our macros
 # making sure that %%{_pyproject_ghost_distinfo} has the right content
