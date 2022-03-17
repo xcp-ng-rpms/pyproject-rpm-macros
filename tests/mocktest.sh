@@ -1,17 +1,34 @@
 #!/usr/bin/bash -eux
 . /etc/os-release
-fedora=$VERSION_ID
+
+version=$(echo "${VERSION_ID}" | cut -d. -f1)
+arch="x86_64"
+
+case $NAME in
+  "Fedora Linux"|"Fedora")
+    mock="fedora-${version}-${arch}"
+    ;;
+
+  "CentOS Stream"|"Red Hat Enterprise Linux")
+    mock="centos-stream+epel-${version}-${arch}"
+    ;;
+
+  *)
+    echo "Not supported OS" >&2
+    exit 1
+    ;;
+esac
 
 pkgname=${1}
 shift
 
-config="/tmp/fedora-${fedora}-x86_64-ci.cfg"
+config="/tmp/${mock}-ci.cfg"
 
 # create mock config if not present
 # this makes sure tested version of pyproject-rpm-macros is available
 # TODO: check if it has precedence if the release was not bumped in tested PR
 if [ ! -f $config ]; then
-  original="/etc/mock/fedora-${fedora}-x86_64.cfg"
+  original="/etc/mock/${mock}.cfg"
   cp $original $config
 
   echo -e '\n\n' >> $config
@@ -45,7 +62,9 @@ mock -r $config --enablerepo=local "$@" ~/rpmbuild/SRPMS/${pkgname}-*.src.rpm ||
 
 # move the results to the artifacts directory, so we can examine them
 artifacts=${TEST_ARTIFACTS:-/tmp/artifacts}
-pushd /var/lib/mock/fedora-*-x86_64/result
+
+# on Fedora Rawhide, the directory contains "rawhide" instead of the actual version
+pushd /var/lib/mock/${mock}/result || pushd /var/lib/mock/${mock/${version}/rawhide}/result
 mv *.rpm ${artifacts}/ || :
 for log in *.log; do
  mv ${log} ${artifacts}/${pkgname}-${log}
