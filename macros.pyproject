@@ -10,10 +10,15 @@
 #     https://docs.pytest.org/en/latest/reference.html#confval-norecursedirs
 %_pyproject_builddir %{_builddir}%{?buildsubdir:/%{buildsubdir}}/.pyproject-builddir
 
-%pyproject_files %{_builddir}/pyproject-files
-%_pyproject_modules %{_builddir}/pyproject-modules
-%_pyproject_ghost_distinfo %{_builddir}/pyproject-ghost-distinfo
-%_pyproject_record %{_builddir}/pyproject-record
+# We prefix all created files with this value to make them unique
+# Ideally, we would put them into %%{buildsubdir}, but that value changes during the spec
+# The used value is similar to the one used to define the default %%buildroot
+%_pyproject_files_prefix %{name}-%{version}-%{release}.%{_arch}
+
+%pyproject_files %{_builddir}/%{_pyproject_files_prefix}-pyproject-files
+%_pyproject_modules %{_builddir}/%{_pyproject_files_prefix}-pyproject-modules
+%_pyproject_ghost_distinfo %{_builddir}/%{_pyproject_files_prefix}-pyproject-ghost-distinfo
+%_pyproject_record %{_builddir}/%{_pyproject_files_prefix}-pyproject-record
 
 # Avoid leaking %%{_pyproject_builddir} to pytest collection
 # https://bugzilla.redhat.com/show_bug.cgi?id=1935212
