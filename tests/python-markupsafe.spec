@@ -14,6 +14,7 @@ BuildRequires:  pyproject-rpm-macros
 %description
 This package installs test- and docs-requirements from files
 and uses them to run tests and build documentation.
+It also has a less common order of the %%files section.
 
 
 %package -n python3-markupsafe
@@ -21,6 +22,13 @@ Summary:        %{summary}
 
 %description -n python3-markupsafe
 ...
+
+
+# In this spec, we put %%files early to test it still works
+%files -n python3-markupsafe -f %{pyproject_files}
+%license LICENSE.rst
+%doc CHANGES.rst README.rst
+
 
 %prep
 %autosetup -n markupsafe-%{version}
@@ -52,7 +60,3 @@ sed -Ei 's/sphinx\.git@([0-9a-f]+)/sphinx.git@\1#egg=sphinx/' requirements/docs.
 %check
 %pytest
 
-
-%files -n python3-markupsafe -f %{pyproject_files}
-%license LICENSE.rst
-%doc CHANGES.rst README.rst
