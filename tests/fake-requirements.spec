@@ -23,5 +23,8 @@ EOF
 
 %check
 pip show toml click
-! pip show setuptools
-! pip show wheel
+%if 0%{?fedora} > 34 || 0%{?rhel} > 9
+# On F34, python3-devel requires (python3-setuptools if rpm-build)
+pip show setuptools && exit 1 || true
+%endif
+pip show wheel && exit 1 || true

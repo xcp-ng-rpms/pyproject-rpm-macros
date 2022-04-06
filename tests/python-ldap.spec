@@ -54,7 +54,7 @@ rm Tests/t_ldapobject.py Tests/t_cext.py Tests/t_edit.py Tests/t_ldap_sasl.py Te
 %build
 %pyproject_wheel
 # Internal check that we can import the built extension modules from %%{pyproject_build_lib}
-! %{python3} -c 'import _ldap'
+%{python3} -c 'import _ldap' && exit 1 || true
 PYTHONPATH=%{pyproject_build_lib} %{python3} -c 'import _ldap'
 
 
@@ -78,14 +78,14 @@ test -f %{buildroot}%{python3_sitearch}/_ldap.cpython-*.so
 
 # Internal check: Unmatched modules are not supposed to be listed in %%{pyproject_files}
 # We'll list them explicitly
-! grep -F %{python3_sitearch}/ldif.py %{pyproject_files}
-! grep -F %{python3_sitearch}/__pycache__/ldif.cpython-%{python3_version_nodots}.pyc %{pyproject_files}
-! grep -F %{python3_sitearch}/__pycache__/ldif.cpython-%{python3_version_nodots}.opt-1.pyc %{pyproject_files}
-! grep -F %{python3_sitearch}/slapdtest %{pyproject_files}
+grep -F %{python3_sitearch}/ldif.py %{pyproject_files} && exit 1 || true
+grep -F %{python3_sitearch}/__pycache__/ldif.cpython-%{python3_version_nodots}.pyc %{pyproject_files} && exit 1 || true
+grep -F %{python3_sitearch}/__pycache__/ldif.cpython-%{python3_version_nodots}.opt-1.pyc %{pyproject_files} && exit 1 || true
+grep -F %{python3_sitearch}/slapdtest %{pyproject_files} && exit 1 || true
 
 # Internal check: Top level __pycache__ is never owned
-! grep -E '/site-packages/__pycache__$' %{pyproject_files}
-! grep -E '/site-packages/__pycache__/$' %{pyproject_files}
+grep -E '/site-packages/__pycache__$' %{pyproject_files} && exit 1 || true
+grep -E '/site-packages/__pycache__/$' %{pyproject_files} && exit 1 || true
 
 # Internal check for the value of %%{pyproject_build_lib} in an archful package
 %if 0%{?fedora} >= 36 || 0%{?rhel} >= 10

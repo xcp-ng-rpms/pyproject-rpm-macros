@@ -42,8 +42,8 @@ Summary:        %{summary}
 
 %check
 # Internal check: Top level __pycache__ is never owned
-! grep -E '/__pycache__$' %{pyproject_files}
-! grep -E '/__pycache__/$' %{pyproject_files}
+grep -E '/__pycache__$' %{pyproject_files} && exit 1 || true
+grep -E '/__pycache__/$' %{pyproject_files} && exit 1 || true
 grep -F '/__pycache__/' %{pyproject_files}
 
 
