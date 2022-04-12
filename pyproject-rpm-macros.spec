@@ -10,7 +10,7 @@ License:        MIT
 #   Increment Y and reset Z when new macros or features are added
 #   Increment Z when this is a bugfix or a cosmetic change
 # Dropping support for EOL Fedoras is *not* considered a breaking change
-Version:        1.0.1
+Version:        1.1.0
 Release:        1%{?dist}
 
 # Macro files
@@ -121,6 +121,10 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Tue Apr 12 2022 Miro Hrončok <mhroncok@redhat.com> - 1.1.0-1
+- %%pyproject_save_files: Support nested directories in dist-info
+- Fixes: rhbz#1985340
+
 * Tue Mar 22 2022 Miro Hrončok <mhroncok@redhat.com> - 1.0.1-1
 - Prefix paths of intermediate files (such as %%{pyproject_files}) with NVRA
 

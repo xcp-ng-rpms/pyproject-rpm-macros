@@ -79,6 +79,9 @@
     - getmac:
         dir: .
         run: ./mocktest.sh python-getmac
+    - userpath:
+        dir: .
+        run: ./mocktest.sh python-userpath
     - double_install:
         dir: .
         run: ./mocktest.sh double-install

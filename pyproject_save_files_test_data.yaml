@@ -413,6 +413,7 @@ classified:
     metadata:
       dirs:
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info
+      - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/licenses
       docs: []
       files:
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/AUTHORS
@@ -422,8 +423,8 @@ classified:
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/entry_points.txt
       - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/top_level.txt
       licenses:
-      - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE
-      - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE.python
+      - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/licenses/LICENSE
+      - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/licenses/LICENSE.python
     lang:
       django:
         af:
@@ -7766,6 +7767,7 @@ dumped:
 - - django
   - django
   - - '%dir /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info'
+    - '%dir /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/licenses'
     - '%dir /usr/lib/python3.7/site-packages/django'
     - '%dir /usr/lib/python3.7/site-packages/django/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/django/apps'
@@ -11349,8 +11351,8 @@ dumped:
     - '%lang(zh) /usr/lib/python3.7/site-packages/django/contrib/sessions/locale/zh_Hant/LC_MESSAGES/django.mo'
     - '%lang(zh) /usr/lib/python3.7/site-packages/django/contrib/sites/locale/zh_Hans/LC_MESSAGES/django.mo'
     - '%lang(zh) /usr/lib/python3.7/site-packages/django/contrib/sites/locale/zh_Hant/LC_MESSAGES/django.mo'
-    - '%license /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE'
-    - '%license /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/LICENSE.python'
+    - '%license /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/licenses/LICENSE'
+    - '%license /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/licenses/LICENSE.python'
     - /usr/bin/django-admin
     - /usr/bin/django-admin.py
     - /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/AUTHORS
@@ -15456,8 +15458,8 @@ metadata:
     content: |
       Name: Django
       Version: 3.0.7
-      License-File: LICENSE
-      License-File: LICENSE.python
+      License-File: licenses/LICENSE
+      License-File: licenses/LICENSE.python
       Whatever: False data
 
 records:
@@ -15751,8 +15753,8 @@ records:
       ../../../bin/django-admin.py,sha256=OOv0QKYqhDD2O4X3HQx3gFFQ-CC7hSLnWuzZnQXeiiA,115
       Django-3.0.7.dist-info/AUTHORS,sha256=cV29hNQ1SpKhTmZuPff3LWHyQ7mHNBWP7_0JufEUHbs,36806
       Django-3.0.7.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
-      Django-3.0.7.dist-info/LICENSE,sha256=uEZBXRtRTpwd_xSiLeuQbXlLxUbKYSn5UKGM0JHipmk,1552
-      Django-3.0.7.dist-info/LICENSE.python,sha256=Z-Pr3SuMPxOcaosqZSgr_NAjh2cFRcFyPZjP7nMeQrQ,13231
+      Django-3.0.7.dist-info/licenses/LICENSE,sha256=uEZBXRtRTpwd_xSiLeuQbXlLxUbKYSn5UKGM0JHipmk,1552
+      Django-3.0.7.dist-info/licenses/LICENSE.python,sha256=Z-Pr3SuMPxOcaosqZSgr_NAjh2cFRcFyPZjP7nMeQrQ,13231
       Django-3.0.7.dist-info/METADATA,sha256=0ZU0N0E-CHKarXMLp4oOYf7EMUHR8eJ79f2yqw2NwoM,3574
       Django-3.0.7.dist-info/RECORD,,
       Django-3.0.7.dist-info/WHEEL,sha256=g4nMs7d-Xl9-xC9XovUrsDHGXt-FT0E17Yqo92DEfvY,92

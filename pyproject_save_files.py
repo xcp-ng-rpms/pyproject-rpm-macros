@@ -320,15 +320,20 @@ def classify_paths(
             # we handle bytecode separately
             continue
 
-        if path.parent == distinfo:
-            if path.name in ("RECORD", "REQUESTED"):
+        if distinfo in path.parents:
+            if path.parent == distinfo and path.name in ("RECORD", "REQUESTED"):
                 # RECORD and REQUESTED files are removed in %pyproject_install
                 # See PEP 627
                 continue
-            if license_files and path.name in license_files:
+            if license_files and str(path.relative_to(distinfo)) in license_files:
                 paths["metadata"]["licenses"].append(path)
             else:
                 paths["metadata"]["files"].append(path)
+            # nested directories within distinfo
+            index = path.parents.index(distinfo)
+            for parent in list(path.parents)[:index]:  # no direct slice until Python 3.10
+                if parent not in paths["metadata"]["dirs"]:
+                    paths["metadata"]["dirs"].append(parent)
             continue
 
         for sitedir in sitedirs:
