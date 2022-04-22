@@ -10,7 +10,7 @@ License:        MIT
 #   Increment Y and reset Z when new macros or features are added
 #   Increment Z when this is a bugfix or a cosmetic change
 # Dropping support for EOL Fedoras is *not* considered a breaking change
-Version:        1.1.0
+Version:        1.2.0
 Release:        1%{?dist}
 
 # Macro files
@@ -23,6 +23,7 @@ Source103:      pyproject_convert.py
 Source104:      pyproject_preprocess_record.py
 Source105:      pyproject_construct_toxenv.py
 Source106:      pyproject_requirements_txt.py
+Source107:      pyproject_wheel.py
 
 # Tests
 Source201:      test_pyproject_buildrequires.py
@@ -97,6 +98,7 @@ install -m 644 pyproject_save_files.py  %{buildroot}%{_rpmconfigdir}/redhat/
 install -m 644 pyproject_preprocess_record.py %{buildroot}%{_rpmconfigdir}/redhat/
 install -m 644 pyproject_construct_toxenv.py %{buildroot}%{_rpmconfigdir}/redhat/
 install -m 644 pyproject_requirements_txt.py %{buildroot}%{_rpmconfigdir}/redhat/
+install -m 644 pyproject_wheel.py %{buildroot}%{_rpmconfigdir}/redhat/
 
 %if %{with tests}
 %check
@@ -116,11 +118,19 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %{_rpmconfigdir}/redhat/pyproject_preprocess_record.py
 %{_rpmconfigdir}/redhat/pyproject_construct_toxenv.py
 %{_rpmconfigdir}/redhat/pyproject_requirements_txt.py
+%{_rpmconfigdir}/redhat/pyproject_wheel.py
 
 %doc README.md
 %license LICENSE
 
 %changelog
+* Wed Apr 27 2022 Miro Hrončok <mhroncok@redhat.com> - 1.2.0-1
+- %%pyproject_buildrequires: Add provisional -w flag for build backends without
+  prepare_metadata_for_build_wheel hook
+  When used, the wheel is built in %%pyproject_buildrequires
+  and information about runtime requires and extras is read from that wheel.
+- Fixes: rhbz#2076994
+
 * Tue Apr 12 2022 Miro Hrončok <mhroncok@redhat.com> - 1.1.0-1
 - %%pyproject_save_files: Support nested directories in dist-info
 - Fixes: rhbz#1985340

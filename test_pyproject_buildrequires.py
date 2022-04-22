@@ -13,12 +13,14 @@ with Path(__file__).parent.joinpath('pyproject_buildrequires_testcases.yaml').op
 
 
 @pytest.mark.parametrize('case_name', testcases)
-def test_data(case_name, capsys, tmp_path, monkeypatch):
+def test_data(case_name, capfd, tmp_path, monkeypatch):
     case = testcases[case_name]
 
     cwd = tmp_path.joinpath('cwd')
     cwd.mkdir()
     monkeypatch.chdir(cwd)
+    wheeldir = cwd.joinpath('wheeldir')
+    wheeldir.mkdir()
 
     if case.get('xfail'):
         pytest.xfail(case.get('xfail'))
@@ -45,6 +47,8 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
         generate_requires(
             get_installed_version=get_installed_version,
             include_runtime=case.get('include_runtime', use_build_system),
+            build_wheel=case.get('build_wheel', False),
+            wheeldir=str(wheeldir),
             extras=case.get('extras', []),
             toxenv=case.get('toxenv', None),
             generate_extras=case.get('generate_extras', False),
@@ -64,7 +68,7 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
         # if we ever need to do that, we can remove the check or change it:
         assert 'expected' in case or 'stderr_contains' in case
 
-        out, err = capsys.readouterr()
+        out, err = capfd.readouterr()
 
         if 'expected' in case:
             assert out == case['expected']
@@ -75,7 +79,7 @@ def test_data(case_name, capsys, tmp_path, monkeypatch):
             if isinstance(stderr_contains, str):
                 stderr_contains = [stderr_contains]
             for expected_substring in stderr_contains:
-                assert expected_substring in err
+                assert expected_substring.format(**locals()) in err
     finally:
         for req in requirement_files:
             req.close()

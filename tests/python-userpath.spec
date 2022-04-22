@@ -8,15 +8,12 @@ Source:         %{pypi_source userpath}
 BuildArch:      noarch
 BuildRequires:  python3-devel
 
-# Manually BuildRequire the runtime dependencies until we have a solution
-# for build backends without prepare_metadata_for_build_wheel():
-BuildRequires:  python3dist(click)
-
 %description
 This package uses hatchling as build backend.
 This package is tested because:
 
- - the prepare_metadata_for_build_wheel hook does not exist
+ - the prepare_metadata_for_build_wheel hook does not exist,
+   %%pyproject_buildrequires -w is used
    https://github.com/ofek/hatch/issues/128
  - the licenses are stored in a dist-info subdirectory
    https://bugzilla.redhat.com/1985340
@@ -39,12 +36,12 @@ sed -Ei '/^(coverage)$/d' requirements-dev.txt
 
 
 %generate_buildrequires
-# Cannot use -r (the default) with hatchling, must use -R
-%pyproject_buildrequires requirements-dev.txt -R
+%pyproject_buildrequires requirements-dev.txt -w
 
 
-%build
-%pyproject_wheel
+## %%pyproject_buildrequires -w makes this redundant:
+#  %%build
+#  %%pyproject_wheel
 
 
 %install

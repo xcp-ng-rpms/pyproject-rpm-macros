@@ -29,7 +29,7 @@
 %_set_pytest_addopts
 mkdir -p "%{_pyproject_builddir}"
 CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" TMPDIR="%{_pyproject_builddir}" \\\
-%{__python3} -m pip wheel --wheel-dir %{_pyproject_wheeldir} --no-deps --use-pep517 --no-build-isolation --disable-pip-version-check --no-clean --progress-bar off --verbose .
+%{__python3} -Bs %{_rpmconfigdir}/redhat/pyproject_wheel.py %{_pyproject_wheeldir}
 }
 
 
@@ -121,13 +121,21 @@ fi
 %toxenv %{default_toxenv}
 
 
-%pyproject_buildrequires(rRxtNe:) %{expand:\\\
-%{-R:%{-r:%{error:The -R and -r options are mutually exclusive}}}
+%pyproject_buildrequires(rRxtNwe:) %{expand:\\\
+%_set_pytest_addopts
+# The _auto_set_build_flags feature does not do this in %%generate_buildrequires section,
+# but we want to get an environment consistent with %%build:
+%{?_auto_set_build_flags:%set_build_flags}
+%{-R:
+%{-r:%{error:The -R and -r options are mutually exclusive}}
+%{-w:%{error:The -R and -w options are mutually exclusive}}
+}
 %{-N:
 %{-r:%{error:The -N and -r options are mutually exclusive}}
 %{-x:%{error:The -N and -x options are mutually exclusive}}
 %{-e:%{error:The -N and -e options are mutually exclusive}}
 %{-t:%{error:The -N and -t options are mutually exclusive}}
+%{-w:%{error:The -N and -w options are mutually exclusive}}
 }
 %{-e:%{expand:%global toxenv %(%{__python3} -s %{_rpmconfigdir}/redhat/pyproject_construct_toxenv.py %{?**})}}
 echo 'pyproject-rpm-macros'  # we already have this installed, but this way, it's repoqueryable
@@ -147,7 +155,9 @@ fi}
 # setuptools assumes no pre-existing dist-info
 rm -rfv *.dist-info/ >&2
 if [ -f %{__python3} ]; then
-  RPM_TOXENV="%{toxenv}" HOSTNAME="rpmbuild" %{__python3} -s %{_rpmconfigdir}/redhat/pyproject_buildrequires.py %{?!_python_no_extras_requires:--generate-extras} --python3_pkgversion %{python3_pkgversion} %{?**}
+  mkdir -p "%{_pyproject_builddir}"
+  CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" TMPDIR="%{_pyproject_builddir}" \\\
+  RPM_TOXENV="%{toxenv}" HOSTNAME="rpmbuild" %{__python3} -Bs %{_rpmconfigdir}/redhat/pyproject_buildrequires.py %{?!_python_no_extras_requires:--generate-extras} --python3_pkgversion %{python3_pkgversion} --wheeldir %{_pyproject_wheeldir} %{?**}
 fi
 }
 

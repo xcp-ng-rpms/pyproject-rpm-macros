@@ -1,3 +1,5 @@
+import glob
+import io
 import os
 import sys
 import importlib.metadata
@@ -11,6 +13,7 @@ import re
 import tempfile
 import email.parser
 import pathlib
+import zipfile
 
 from pyproject_requirements_txt import convert_requirements_txt
 
@@ -253,21 +256,67 @@ def generate_build_requirements(backend, requirements):
         requirements.check(source='get_requires_for_build_wheel')
 
 
-def generate_run_requirements(backend, requirements):
+def requires_from_metadata_file(metadata_file):
+    message = email.parser.Parser().parse(metadata_file, headersonly=True)
+    return {k: message.get_all(k, ()) for k in ('Requires', 'Requires-Dist')}
+
+
+def generate_run_requirements_hook(backend, requirements):
     hook_name = 'prepare_metadata_for_build_wheel'
     prepare_metadata = getattr(backend, hook_name, None)
     if not prepare_metadata:
         raise ValueError(
-            'build backend cannot provide build metadata '
-            + '(incl. runtime requirements) before build'
+            'The build backend cannot provide build metadata '
+            '(incl. runtime requirements) before build. '
+            'Use the provisional -w flag to build the wheel and parse the metadata from it, '
+            'or use the -R flag not to generate runtime dependencies.'
         )
     with hook_call():
         dir_basename = prepare_metadata('.')
-    with open(dir_basename + '/METADATA') as f:
-        message = email.parser.Parser().parse(f, headersonly=True)
-    for key in 'Requires', 'Requires-Dist':
-        requires = message.get_all(key, ())
-        requirements.extend(requires, source=f'wheel metadata: {key}')
+    with open(dir_basename + '/METADATA') as metadata_file:
+        for key, requires in requires_from_metadata_file(metadata_file).items():
+            requirements.extend(requires, source=f'hook generated metadata: {key}')
+
+
+def find_built_wheel(wheeldir):
+    wheels = glob.glob(os.path.join(wheeldir, '*.whl'))
+    if not wheels:
+        return None
+    if len(wheels) > 1:
+        raise RuntimeError('Found multiple wheels in %{_pyproject_wheeldir}, '
+                           'this is not supported with %pyproject_buildrequires -w.')
+    return wheels[0]
+
+
+def generate_run_requirements_wheel(backend, requirements, wheeldir):
+    # Reuse the wheel from the previous round of %pyproject_buildrequires (if it exists)
+    wheel = find_built_wheel(wheeldir)
+    if not wheel:
+        import pyproject_wheel
+        returncode = pyproject_wheel.build_wheel(wheeldir=wheeldir, stdout=sys.stderr)
+        if returncode != 0:
+            raise RuntimeError('Failed to build the wheel for %pyproject_buildrequires -w.')
+        wheel = find_built_wheel(wheeldir)
+    if not wheel:
+        raise RuntimeError('Cannot locate the built wheel for %pyproject_buildrequires -w.')
+
+    print_err(f'Reading metadata from {wheel}')
+    with zipfile.ZipFile(wheel) as wheelfile:
+        for name in wheelfile.namelist():
+            if name.count('/') == 1 and name.endswith('.dist-info/METADATA'):
+                with io.TextIOWrapper(wheelfile.open(name), encoding='utf-8') as metadata_file:
+                    for key, requires in requires_from_metadata_file(metadata_file).items():
+                        requirements.extend(requires, source=f'built wheel metadata: {key}')
+                break
+        else:
+            raise RuntimeError('Could not find *.dist-info/METADATA in built wheel.')
+
+
+def generate_run_requirements(backend, requirements, *, build_wheel, wheeldir):
+    if build_wheel:
+        generate_run_requirements_wheel(backend, requirements, wheeldir)
+    else:
+        generate_run_requirements_hook(backend, requirements)
 
 
 def generate_tox_requirements(toxenv, requirements):
@@ -326,7 +375,7 @@ def python3dist(name, op=None, version=None, python3_pkgversion="3"):
 
 
 def generate_requires(
-    *, include_runtime=False, toxenv=None, extras=None,
+    *, include_runtime=False, build_wheel=False, wheeldir=None, toxenv=None, extras=None,
     get_installed_version=importlib.metadata.version,  # for dep injection
     generate_extras=False, python3_pkgversion="3", requirement_files=None, use_build_system=True
 ):
@@ -357,7 +406,7 @@ def generate_requires(
             include_runtime = True
             generate_tox_requirements(toxenv, requirements)
         if include_runtime:
-            generate_run_requirements(backend, requirements)
+            generate_run_requirements(backend, requirements, build_wheel=build_wheel, wheeldir=wheeldir)
     except EndPass:
         return
 
@@ -369,6 +418,15 @@ def main(argv):
     parser.add_argument(
         '-r', '--runtime', action='store_true', default=True,
         help='Generate run-time requirements (default, disable with -R)',
+    )
+    parser.add_argument(
+        '-w', '--wheel', action='store_true', default=False,
+        help=('Generate run-time requirements by building the wheel '
+              '(useful for build backends without the prepare_metadata_for_build_wheel hook)'),
+    )
+    parser.add_argument(
+        '--wheeldir', metavar='PATH', default=None,
+        help='The directory with wheel, used when -w.',
     )
     parser.add_argument(
         '-R', '--no-runtime', action='store_false', dest='runtime',
@@ -412,6 +470,10 @@ def main(argv):
     if not args.use_build_system:
         args.runtime = False
 
+    if args.wheel:
+        if not args.wheeldir:
+            raise ValueError('--wheeldir must be set when -w.')
+
     if args.toxenv:
         args.tox = True
 
@@ -427,6 +489,8 @@ def main(argv):
     try:
         generate_requires(
             include_runtime=args.runtime,
+            build_wheel=args.wheel,
+            wheeldir=args.wheeldir,
             toxenv=args.toxenv,
             extras=args.extras,
             generate_extras=args.generate_extras,

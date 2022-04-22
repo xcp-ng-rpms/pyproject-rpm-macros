@@ -69,8 +69,7 @@ the package's runtime dependencies need to also be included as build requirement
 
 Hence, `%pyproject_buildrequires` also generates runtime dependencies by default.
 
-For this to work, the project's build system must support the
-[`prepare-metadata-for-build-wheel` hook](https://www.python.org/dev/peps/pep-0517/#prepare-metadata-for-build-wheel).
+For this to work, the project's build system must support the [`prepare-metadata-for-build-wheel` hook].
 The popular buildsystems (setuptools, flit, poetry) do support it.
 
 This behavior can be disabled
@@ -79,6 +78,28 @@ using the `-R` flag:
 
     %generate_buildrequires
     %pyproject_buildrequires -R
+
+Alternatively, the runtime dependencies can be obtained by building the wheel and reading the metadata from the built wheel.
+This can be enabled by using the `-w` flag.
+Support for building wheels with `%pyproject_buildrequires -w` is **provisional** and the behavior might change.
+Please subscribe to Fedora's [python-devel list] if you use the option.
+
+    %generate_buildrequires
+    %pyproject_buildrequires -w
+
+When this is used, the wheel is going to be built at least twice,
+becasue the `%generate_buildrequires` section runs repeatedly.
+To avoid accidentally reusing a wheel leaking from a previous (different) build,
+it cannot be reused between `%generate_buildrequires` rounds.
+Contrarily to that, rebuilding the wheel again in the `%build` section is redundant
+and the packager can omit the `%build` section entirely
+to reuse the wheel built from the last round of `%generate_buildrequires`.
+Be extra careful when attempting to modify the sources after `%pyproject_buildrequires`,
+e.g. when running extra commands in the `%build` section:
+
+    %build
+    cython src/wrong.pyx  # this is too late with %%pyproject_buildrequires -w
+    %pyproject_wheel
 
 For projects that specify test requirements using an [`extra`
 provide](https://packaging.python.org/specifications/core-metadata/#provides-extra-multiple-use),
@@ -121,9 +142,12 @@ in worst case, patch/sed the requirement out from the tox configuration.
 
 Note that both `-x` and `-t` imply `-r`,
 because runtime dependencies are always required for testing.
+You can only use those options if the build backend  supports the [`prepare-metadata-for-build-wheel` hook],
+or together with `-w`.
 
 [tox]: https://tox.readthedocs.io/
 [tox-current-env]: https://github.com/fedora-python/tox-current-env/
+[`prepare-metadata-for-build-wheel` hook]: https://www.python.org/dev/peps/pep-0517/#prepare-metadata-for-build-wheel
 
 Additionally to generated requirements you can supply multiple file names to `%pyproject_buildrequires` macro.
 Dependencies will be loaded from them:
@@ -133,7 +157,7 @@ Dependencies will be loaded from them:
 For packages not using build system you can use `-N` to entirely skip automatical
 generation of requirements and install requirements only from manually specified files.
 `-N` option cannot be used in combination with other options mentioned above
-(`-r`, `-e`, `-t`, `-x`).
+(`-r`, `-w`, `-e`, `-t`, `-x`).
 
 Running tox based tests
 -----------------------

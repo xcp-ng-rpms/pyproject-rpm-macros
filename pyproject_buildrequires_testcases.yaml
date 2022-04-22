@@ -268,6 +268,8 @@ Run dependencies with extras (not selected):
 
         def main():
             setup(
+                name = "pytest",
+                version = "6.6.6",
                 setup_requires=["setuptools>=40.0"],
                 # fmt: off
                 extras_require={
@@ -357,6 +359,35 @@ Run dependencies with multiple extras:
     python3dist(dep2)
     python3dist(dep1)
   result: 0
+
+Run dependencies with extras and build wheel option:
+  installed:
+    setuptools: 50
+    wheel: 1
+    pyyaml: 1
+  include_runtime: true
+  build_wheel: true
+  extras:
+    - testing
+  setup.py: *pytest_setup_py
+  expected: |
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+    python3dist(wheel)
+    python3dist(setuptools) >= 40
+    python3dist(py) >= 1.5
+    python3dist(six) >= 1.10
+    python3dist(setuptools)
+    python3dist(attrs) >= 17.4
+    python3dist(atomicwrites) >= 1
+    python3dist(pluggy) >= 0.11
+    python3dist(more-itertools) >= 4
+    python3dist(argcomplete)
+    python3dist(hypothesis) >= 3.56
+    python3dist(nose)
+    python3dist(requests)
+  result: 0
+  stderr_contains: "Reading metadata from {wheeldir}/pytest-6.6.6-py3-none-any.whl"
 
 Tox dependencies:
   installed:
