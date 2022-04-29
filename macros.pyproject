@@ -1,4 +1,4 @@
-# This is a directory where wheels are stored and installed from, relative to PWD
+# This is a directory where wheels are stored and installed from, absolute
 %_pyproject_wheeldir %{_builddir}%{?buildsubdir:/%{buildsubdir}}/pyproject-wheeldir
 
 # This is a directory used as TMPDIR, where pip copies sources to and builds from, relative to PWD
