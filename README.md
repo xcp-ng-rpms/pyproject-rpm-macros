@@ -69,7 +69,7 @@ the package's runtime dependencies need to also be included as build requirement
 
 Hence, `%pyproject_buildrequires` also generates runtime dependencies by default.
 
-For this to work, the project's build system must support the [`prepare-metadata-for-build-wheel` hook].
+For this to work, the project's build system must support the [prepare-metadata-for-build-wheel hook].
 The popular buildsystems (setuptools, flit, poetry) do support it.
 
 This behavior can be disabled
@@ -142,12 +142,12 @@ in worst case, patch/sed the requirement out from the tox configuration.
 
 Note that both `-x` and `-t` imply `-r`,
 because runtime dependencies are always required for testing.
-You can only use those options if the build backend  supports the [`prepare-metadata-for-build-wheel` hook],
+You can only use those options if the build backend  supports the [prepare-metadata-for-build-wheel hook],
 or together with `-w`.
 
 [tox]: https://tox.readthedocs.io/
 [tox-current-env]: https://github.com/fedora-python/tox-current-env/
-[`prepare-metadata-for-build-wheel` hook]: https://www.python.org/dev/peps/pep-0517/#prepare-metadata-for-build-wheel
+[prepare-metadata-for-build-wheel hook]: https://www.python.org/dev/peps/pep-0517/#prepare-metadata-for-build-wheel
 
 Additionally to generated requirements you can supply multiple file names to `%pyproject_buildrequires` macro.
 Dependencies will be loaded from them:
