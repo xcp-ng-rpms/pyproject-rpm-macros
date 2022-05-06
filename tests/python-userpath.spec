@@ -27,8 +27,8 @@ Summary:        %{summary}
 ...
 
 
-%if 0%{?fedora} > 35
-# On Fedora 35 or EPEL, we don't have hatchling yet, so this entire spec file builds nothing
+%if 0%{?fedora} > 34 || 0%{?rhel}
+# On Fedora 34, we don't have hatchling, so this entire spec file builds nothing
 
 %prep
 %autosetup -p1 -n userpath-%{version}
