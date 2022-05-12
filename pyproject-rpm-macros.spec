@@ -10,7 +10,7 @@ License:        MIT
 #   Increment Y and reset Z when new macros or features are added
 #   Increment Z when this is a bugfix or a cosmetic change
 # Dropping support for EOL Fedoras is *not* considered a breaking change
-Version:        1.2.0
+Version:        1.3.0
 Release:        1%{?dist}
 
 # Macro files
@@ -50,9 +50,9 @@ BuildRequires: python3dist(pyyaml)
 BuildRequires: python3dist(packaging)
 BuildRequires: python3dist(pip)
 BuildRequires: python3dist(setuptools)
-BuildRequires: python3dist(toml)
 BuildRequires: python3dist(tox-current-env) >= 0.0.6
 BuildRequires: python3dist(wheel)
+BuildRequires: (python3dist(toml) if python3-devel < 3.11)
 %endif
 
 # We build on top of those:
@@ -124,6 +124,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Thu May 12 2022 Miro Hrončok <mhroncok@redhat.com> - 1.3.0-1
+- Use tomllib from the standard library on Python 3.11+
+
 * Wed Apr 27 2022 Miro Hrončok <mhroncok@redhat.com> - 1.2.0-1
 - %%pyproject_buildrequires: Add provisional -w flag for build backends without
   prepare_metadata_for_build_wheel hook

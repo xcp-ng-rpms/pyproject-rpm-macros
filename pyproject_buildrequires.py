@@ -187,21 +187,32 @@ class Requirements:
             self.add(req_str, **kwargs)
 
 
-def get_backend(requirements):
+def toml_load(opened_binary_file):
     try:
-        f = open('pyproject.toml')
-    except FileNotFoundError:
-        pyproject_data = {}
-    else:
+        # tomllib is in the standard library since 3.11.0b1
+        import tomllib as toml_module
+        load_from = opened_binary_file
+    except ImportError:
         try:
-            # lazy import toml here, not needed without pyproject.toml
-            import toml
+            # note: we could use tomli here,
+            # but for backwards compatibility with RHEL 9, we use toml instead
+            import toml as toml_module
+            load_from = io.TextIOWrapper(opened_binary_file, encoding='utf-8')
         except ImportError as e:
             print_err('Import error:', e)
             # already echoed by the %pyproject_buildrequires macro
             sys.exit(0)
+    return toml_module.load(load_from)
+
+
+def get_backend(requirements):
+    try:
+        f = open('pyproject.toml', 'rb')
+    except FileNotFoundError:
+        pyproject_data = {}
+    else:
         with f:
-            pyproject_data = toml.load(f)
+            pyproject_data = toml_load(f)
 
     buildsystem_data = pyproject_data.get('build-system', {})
     requirements.extend(

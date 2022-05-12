@@ -143,7 +143,13 @@ echo 'python%{python3_pkgversion}-devel'
 echo 'python%{python3_pkgversion}dist(pip) >= 19'
 echo 'python%{python3_pkgversion}dist(packaging)'
 %{!-N:if [ -f pyproject.toml ]; then
-  echo 'python%{python3_pkgversion}dist(toml)'
+  %["%{python3_pkgversion}" == "3"
+    ? "echo '(python%{python3_pkgversion}dist(toml) if python%{python3_pkgversion}-devel < 3.11)'"
+    : "%[v"%{python3_pkgversion}" < v"3.11"
+       ? "echo 'python%{python3_pkgversion}dist(toml)'"
+       : "true # will use tomllib, echo nothing"
+    ]"
+  ]
 elif [ -f setup.py ]; then
   # Note: If the default requirements change, also change them in the script!
   echo 'python%{python3_pkgversion}dist(setuptools) >= 40.8'
