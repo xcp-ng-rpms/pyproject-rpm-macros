@@ -10,7 +10,7 @@ License:        MIT
 #   Increment Y and reset Z when new macros or features are added
 #   Increment Z when this is a bugfix or a cosmetic change
 # Dropping support for EOL Fedoras is *not* considered a breaking change
-Version:        1.3.0
+Version:        1.3.1
 Release:        1%{?dist}
 
 # Macro files
@@ -124,6 +124,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Tue Jun 27 2022 Owen Taylor <otaylor@redhat.com> - 1.3.1-1
+- %%pyproject_install: pass %%{_prefix} explicitly to pip install
+
 * Thu May 12 2022 Miro Hrončok <mhroncok@redhat.com> - 1.3.0-1
 - Use tomllib from the standard library on Python 3.11+
 
