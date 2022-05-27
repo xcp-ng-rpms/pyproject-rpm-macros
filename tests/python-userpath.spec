@@ -27,9 +27,6 @@ Summary:        %{summary}
 ...
 
 
-%if 0%{?fedora} > 34 || 0%{?rhel}
-# On Fedora 34, we don't have hatchling, so this entire spec file builds nothing
-
 %prep
 %autosetup -p1 -n userpath-%{version}
 sed -Ei '/^(coverage)$/d' requirements-dev.txt
@@ -55,5 +52,3 @@ sed -Ei '/^(coverage)$/d' requirements-dev.txt
 
 %files -n python3-userpath -f %{pyproject_files}
 %{_bindir}/userpath
-
-%endif

@@ -377,7 +377,7 @@ If multiple wheels were built from different directories,
 the value will differ depending on the current directory.
 
 
-### Older pip with out-of-tree-build (Fedora 34, 35, and EL 9)
+### Older pip with out-of-tree-build (Fedora 35 and EL 9)
 
 The value will expand to something like:
 
