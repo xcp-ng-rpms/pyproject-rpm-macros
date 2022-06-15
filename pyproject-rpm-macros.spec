@@ -10,7 +10,7 @@ License:        MIT
 #   Increment Y and reset Z when new macros or features are added
 #   Increment Z when this is a bugfix or a cosmetic change
 # Dropping support for EOL Fedoras is *not* considered a breaking change
-Version:        1.3.1
+Version:        1.3.2
 Release:        1%{?dist}
 
 # Macro files
@@ -124,6 +124,10 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Wed Jun 15 2022 Benjamin A. Beasley <code@musicinmybrain.net> - 1.3.2-1
+- Update %%pyproject_build_lib to support setuptools 62.1.0 and later
+- Fixes: rhbz#2097158
+
 * Fri May 27 2022 Owen Taylor <otaylor@redhat.com> - 1.3.1-1
 - %%pyproject_install: pass %%{_prefix} explicitly to pip install
 

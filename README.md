@@ -343,7 +343,7 @@ in the `%build` section, e.g. to build the documentation with Sphinx.
 With pure Python packages, it might be possible to set `PYTHONPATH=${PWD}` or `PYTHONPATH=${PWD}/src`.
 However, it is a bit more complicated with extension modules.
 
-The location of just-built modules might differ depending on Python version, architecture, pip version.
+The location of just-built modules might differ depending on Python version, architecture, pip version, etc.
 Hence, the macro `%{pyproject_build_lib}` exists to be used like this:
 
     %build
@@ -359,7 +359,25 @@ Depending on the pip version, the expanded value will differ:
 
 [python-devel list]: https://lists.fedoraproject.org/archives/list/python-devel@lists.fedoraproject.org/
 
-### New pip 21.3+ with in-tree-build (Fedora 36+)
+### New pip 21.3+ with in-tree-build and setuptools 62.1+ (Fedora 37+)
+
+Always use the macro from the same directory where you called `%pyproject_wheel` from.
+The value will expand to something like:
+
+* `/builddir/build/BUILD/%{name}-%{version}/build/lib.linux-x86_64-cpython-311` for wheels with extension modules
+* `/builddir/build/BUILD/%{name}-%{version}/build/lib` for pure Python wheels
+
+If multiple wheels were built from the same directory,
+some pure Python and some with extension modules,
+the expanded value will be combined with `:`:
+
+* `/builddir/build/BUILD/%{name}-%{version}/build/lib.linux-x86_64-cypthon-311:/builddir/build/BUILD/%{name}-%{version}/build/lib`
+
+If multiple wheels were built from different directories,
+the value will differ depending on the current directory.
+
+
+### New pip 21.3+ with in-tree-build and older setuptools (Fedora 36)
 
 Always use the macro from the same directory where you called `%pyproject_wheel` from.
 The value will expand to something like:

@@ -36,6 +36,9 @@ CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" TMPDI
 %pyproject_build_lib %{expand:\\\
 $(
 pyproject_build_lib=()
+if [ -d build/lib.%{python3_platform}-cpython-%{python3_version_nodots} ]; then
+  pyproject_build_lib+=( "${PWD}/build/lib.%{python3_platform}-cpython-%{python3_version_nodots}" )
+fi
 if [ -d build/lib.%{python3_platform}-%{python3_version} ]; then
   pyproject_build_lib+=( "${PWD}/build/lib.%{python3_platform}-%{python3_version}" )
 fi
