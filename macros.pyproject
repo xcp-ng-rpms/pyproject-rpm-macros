@@ -129,6 +129,9 @@ fi
 # The _auto_set_build_flags feature does not do this in %%generate_buildrequires section,
 # but we want to get an environment consistent with %%build:
 %{?_auto_set_build_flags:%set_build_flags}
+# The default flags expect the package note file to exist
+# see https://bugzilla.redhat.com/show_bug.cgi?id=2097535
+%{?_package_note_flags:%_generate_package_note_file}
 %{-R:
 %{-r:%{error:The -R and -r options are mutually exclusive}}
 %{-w:%{error:The -R and -w options are mutually exclusive}}

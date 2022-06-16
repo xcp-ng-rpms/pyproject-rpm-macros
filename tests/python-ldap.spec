@@ -28,6 +28,7 @@ Building this tests:
 - the proper files are installed in the proper places
 - module glob in %%pyproject_save_files (some modules are included, some not)
 - combined manual and generated Buildrequires
+- building an extension module via %%pyproject_buildrequires -w
 
 
 %package -n     python3-ldap
@@ -48,11 +49,13 @@ rm Tests/t_ldapobject.py Tests/t_cext.py Tests/t_edit.py Tests/t_ldap_sasl.py Te
 
 
 %generate_buildrequires
-%pyproject_buildrequires -t
+# -w is not required with this package, but we test that we can use it anyway
+%pyproject_buildrequires -t -w
 
 
 %build
-%pyproject_wheel
+#%%pyproject_wheel -- this is done via %%pyproject_buildrequires -w
+
 # Internal check that we can import the built extension modules from %%{pyproject_build_lib}
 %{python3} -c 'import _ldap' && exit 1 || true
 PYTHONPATH=%{pyproject_build_lib} %{python3} -c 'import _ldap'

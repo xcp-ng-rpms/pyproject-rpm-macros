@@ -127,6 +127,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 * Wed Jun 15 2022 Benjamin A. Beasley <code@musicinmybrain.net> - 1.3.2-1
 - Update %%pyproject_build_lib to support setuptools 62.1.0 and later
 - Fixes: rhbz#2097158
+- %%pyproject_buildrequires: When extension modules are built,
+  support https://fedoraproject.org/wiki/Changes/Package_information_on_ELF_objects
+- Fixes: rhbz#2097535
 
 * Fri May 27 2022 Owen Taylor <otaylor@redhat.com> - 1.3.1-1
 - %%pyproject_install: pass %%{_prefix} explicitly to pip install
