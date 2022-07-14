@@ -45,24 +45,24 @@ URL:            https://src.fedoraproject.org/rpms/pyproject-rpm-macros
 BuildArch:      noarch
 
 %if %{with tests}
-BuildRequires: python3dist(pytest)
-BuildRequires: python3dist(pyyaml)
-BuildRequires: python3dist(packaging)
-BuildRequires: python3dist(pip)
-BuildRequires: python3dist(setuptools)
-BuildRequires: python3dist(tox-current-env) >= 0.0.6
-BuildRequires: python3dist(wheel)
-BuildRequires: (python3dist(toml) if python3-devel < 3.11)
+BuildRequires:  python3dist(pytest)
+BuildRequires:  python3dist(pyyaml)
+BuildRequires:  python3dist(packaging)
+BuildRequires:  python3dist(pip)
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(tox-current-env) >= 0.0.6
+BuildRequires:  python3dist(wheel)
+BuildRequires:  (python3dist(toml) if python3-devel < 3.11)
 %endif
 
 # We build on top of those:
-Requires:      python-rpm-macros
-Requires:      python-srpm-macros
-Requires:      python3-rpm-macros
+Requires:       python-rpm-macros
+Requires:       python-srpm-macros
+Requires:       python3-rpm-macros
 
 # We use the following tools outside of coreutils
-Requires:      /usr/bin/find
-Requires:      /usr/bin/sed
+Requires:       /usr/bin/find
+Requires:       /usr/bin/sed
 
 %description
 These macros allow projects that follow the Python packaging specifications
