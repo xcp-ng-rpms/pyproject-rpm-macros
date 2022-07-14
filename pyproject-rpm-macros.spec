@@ -56,6 +56,9 @@ BuildRequires:  (python3dist(toml) if python3-devel < 3.11)
 %endif
 
 # We build on top of those:
+BuildRequires:  python-rpm-macros
+BuildRequires:  python-srpm-macros
+BuildRequires:  python3-rpm-macros
 Requires:       python-rpm-macros
 Requires:       python-srpm-macros
 Requires:       python3-rpm-macros
@@ -103,7 +106,7 @@ install -m 644 pyproject_wheel.py %{buildroot}%{_rpmconfigdir}/redhat/
 %if %{with tests}
 %check
 export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856356
-%{python3} -m pytest -vv --doctest-modules
+%pytest -vv --doctest-modules
 
 # brp-compress is provided as an argument to get the right directory macro expansion
 %{python3} compare_mandata.py -f %{_rpmconfigdir}/brp-compress
