@@ -94,14 +94,14 @@ cp -p %{sources} .
 %install
 mkdir -p %{buildroot}%{_rpmmacrodir}
 mkdir -p %{buildroot}%{_rpmconfigdir}/redhat
-install -m 644 macros.pyproject %{buildroot}%{_rpmmacrodir}/
-install -m 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
-install -m 644 pyproject_convert.py %{buildroot}%{_rpmconfigdir}/redhat/
-install -m 644 pyproject_save_files.py  %{buildroot}%{_rpmconfigdir}/redhat/
-install -m 644 pyproject_preprocess_record.py %{buildroot}%{_rpmconfigdir}/redhat/
-install -m 644 pyproject_construct_toxenv.py %{buildroot}%{_rpmconfigdir}/redhat/
-install -m 644 pyproject_requirements_txt.py %{buildroot}%{_rpmconfigdir}/redhat/
-install -m 644 pyproject_wheel.py %{buildroot}%{_rpmconfigdir}/redhat/
+install -pm 644 macros.pyproject %{buildroot}%{_rpmmacrodir}/
+install -pm 644 pyproject_buildrequires.py %{buildroot}%{_rpmconfigdir}/redhat/
+install -pm 644 pyproject_convert.py %{buildroot}%{_rpmconfigdir}/redhat/
+install -pm 644 pyproject_save_files.py  %{buildroot}%{_rpmconfigdir}/redhat/
+install -pm 644 pyproject_preprocess_record.py %{buildroot}%{_rpmconfigdir}/redhat/
+install -pm 644 pyproject_construct_toxenv.py %{buildroot}%{_rpmconfigdir}/redhat/
+install -pm 644 pyproject_requirements_txt.py %{buildroot}%{_rpmconfigdir}/redhat/
+install -pm 644 pyproject_wheel.py %{buildroot}%{_rpmconfigdir}/redhat/
 
 %if %{with tests}
 %check
