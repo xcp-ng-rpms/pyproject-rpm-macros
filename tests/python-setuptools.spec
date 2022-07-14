@@ -1,11 +1,22 @@
 Name:           python-setuptools
+# on the CI we test different version of setuptools on different Fedora versions
+# don't package software like this in Fedora please
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 10
+Version:        62.6.0
+%else
 Version:        57.0.0
+%endif
 Release:        0%{?dist}
 Summary:        Easily build and distribute Python packages
 # see the real Fedora package for explanation:
 License:        MIT and (BSD or ASL 2.0)
 URL:            https://pypi.python.org/pypi/setuptools
-Source0:        %{pypi_source setuptools %{version}}
+Source:         %{pypi_source setuptools %{version}}
+
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 10
+# Patch from Fedora proper
+Patch:          https://src.fedoraproject.org/rpms/python-setuptools/raw/ebda604314b/f/Remove-optional-or-unpackaged-test-deps.patch
+%endif
 
 BuildArch:      noarch
 
@@ -41,6 +52,7 @@ Summary:        %{summary}
 %prep
 %autosetup -p1 -n setuptools-%{version}
 
+%if 0%{?fedora} < 37 && 0%{?rhel} < 10
 # The following test deps are optional and either not desired or not available in Fedora:
 sed -Ei setup.cfg -e  '/\bpytest-(checkdocs|black|cov|mypy|enabler)\b/d' \
                   -e  '/\bflake8\b/d' \
@@ -48,6 +60,8 @@ sed -Ei setup.cfg -e  '/\bpytest-(checkdocs|black|cov|mypy|enabler)\b/d' \
 # Strip pytest options from the above
 sed -i pytest.ini -e 's/ --flake8//' \
                   -e 's/ --cov//'
+%endif
+
 
 
 %generate_buildrequires
@@ -73,7 +87,11 @@ rm pyproject.toml
 
 %if %{with tests}
 # We only run a subset of tests to speed things up and be less fragile
-PYTHONPATH=$(pwd) %pytest --ignore=pavement.py -k "sdist"
+PRE_BUILT_SETUPTOOLS_WHEEL=%{_pyproject_wheeldir}/setuptools-%{version}-py3-none-any.whl \
+PYTHONPATH=$(pwd) %pytest --ignore=pavement.py \
+                          --ignore=setuptools/tests/test_develop.py \
+                          --ignore=setuptools/tests/config/test_apply_pyprojecttoml.py \
+                          -k "sdist" -n %{_smp_build_ncpus}
 %else
 %pyproject_check_import
 %endif

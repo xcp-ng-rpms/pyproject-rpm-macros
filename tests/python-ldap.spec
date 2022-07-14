@@ -92,7 +92,11 @@ grep -E '/site-packages/__pycache__/$' %{pyproject_files} && exit 1 || true
 
 # Internal check for the value of %%{pyproject_build_lib} in an archful package
 %if 0%{?fedora} >= 36 || 0%{?rhel} >= 10
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 10
+test "%{pyproject_build_lib}" == "%{_builddir}/%{buildsubdir}/build/lib.%{python3_platform}-cpython-%{python3_version_nodots}"
+%else
 test "%{pyproject_build_lib}" == "%{_builddir}/%{buildsubdir}/build/lib.%{python3_platform}-%{python3_version}"
+%endif
 %else
 test "%{pyproject_build_lib}" == "$(echo %{_pyproject_builddir}/pip-req-build-*/build/lib.%{python3_platform}-%{python3_version})"
 %endif
