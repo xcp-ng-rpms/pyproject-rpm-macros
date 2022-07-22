@@ -11,7 +11,7 @@ License:        MIT
 #   Increment Z when this is a bugfix or a cosmetic change
 # Dropping support for EOL Fedoras is *not* considered a breaking change
 Version:        1.3.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -127,6 +127,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Fri Jul 22 2022 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
+
 * Wed Jun 15 2022 Benjamin A. Beasley <code@musicinmybrain.net> - 1.3.2-1
 - Update %%pyproject_build_lib to support setuptools 62.1.0 and later
 - Fixes: rhbz#2097158
