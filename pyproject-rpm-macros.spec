@@ -10,8 +10,8 @@ License:        MIT
 #   Increment Y and reset Z when new macros or features are added
 #   Increment Z when this is a bugfix or a cosmetic change
 # Dropping support for EOL Fedoras is *not* considered a breaking change
-Version:        1.3.2
-Release:        2%{?dist}
+Version:        1.3.3
+Release:        1%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -127,6 +127,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Tue Aug 09 2022 Karolina Surma <ksurma@redhat.com> - 1.3.3-1
+- Don't fail %%pyproject_save_files '*' if no modules are detected
+
 * Fri Jul 22 2022 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
 

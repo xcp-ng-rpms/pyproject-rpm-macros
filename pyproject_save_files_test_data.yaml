@@ -409,6 +409,22 @@ classified:
     other:
       files:
       - /usr/lib/python3.7/site-packages/zope.event-4.4-py3.7-nspkg.pth
+  comic2pdf:
+    metadata:
+      dirs:
+      - /usr/lib/python3.7/site-packages/comic2pdf-3.1.0.dist-info
+      docs: []
+      files:
+      - /usr/lib/python3.7/site-packages/comic2pdf-3.1.0.dist-info/METADATA
+      - /usr/lib/python3.7/site-packages/comic2pdf-3.1.0.dist-info/WHEEL
+      - /usr/lib/python3.7/site-packages/comic2pdf-3.1.0.dist-info/entry_points.txt
+      - /usr/lib/python3.7/site-packages/comic2pdf-3.1.0.dist-info/top_level.txt
+      - /usr/lib/python3.7/site-packages/comic2pdf-3.1.0.dist-info/zip-safe
+      licenses: []
+    modules: []
+    other:
+      files:
+      - /usr/bin/comic2pdf.py
   django:
     metadata:
       dirs:
@@ -7764,6 +7780,16 @@ dumped:
     - zope.event
     - zope.event.classhandler
     - zope.event.tests
+- - comic2pdf
+  - '*'
+  - - '%dir /usr/lib/python3.7/site-packages/comic2pdf-3.1.0.dist-info'
+    - /usr/bin/comic2pdf.py
+    - /usr/lib/python3.7/site-packages/comic2pdf-3.1.0.dist-info/METADATA
+    - /usr/lib/python3.7/site-packages/comic2pdf-3.1.0.dist-info/WHEEL
+    - /usr/lib/python3.7/site-packages/comic2pdf-3.1.0.dist-info/entry_points.txt
+    - /usr/lib/python3.7/site-packages/comic2pdf-3.1.0.dist-info/top_level.txt
+    - /usr/lib/python3.7/site-packages/comic2pdf-3.1.0.dist-info/zip-safe
+  - []
 - - django
   - django
   - - '%dir /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info'
@@ -15744,6 +15770,17 @@ records:
       zope/event/__pycache__/tests.cpython-38.pyc,,
       zope/event/classhandler.py,sha256=CEx6issKWSia0Wruob_jIQI2EfYX45krokoTHyVsJFQ,1816
       zope/event/tests.py,sha256=bvEzvOmPoQETMqYiqsR9EeVsC8Dzy-HOclfpQFVjDhE,1871
+
+  comic2pdf:
+    path: /usr/lib/python3.7/site-packages/comic2pdf-3.1.0.dist-info/RECORD
+    content: |
+      ../../../bin/comic2pdf.py,sha256=ad0XbWxj2fzn_oYi1h-usY8jsxAvfpYA1aaify1Ym88,3266
+      comic2pdf-3.1.0.dist-info/METADATA,sha256=qMVNbSPY02NdWfGex5yWNxoK1d96ereES-XoKxshVEA,3195
+      comic2pdf-3.1.0.dist-info/WHEEL,sha256=G16H4A3IeoQmnOrYV4ueZGKSjhipXx8zc8nu9FGlvMA,92
+      comic2pdf-3.1.0.dist-info/entry_points.txt,sha256=uORK0FJD-i46W74x2mNHfloSPS4QElN3-Y0vKQZ7svw,46
+      comic2pdf-3.1.0.dist-info/top_level.txt,sha256=AbpHGcgLb-kRsJGnwFEktk7uzpZOCcBY74-YBdrKVGs,1
+      comic2pdf-3.1.0.dist-info/zip-safe,sha256=AbpHGcgLb-kRsJGnwFEktk7uzpZOCcBY74-YBdrKVGs,1
+      comic2pdf-3.1.0.dist-info/RECORD,,
 
   django:
     path: /usr/lib/python3.7/site-packages/Django-3.0.7.dist-info/RECORD

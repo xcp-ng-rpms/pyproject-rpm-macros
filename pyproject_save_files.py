@@ -485,6 +485,12 @@ def generate_file_list(paths_dict, module_globs, include_others=False):
                     done_modules.add(name)
                 done_globs.add(glob)
 
+    # Users using '*' don't care about the files in the package, so it's ok
+    # not to fail the build when no modules are detected
+    # There can be legitimate reasons to create a package without Python modules
+    if not modules and fnmatch.fnmatchcase("", glob):
+        done_globs.add(glob)
+
     missed = module_globs - done_globs
     if missed:
         missed_text = ", ".join(sorted(missed))
