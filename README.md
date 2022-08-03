@@ -244,7 +244,7 @@ However, in Fedora packages, always list executables explicitly to avoid uninten
 
 `%pyproject_save_files` can automatically mark license files with `%license` macro
 and  language (`*.mo`) files with `%lang` macro and appropriate language code.
-Only license files declared via [PEP 639] `License-Field` field are detected.
+Only license files declared via [PEP 639] `License-File` field are detected.
 [PEP 639] is still a draft and can be changed in the future.
 
 Note that `%pyproject_save_files` uses data from the [RECORD file](https://www.python.org/dev/peps/pep-0627/).
