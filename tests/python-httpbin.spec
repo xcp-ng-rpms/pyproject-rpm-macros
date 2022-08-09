@@ -10,6 +10,11 @@ BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
 
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 10
+# Wekrzeug in Fedora 37 isn't compatible with our httpbin
+Patch:          https://src.fedoraproject.org/rpms/python-httpbin/raw/0e4a7e2812/f/0001-Fix-disabling-of-location-header-autocorrect-for-wer.patch
+%endif
+
 # no flask, itsdangerous, raven, werkzeug packaged for EPEL 9 yet
 # cannot run tests on EPEL and also cannot BuildRequire runtime deps
 %if 0%{?fedora}
@@ -30,7 +35,7 @@ Summary:            %{summary}
 
 
 %prep
-%autosetup -n httpbin-%{version}
+%autosetup -n httpbin-%{version} -p1
 
 # brotlipy wrapper is not packaged, httpbin works fine with brotli
 sed -i s/brotlipy/brotli/ setup.py
