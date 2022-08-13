@@ -7,10 +7,12 @@ arch="x86_64"
 case $NAME in
   "Fedora Linux"|"Fedora")
     mock="fedora-${version}-${arch}"
+    repos="local"
     ;;
 
   "CentOS Stream"|"Red Hat Enterprise Linux")
-    mock="centos-stream+epel-${version}-${arch}"
+    mock="centos-stream+epel-next-${version}-${arch}"
+    repos="local,local-centos-stream"
     ;;
 
   *)
@@ -57,8 +59,8 @@ rpmbuild -bs ${pkgname}.spec
 
 # build the SRPM in mock
 res=0
-mock -r $config --enablerepo=local init
-mock -r $config --enablerepo=local "$@" ~/rpmbuild/SRPMS/${pkgname}-*.src.rpm || res=$?
+mock -r $config --enablerepo="$repos" init
+mock -r $config --enablerepo="$repos" "$@" ~/rpmbuild/SRPMS/${pkgname}-*.src.rpm || res=$?
 
 # move the results to the artifacts directory, so we can examine them
 artifacts=${TEST_ARTIFACTS:-/tmp/artifacts}
