@@ -59,8 +59,8 @@ rpmbuild -bs ${pkgname}.spec
 
 # build the SRPM in mock
 res=0
-mock -r $config --enablerepo="$repos" init
-mock -r $config --enablerepo="$repos" "$@" ~/rpmbuild/SRPMS/${pkgname}-*.src.rpm || res=$?
+mock --isolation=simple -r $config --enablerepo="$repos" init
+mock --isolation=simple -r $config --enablerepo="$repos" "$@" ~/rpmbuild/SRPMS/${pkgname}-*.src.rpm || res=$?
 
 # move the results to the artifacts directory, so we can examine them
 artifacts=${TEST_ARTIFACTS:-/tmp/artifacts}
