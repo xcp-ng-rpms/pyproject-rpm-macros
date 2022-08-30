@@ -10,7 +10,7 @@ License:        MIT
 #   Increment Y and reset Z when new macros or features are added
 #   Increment Z when this is a bugfix or a cosmetic change
 # Dropping support for EOL Fedoras is *not* considered a breaking change
-Version:        1.3.3
+Version:        1.3.4
 Release:        1%{?dist}
 
 # Macro files
@@ -127,6 +127,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 %license LICENSE
 
 %changelog
+* Tue Aug 30 2022 Otto Liljalaakso <otto.liljalaakso@iki.fi> - 1.3.4-1
+- Fix typo in internal function name
+
 * Tue Aug 09 2022 Karolina Surma <ksurma@redhat.com> - 1.3.3-1
 - Don't fail %%pyproject_save_files '*' if no modules are detected
 

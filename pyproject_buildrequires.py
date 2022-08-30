@@ -100,7 +100,7 @@ class Requirements:
             return [{'extra': e} for e in sorted(self.extras)]
         return [{'extra': ''}]
 
-    def evaluate_all_environamnets(self, requirement):
+    def evaluate_all_environments(self, requirement):
         for marker_env in self.marker_envs:
             if requirement.marker.evaluate(environment=marker_env):
                 return True
@@ -126,7 +126,7 @@ class Requirements:
 
         name = canonicalize_name(requirement.name)
         if (requirement.marker is not None and
-                not self.evaluate_all_environamnets(requirement)):
+                not self.evaluate_all_environments(requirement)):
             print_err(f'Ignoring alien requirement:', requirement_str)
             return
 
