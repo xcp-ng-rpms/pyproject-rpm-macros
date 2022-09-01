@@ -140,7 +140,7 @@ such plugins will be BuildRequired as well.
 Not all plugins are guaranteed to play well with [tox-current-env],
 in worst case, patch/sed the requirement out from the tox configuration.
 
-Note that both `-x` and `-t` imply `-r`,
+Note that neither `-x` or `-t` can be used with `-R`,
 because runtime dependencies are always required for testing.
 You can only use those options if the build backend  supports the [prepare-metadata-for-build-wheel hook],
 or together with `-w`.
@@ -156,8 +156,12 @@ Dependencies will be loaded from them:
 
 For packages not using build system you can use `-N` to entirely skip automatical
 generation of requirements and install requirements only from manually specified files.
-`-N` option cannot be used in combination with other options mentioned above
-(`-r`, `-w`, `-e`, `-t`, `-x`).
+`-N` option implies `-R` and cannot be used in combination with other options mentioned above
+(`-w`, `-e`, `-t`, `-x`).
+
+The `%pyproject_buildrequires` macro also accepts the `-r` flag for backward compatibility;
+it means "include runtime dependencies" which has been the default since version 0-53.
+
 
 Running tox based tests
 -----------------------
