@@ -15484,8 +15484,8 @@ metadata:
     content: |
       Name: Django
       Version: 3.0.7
-      License-File: licenses/LICENSE
-      License-File: licenses/LICENSE.python
+      License-File: LICENSE
+      License-File: LICENSE.python
       Whatever: False data
 
 records:

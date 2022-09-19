@@ -49,6 +49,13 @@ sed -Ei '/^(coverage)$/d' requirements-dev.txt
 %check
 %pytest
 
+%if 0%{?fedora} > 35 || 0%{?rhel} > 9
+# Internal check that license file was recognized correctly with hatchling 1.9.0+
+grep '^%%license' %{pyproject_files} > tested.license
+echo '%%license %{python3_sitelib}/userpath-%{version}.dist-info/licenses/LICENSE.txt' > expected.license
+diff tested.license expected.license
+%endif
+
 
 %files -n python3-userpath -f %{pyproject_files}
 %{_bindir}/userpath
