@@ -86,6 +86,12 @@ grep -F %{python3_sitearch}/__pycache__/ldif.cpython-%{python3_version_nodots}.p
 grep -F %{python3_sitearch}/__pycache__/ldif.cpython-%{python3_version_nodots}.opt-1.pyc %{pyproject_files} && exit 1 || true
 grep -F %{python3_sitearch}/slapdtest %{pyproject_files} && exit 1 || true
 
+# Internal check: Unmatched modules are not supposed to be listed in %%{_pyproject_modules}
+grep -F slapdtest %{_pyproject_modules} && exit 1 || true
+grep -F ldif %{_pyproject_modules} && exit 1 || true
+# Let's check that at least one module is listed in %%{_pyproject_modules}
+grep -F ldapurl %{_pyproject_modules}
+
 # Internal check: Top level __pycache__ is never owned
 grep -E '/site-packages/__pycache__$' %{pyproject_files} && exit 1 || true
 grep -E '/site-packages/__pycache__/$' %{pyproject_files} && exit 1 || true

@@ -7755,7 +7755,6 @@ dumped:
     - ipykernel.tests.utils
     - ipykernel.trio_runner
     - ipykernel.zmqshell
-    - ipykernel_launcher
 - - zope
   - zope
   - - '%dir /usr/lib/python3.7/site-packages/zope'

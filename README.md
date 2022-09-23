@@ -269,6 +269,7 @@ If `%pyproject_save_files` is not used, calling `%pyproject_check_import` will f
 When `%pyproject_save_files` is invoked,
 it creates a list of all valid and public (i.e. not starting with `_`)
 importable module names found in the package.
+Each top-level module name matches at least one of the globs provided as an argument to `%pyproject_save_files`.
 This list is then usable by `%pyproject_check_import` which performs an import check for each listed module.
 When a module fails to import, the build fails.
 

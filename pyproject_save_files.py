@@ -536,6 +536,50 @@ def generate_file_list(paths_dict, module_globs, include_others=False):
     return sorted(files)
 
 
+def generate_module_list(paths_dict, module_globs):
+    """
+    This function takes the paths_dict created by the classify_paths() function and
+    reads the modules names from it.
+    It filters those whose top-level module names match any of the provided module_globs.
+
+    Returns list with matching qualified module names.
+
+    Examples:
+
+        >>> generate_module_list({'module_names': {'foo', 'foo.bar', 'baz'}}, {'foo'})
+        ['foo', 'foo.bar']
+
+        >>> generate_module_list({'module_names': {'foo', 'foo.bar', 'baz'}}, {'*foo'})
+        ['foo', 'foo.bar']
+
+        >>> generate_module_list({'module_names': {'foo', 'foo.bar', 'baz'}}, {'foo', 'baz'})
+        ['baz', 'foo', 'foo.bar']
+
+        >>> generate_module_list({'module_names': {'foo', 'foo.bar', 'baz'}}, {'*'})
+        ['baz', 'foo', 'foo.bar']
+
+        >>> generate_module_list({'module_names': {'foo', 'foo.bar', 'baz'}}, {'bar'})
+        []
+
+    Submodules aren't discovered:
+
+        >>> generate_module_list({'module_names': {'foo', 'foo.bar', 'baz'}}, {'*bar'})
+        []
+    """
+
+    module_names = paths_dict['module_names']
+    filtered_module_names = set()
+
+    for glob in module_globs:
+        for name in module_names:
+            # Match the top-level part of the qualified name, eg. 'foo.bar.baz' -> 'foo'
+            top_level_name = name.split('.')[0]
+            if fnmatch.fnmatchcase(top_level_name, glob):
+                filtered_module_names.add(name)
+
+    return sorted(filtered_module_names)
+
+
 def parse_varargs(varargs):
     """
     Parse varargs from the %pyproject_save_files macro
@@ -664,7 +708,7 @@ def pyproject_save_files_and_modules(buildroot, sitelib, sitearch, python_versio
     parsed_records = load_parsed_record(pyproject_record)
 
     final_file_list = []
-    all_module_names = set()
+    final_module_list = []
 
     for record_path, files in parsed_records.items():
         metadata = dist_metadata(buildroot, record_path)
@@ -675,12 +719,11 @@ def pyproject_save_files_and_modules(buildroot, sitelib, sitearch, python_versio
         final_file_list.extend(
             generate_file_list(paths_dict, globs, include_auto)
         )
-        all_module_names.update(paths_dict["module_names"])
+        final_module_list.extend(
+            generate_module_list(paths_dict, globs)
+        )
 
-    # Sort values, so they are always checked in the same order
-    all_module_names = sorted(all_module_names)
-
-    return final_file_list, all_module_names
+    return final_file_list, final_module_list
 
 
 def main(cli_args):
