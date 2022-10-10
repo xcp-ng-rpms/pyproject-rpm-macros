@@ -438,27 +438,16 @@ def main(argv):
         help=argparse.SUPPRESS,  # Generate run-time requirements (backwards-compatibility only)
     )
     parser.add_argument(
-        '-w', '--wheel', action='store_true', default=False,
-        help=('Generate run-time requirements by building the wheel '
-              '(useful for build backends without the prepare_metadata_for_build_wheel hook)'),
+        '--generate-extras', action='store_true',
+        help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        '-p', '--python3_pkgversion', metavar='PYTHON3_PKGVERSION',
+        default="3", help=argparse.SUPPRESS,
     )
     parser.add_argument(
         '--wheeldir', metavar='PATH', default=None,
         help=argparse.SUPPRESS,
-    )
-    parser.add_argument(
-        '-R', '--no-runtime', action='store_false', dest='runtime',
-        help="Don't generate run-time requirements (implied by -N)",
-    )
-    parser.add_argument(
-        '-e', '--toxenv', metavar='TOXENVS', action='append',
-        help=('specify tox environments (comma separated and/or repeated)'
-              '(implies --tox)'),
-    )
-    parser.add_argument(
-        '-t', '--tox', action='store_true',
-        help=('generate test tequirements from tox environment '
-              '(implies --runtime)'),
     )
     parser.add_argument(
         '-x', '--extras', metavar='EXTRAS', action='append',
@@ -466,12 +455,23 @@ def main(argv):
              '(e.g. -x testing,feature-x) (implies --runtime, can be repeated)',
     )
     parser.add_argument(
-        '--generate-extras', action='store_true',
-        help=argparse.SUPPRESS,
+        '-t', '--tox', action='store_true',
+        help=('generate test tequirements from tox environment '
+              '(implies --runtime)'),
     )
     parser.add_argument(
-        '-p', '--python3_pkgversion', metavar='PYTHON3_PKGVERSION',
-        default="3", help=argparse.SUPPRESS,
+        '-e', '--toxenv', metavar='TOXENVS', action='append',
+        help=('specify tox environments (comma separated and/or repeated)'
+              '(implies --tox)'),
+    )
+    parser.add_argument(
+        '-w', '--wheel', action='store_true', default=False,
+        help=('Generate run-time requirements by building the wheel '
+              '(useful for build backends without the prepare_metadata_for_build_wheel hook)'),
+    )
+    parser.add_argument(
+        '-R', '--no-runtime', action='store_false', dest='runtime',
+        help="Don't generate run-time requirements (implied by -N)",
     )
     parser.add_argument(
         '-N', '--no-use-build-system', dest='use_build_system',
