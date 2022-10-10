@@ -424,11 +424,18 @@ def generate_requires(
 
 def main(argv):
     parser = argparse.ArgumentParser(
-        description='Generate BuildRequires for a Python project.'
+        description='Generate BuildRequires for a Python project.',
+        prog='%pyproject_buildrequires',
+        add_help=False,
+    )
+    parser.add_argument(
+        '--help', action='help',
+        default=argparse.SUPPRESS,
+        help=argparse.SUPPRESS,
     )
     parser.add_argument(
         '-r', '--runtime', action='store_true', default=True,
-        help='Generate run-time requirements (default, disable with -R)',
+        help=argparse.SUPPRESS,  # Generate run-time requirements (backwards-compatibility only)
     )
     parser.add_argument(
         '-w', '--wheel', action='store_true', default=False,
@@ -437,7 +444,7 @@ def main(argv):
     )
     parser.add_argument(
         '--wheeldir', metavar='PATH', default=None,
-        help='The directory with wheel, used when -w.',
+        help=argparse.SUPPRESS,
     )
     parser.add_argument(
         '-R', '--no-runtime', action='store_false', dest='runtime',
@@ -460,19 +467,19 @@ def main(argv):
     )
     parser.add_argument(
         '--generate-extras', action='store_true',
-        help='Generate build requirements on Python Extras',
+        help=argparse.SUPPRESS,
     )
     parser.add_argument(
         '-p', '--python3_pkgversion', metavar='PYTHON3_PKGVERSION',
-        default="3", help=('Python version for pythonXdist()'
-                           'or pythonX.Ydist() requirements'),
+        default="3", help=argparse.SUPPRESS,
     )
     parser.add_argument(
         '-N', '--no-use-build-system', dest='use_build_system',
         action='store_false', help='Use -N to indicate that project does not use any build system',
     )
     parser.add_argument(
-       'requirement_files', nargs='*', type=argparse.FileType('r'),
+        'requirement_files', nargs='*', type=argparse.FileType('r'),
+        metavar='REQUIREMENTS.TXT',
         help=('Add buildrequires from file'),
     )
 

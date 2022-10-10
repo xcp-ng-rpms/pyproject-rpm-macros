@@ -742,17 +742,31 @@ def main(cli_args):
 
 
 def argparser():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Create %{pyproject_files} for a Python project.",
+        prog="%pyproject_save_files",
+        add_help=False,
+        # custom usage to add +auto
+        usage="%(prog)s MODULE_GLOB [MODULE_GLOB ...] [+auto]",
+    )
+    parser.add_argument(
+        '--help', action='help',
+        default=argparse.SUPPRESS,
+        help=argparse.SUPPRESS,
+    )
     r = parser.add_argument_group("required arguments")
-    r.add_argument("--output-files", type=PosixPath, required=True)
-    r.add_argument("--output-modules", type=PosixPath, required=True)
-    r.add_argument("--buildroot", type=PosixPath, required=True)
-    r.add_argument("--sitelib", type=BuildrootPath, required=True)
-    r.add_argument("--sitearch", type=BuildrootPath, required=True)
-    r.add_argument("--python-version", type=str, required=True)
-    r.add_argument("--pyproject-record", type=PosixPath, required=True)
-    r.add_argument("--prefix", type=PosixPath, required=True)
-    parser.add_argument("varargs", nargs="+")
+    r.add_argument("--output-files", type=PosixPath, required=True, help=argparse.SUPPRESS)
+    r.add_argument("--output-modules", type=PosixPath, required=True, help=argparse.SUPPRESS)
+    r.add_argument("--buildroot", type=PosixPath, required=True, help=argparse.SUPPRESS)
+    r.add_argument("--sitelib", type=BuildrootPath, required=True, help=argparse.SUPPRESS)
+    r.add_argument("--sitearch", type=BuildrootPath, required=True, help=argparse.SUPPRESS)
+    r.add_argument("--python-version", type=str, required=True, help=argparse.SUPPRESS)
+    r.add_argument("--pyproject-record", type=PosixPath, required=True, help=argparse.SUPPRESS)
+    r.add_argument("--prefix", type=PosixPath, required=True, help=argparse.SUPPRESS)
+    parser.add_argument(
+        "varargs", nargs="+", metavar="MODULE_GLOB",
+        help="Shell-like glob matching top-level module names to save into %%{pyproject_files}",
+    )
     return parser
 
 
