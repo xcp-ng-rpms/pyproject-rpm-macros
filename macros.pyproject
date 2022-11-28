@@ -176,10 +176,10 @@ fi
 
 %tox(e:) %{expand:\\\
 TOX_TESTENV_PASSENV="${TOX_TESTENV_PASSENV:-*}" \\
-PYTHONDONTWRITEBYTECODE=1 \\
+%{?py3_test_envvars}%{?!py3_test_envvars:PYTHONDONTWRITEBYTECODE=1 \\
 PATH="%{buildroot}%{_bindir}:$PATH" \\
 PYTHONPATH="${PYTHONPATH:-%{buildroot}%{python3_sitearch}:%{buildroot}%{python3_sitelib}}" \\
-%{?__pytest_addopts:PYTEST_ADDOPTS="${PYTEST_ADDOPTS:-} %{__pytest_addopts}"} \\
+%{?__pytest_addopts:PYTEST_ADDOPTS="${PYTEST_ADDOPTS:-} %{__pytest_addopts}"}} \\
 HOSTNAME="rpmbuild" \\
 %{__python3} -m tox --current-env -q --recreate -e "%{-e:%{-e*}}%{!-e:%{toxenv}}" %{?*}
 }
