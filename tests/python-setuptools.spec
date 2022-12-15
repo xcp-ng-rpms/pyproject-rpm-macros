@@ -2,9 +2,9 @@ Name:           python-setuptools
 # on the CI we test different version of setuptools on different Fedora versions
 # don't package software like this in Fedora please
 %if 0%{?fedora} >= 37 || 0%{?rhel} >= 10
-Version:        62.6.0
+Version:        65.5.1
 %else
-Version:        57.0.0
+Version:        59.6.0
 %endif
 Release:        0%{?dist}
 Summary:        Easily build and distribute Python packages
@@ -13,9 +13,11 @@ License:        MIT and (BSD or ASL 2.0)
 URL:            https://pypi.python.org/pypi/setuptools
 Source:         %{pypi_source setuptools %{version}}
 
-%if 0%{?fedora} >= 37 || 0%{?rhel} >= 10
 # Patch from Fedora proper
-Patch:          https://src.fedoraproject.org/rpms/python-setuptools/raw/ebda604314b/f/Remove-optional-or-unpackaged-test-deps.patch
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 10
+Patch:          https://src.fedoraproject.org/rpms/python-setuptools/raw/b61d86b9659/f/Remove-optional-or-unpackaged-test-deps.patch
+%else
+Patch:          https://src.fedoraproject.org/rpms/python-setuptools/raw/6fc093d6b3d/f/0001-Remove-optional-or-unpackaged-test-deps.patch
 %endif
 
 BuildArch:      noarch
@@ -90,6 +92,7 @@ rm pyproject.toml
 PRE_BUILT_SETUPTOOLS_WHEEL=%{_pyproject_wheeldir}/setuptools-%{version}-py3-none-any.whl \
 PYTHONPATH=$(pwd) %pytest --ignore=pavement.py \
                           --ignore=setuptools/tests/test_develop.py \
+                          --ignore=setuptools/tests/test_editable_install.py \
                           --ignore=setuptools/tests/config/test_apply_pyprojecttoml.py \
                           -k "sdist" -n %{_smp_build_ncpus}
 %else
