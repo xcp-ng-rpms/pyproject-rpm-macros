@@ -124,6 +124,7 @@ fi
 %toxenv %{default_toxenv}
 
 
+# Note: Keep the options in sync with this macro from macros.aaa-pyproject-srpm
 %pyproject_buildrequires(rRxtNwe:) %{expand:\\\
 %_set_pytest_addopts
 # The _auto_set_build_flags feature does not do this in %%generate_buildrequires section,
@@ -144,7 +145,7 @@ fi
 %{-w:%{error:The -N and -w options are mutually exclusive}}
 }
 %{-e:%{expand:%global toxenv %(%{__python3} -s %{_rpmconfigdir}/redhat/pyproject_construct_toxenv.py %{?**})}}
-echo 'pyproject-rpm-macros'  # we already have this installed, but this way, it's repoqueryable
+echo 'pyproject-rpm-macros'  # first stdout line matches the implementation in macros.aaa-pyproject-srpm
 echo 'python%{python3_pkgversion}-devel'
 echo 'python%{python3_pkgversion}dist(pip) >= 19'
 echo 'python%{python3_pkgversion}dist(packaging)'

@@ -8,12 +8,13 @@ URL:            https://entrypoints.readthedocs.io/
 Source0:        %{pypi_source}
 
 BuildArch:      noarch
-BuildRequires:  pyproject-rpm-macros
-BuildRequires:  python3-devel
 
 %description
 This package contains one .py module
 Building this tests the flit build backend.
+This package also has no explicit BuildRequires for python or the macros,
+testing the minimal implementation of %%pyproject_buildrequires
+from pyproject-srpm-macros.
 
 
 %package -n python3-%{pypi_name}
