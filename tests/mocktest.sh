@@ -50,12 +50,12 @@ if [ ! -f $config ]; then
 fi
 
 # prepare the rpmbuild folders, make sure nothing relevant is there
-mkdir -p ~/rpmbuild/{SOURCES,SRPMS}
+mkdir -p ~/rpmbuild/SRPMS
 rm -f ~/rpmbuild/SRPMS/${pkgname}-*.src.rpm
 
 # download the sources and create SRPM
-spectool -g -R ${pkgname}.spec
-rpmbuild -bs ${pkgname}.spec
+spectool -g ${pkgname}.spec
+rpmbuild -bs --define '_sourcedir .' ${pkgname}.spec
 
 # build the SRPM in mock
 res=0
