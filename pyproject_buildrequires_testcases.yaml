@@ -413,14 +413,24 @@ Tox dependencies:
         toxdep2
     commands =
         true
-  expected: |
-    python3dist(setuptools) >= 40.8
-    python3dist(wheel)
-    python3dist(wheel)
-    python3dist(tox-current-env) >= 0.0.6
-    python3dist(toxdep1)
-    python3dist(toxdep2)
-    python3dist(inst)
+  expected:
+    - |  # tox 3
+      python3dist(setuptools) >= 40.8
+      python3dist(wheel)
+      python3dist(wheel)
+      python3dist(tox-current-env) >= 0.0.6
+      python3dist(toxdep1)
+      python3dist(toxdep2)
+      python3dist(inst)
+    - |  # tox 4
+      python3dist(setuptools) >= 40.8
+      python3dist(wheel)
+      python3dist(wheel)
+      python3dist(tox-current-env) >= 0.0.6
+      python3dist(tox)
+      python3dist(toxdep1)
+      python3dist(toxdep2)
+      python3dist(inst)
   result: 0
 
 Tox extras:
@@ -455,20 +465,36 @@ Tox extras:
         extra1
     commands =
         true
-  expected: |
-    python3dist(setuptools) >= 40.8
-    python3dist(wheel)
-    python3dist(wheel)
-    python3dist(tox-current-env) >= 0.0.6
-    python3dist(toxdep)
-    python3dist(inst)
-    python3dist(dep11) > 11.0
-    python3dist(dep12)
-    python3dist(dep21)
-    python3dist(dep22)
-    python3dist(dep23)
-    python3dist(extra-dep)
-    python3dist(extra-dep[extra_dep])
+  expected:
+    - |  # tox 3
+      python3dist(setuptools) >= 40.8
+      python3dist(wheel)
+      python3dist(wheel)
+      python3dist(tox-current-env) >= 0.0.6
+      python3dist(toxdep)
+      python3dist(inst)
+      python3dist(dep11) > 11.0
+      python3dist(dep12)
+      python3dist(dep21)
+      python3dist(dep22)
+      python3dist(dep23)
+      python3dist(extra-dep)
+      python3dist(extra-dep[extra_dep])
+    - |  # tox 4
+      python3dist(setuptools) >= 40.8
+      python3dist(wheel)
+      python3dist(wheel)
+      python3dist(tox-current-env) >= 0.0.6
+      python3dist(tox)
+      python3dist(toxdep)
+      python3dist(inst)
+      python3dist(dep11) > 11.0
+      python3dist(dep12)
+      python3dist(dep21)
+      python3dist(dep22)
+      python3dist(dep23)
+      python3dist(extra-dep)
+      python3dist(extra-dep[extra_dep])
   result: 0
 
 Tox provision unsatisfied:
@@ -496,14 +522,24 @@ Tox provision unsatisfied:
     deps =
         toxdep1
         toxdep2
-  expected: |
-    python3dist(setuptools) >= 40.8
-    python3dist(wheel)
-    python3dist(wheel)
-    python3dist(tox-current-env) >= 0.0.6
-    python3dist(tox) >= 3.999
-    python3dist(setuptools) > 40.0
-    python3dist(wheel) > 2.0
+  expected:
+    - |  # tox 3
+      python3dist(setuptools) >= 40.8
+      python3dist(wheel)
+      python3dist(wheel)
+      python3dist(tox-current-env) >= 0.0.6
+      python3dist(tox) >= 3.999
+      python3dist(setuptools) > 40.0
+      python3dist(wheel) > 2.0
+    - |  # tox 4
+      python3dist(setuptools) >= 40.8
+      python3dist(wheel)
+      python3dist(wheel)
+      python3dist(tox-current-env) >= 0.0.6
+      python3dist(tox) >= 3.999
+      python3dist(setuptools) > 40.0
+      python3dist(wheel) > 2.0
+      python3dist(tox) >= 3.999
   result: 0
 
 Tox provision satisfied:
@@ -530,16 +566,27 @@ Tox provision satisfied:
     deps =
         toxdep1
         toxdep2
-  expected: |
-    python3dist(setuptools) >= 40.8
-    python3dist(wheel)
-    python3dist(wheel)
-    python3dist(tox-current-env) >= 0.0.6
-    python3dist(tox) >= 3.5
-    python3dist(setuptools) > 40.0
-    python3dist(toxdep1)
-    python3dist(toxdep2)
-    python3dist(inst)
+  expected:
+    - |  # tox 3
+      python3dist(setuptools) >= 40.8
+      python3dist(wheel)
+      python3dist(wheel)
+      python3dist(tox-current-env) >= 0.0.6
+      python3dist(tox) >= 3.5
+      python3dist(setuptools) > 40.0
+      python3dist(toxdep1)
+      python3dist(toxdep2)
+      python3dist(inst)
+    - |  # tox 4
+      python3dist(setuptools) >= 40.8
+      python3dist(wheel)
+      python3dist(wheel)
+      python3dist(tox-current-env) >= 0.0.6
+      python3dist(setuptools) > 40.0
+      python3dist(tox) >= 3.5
+      python3dist(toxdep1)
+      python3dist(toxdep2)
+      python3dist(inst)
   result: 0
 
 Default build system, unmet deps in requirements file:

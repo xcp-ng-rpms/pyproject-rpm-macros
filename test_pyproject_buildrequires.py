@@ -71,7 +71,12 @@ def test_data(case_name, capfd, tmp_path, monkeypatch):
         out, err = capfd.readouterr()
 
         if 'expected' in case:
-            assert out == case['expected']
+            expected = case['expected']
+            if isinstance(expected, list):
+                # at least one of them needs to match
+                assert any(out == e for e in expected)
+            else:
+                assert out == expected
 
         # stderr_contains may be a string or list of strings
         stderr_contains = case.get('stderr_contains')
