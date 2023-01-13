@@ -61,8 +61,8 @@ Summary:        %{summary}
 %tox -- -- -k test_version | tee toxlog
 
 # Internal check for our macros: Assert both toxenvs were executed.
-grep -F 'py%{python3_version_nodots}-test: commands succeeded' toxlog
-%{?!with_flake8:! }grep -F 'flake8: commands succeeded' toxlog
+grep -E 'py%{python3_version_nodots}-test: (OK|commands succeeded)' toxlog
+%{?!with_flake8:! }grep -E 'flake8: (OK|commands succeeded)' toxlog
 
 # Internal check for our macros
 # making sure that %%{_pyproject_ghost_distinfo} has the right content
