@@ -10,6 +10,10 @@ BuildArch:      noarch
 BuildRequires:  pyproject-rpm-macros
 BuildRequires:  python3-devel
 
+# Upstream does not declare this dependency
+# They dropped it later: https://github.com/AnalogJ/lexicon/issues/1240
+BuildRequires:  python3-pkg_resources
+
 %description
 This package has extras specified in tox configuration,
 we test that the extras are installed when -e is used.
