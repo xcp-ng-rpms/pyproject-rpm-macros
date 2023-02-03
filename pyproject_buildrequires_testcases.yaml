@@ -818,3 +818,21 @@ Pre-releases are accepted:
     python3dist(wheel)
   stderr_contains: "Requirement satisfied: cffi"
   result: 0
+
+
+Wrapped subprocess prints to stdout from setup.py:
+  installed:
+    setuptools: 50
+    wheel: 1
+  include_runtime: false
+  setup.py: |
+    import os
+    os.system('echo LEAK?')
+    from setuptools import setup
+    setup(name='test', version='0.1')
+  expected: |
+    python3dist(setuptools) >= 40.8
+    python3dist(wheel)
+    python3dist(wheel)
+  stderr_contains: "HOOK STDOUT: LEAK?"
+  result: 0

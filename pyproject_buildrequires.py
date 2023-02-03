@@ -4,9 +4,9 @@ import os
 import sys
 import importlib.metadata
 import argparse
+import tempfile
 import traceback
 import contextlib
-from io import StringIO
 import json
 import subprocess
 import re
@@ -48,11 +48,35 @@ from pyproject_convert import convert
 
 @contextlib.contextmanager
 def hook_call():
-    captured_out = StringIO()
-    with contextlib.redirect_stdout(captured_out):
+    """Context manager that records all stdout content (on FD level)
+    and prints it to stderr at the end, with a 'HOOK STDOUT: ' prefix."""
+    tmpfile = io.TextIOWrapper(
+        tempfile.TemporaryFile(buffering=0),
+        encoding='utf-8',
+        errors='replace',
+        write_through=True,
+    )
+
+    stdout_fd = 1
+    stdout_fd_dup = os.dup(stdout_fd)
+    stdout_orig = sys.stdout
+
+    # begin capture
+    sys.stdout = tmpfile
+    os.dup2(tmpfile.fileno(), stdout_fd)
+
+    try:
         yield
-    for line in captured_out.getvalue().splitlines():
-        print_err('HOOK STDOUT:', line)
+    finally:
+        # end capture
+        sys.stdout = stdout_orig
+        os.dup2(stdout_fd_dup, stdout_fd)
+
+        tmpfile.seek(0)  # rewind
+        for line in tmpfile:
+            print_err('HOOK STDOUT:', line, end='')
+
+        tmpfile.close()
 
 
 def guess_reason_for_invalid_requirement(requirement_str):
