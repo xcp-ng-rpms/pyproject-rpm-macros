@@ -47,6 +47,7 @@ BuildArch:      noarch
 
 %if %{with tests}
 BuildRequires:  python3dist(pytest)
+BuildRequires:  python3dist(pytest-xdist)
 BuildRequires:  python3dist(pyyaml)
 BuildRequires:  python3dist(packaging)
 BuildRequires:  python3dist(pip)
@@ -120,7 +121,7 @@ install -pm 644 pyproject_wheel.py %{buildroot}%{_rpmconfigdir}/redhat/
 %if %{with tests}
 %check
 export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856356
-%pytest -vv --doctest-modules
+%pytest -vv --doctest-modules -n auto
 
 # brp-compress is provided as an argument to get the right directory macro expansion
 %{python3} compare_mandata.py -f %{_rpmconfigdir}/brp-compress
