@@ -40,12 +40,9 @@ Summary:        %{summary}
 
 %prep
 %autosetup
-
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 9
 # Hack: We remove tests that are broken by OpenLDAP 2.5+
 # Don't do this in the regular Fedora package, please
 rm Tests/t_ldapobject.py Tests/t_cext.py Tests/t_edit.py Tests/t_ldap_sasl.py Tests/t_ldap_syncrepl.py Tests/t_slapdobject.py Tests/t_bind.py Tests/t_ldap_options.py Tests/t_ldap_schema_subentry.py
-%endif
 
 
 %generate_buildrequires
@@ -97,14 +94,12 @@ grep -E '/site-packages/__pycache__$' %{pyproject_files} && exit 1 || true
 grep -E '/site-packages/__pycache__/$' %{pyproject_files} && exit 1 || true
 
 # Internal check for the value of %%{pyproject_build_lib} in an archful package
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 10
-%if 0%{?fedora} >= 37 || 0%{?rhel} >= 10
-test "%{pyproject_build_lib}" == "%{_builddir}/%{buildsubdir}/build/lib.%{python3_platform}-cpython-%{python3_version_nodots}"
-%else
-test "%{pyproject_build_lib}" == "%{_builddir}/%{buildsubdir}/build/lib.%{python3_platform}-%{python3_version}"
-%endif
-%else
+%if 0%{?rhel} == 9
 test "%{pyproject_build_lib}" == "$(echo %{_pyproject_builddir}/pip-req-build-*/build/lib.%{python3_platform}-%{python3_version})"
+%elif 0%{?fedora} == 36
+test "%{pyproject_build_lib}" == "%{_builddir}/%{buildsubdir}/build/lib.%{python3_platform}-%{python3_version}"
+%else
+test "%{pyproject_build_lib}" == "%{_builddir}/%{buildsubdir}/build/lib.%{python3_platform}-cpython-%{python3_version_nodots}"
 %endif
 
 

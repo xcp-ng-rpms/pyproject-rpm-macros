@@ -11,7 +11,7 @@ BuildArch:      noarch
 BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
 
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 10
+%if 0%{?rhel} != 9
 # Internal check for our macros: test that we can install to a custom prefix
 BuildRequires:  python3-rpm-macros >= 3.10-18
 %global _prefix /app
@@ -49,13 +49,13 @@ head -n1 %{buildroot}%{_bindir}/%{name}.py | grep -E '#!\s*%{python3}\s+%{py3_sh
 test ! -e %{buildroot}%{python3_sitelib}/*.dist-info/direct_url.json
 
 # Internal check for the value of %%{pyproject_build_lib} in a noarch package
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 10
-test "%{pyproject_build_lib}" == "${PWD}/build/lib"
-%else
+%if 0%{?rhel} == 9
 test "%{pyproject_build_lib}" == "$(echo %{_pyproject_builddir}/pip-req-build-*/build/lib)"
+%else
+test "%{pyproject_build_lib}" == "${PWD}/build/lib"
 %endif
 
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 10
+%if 0%{?rhel} != 9
 # Internal check for custom prefix
 grep '^/usr' %{pyproject_files} && exit 1 || true
 grep '^/app' %{pyproject_files}
