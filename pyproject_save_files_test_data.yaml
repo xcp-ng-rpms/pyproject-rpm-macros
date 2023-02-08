@@ -230,6 +230,28 @@ classified:
       - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/COPYING.md
       - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/INSTALLER
       licenses: []
+    lang:
+      ipykernel:
+        fr:
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/fr_FR/LC_MESSAGES/nbjs.mo
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/fr_FR/LC_MESSAGES/nbui.mo
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/fr_FR/LC_MESSAGES/notebook.mo
+        ja:
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/ja_JP/LC_MESSAGES/nbjs.mo
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/ja_JP/LC_MESSAGES/nbui.mo
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/ja_JP/LC_MESSAGES/notebook.mo
+        nl:
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/nl/LC_MESSAGES/nbjs.mo
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/nl/LC_MESSAGES/nbui.mo
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/nl/LC_MESSAGES/notebook.mo
+        ru:
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/ru_RU/LC_MESSAGES/nbjs.mo
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/ru_RU/LC_MESSAGES/nbui.mo
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/ru_RU/LC_MESSAGES/notebook.mo
+        zh:
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/zh_CN/LC_MESSAGES/nbjs.mo
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/zh_CN/LC_MESSAGES/nbui.mo
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/zh_CN/LC_MESSAGES/notebook.mo
     modules:
       ipykernel:
       - files:
@@ -279,6 +301,8 @@ classified:
         - /usr/lib/python3.7/site-packages/ipykernel/gui/gtk3embed.py
         - /usr/lib/python3.7/site-packages/ipykernel/gui/gtkembed.py
         - /usr/lib/python3.7/site-packages/ipykernel/heartbeat.py
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/__init__.py
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/__pycache__/__init__.cpython-37{,.opt-?}.pyc
         - /usr/lib/python3.7/site-packages/ipykernel/inprocess/__init__.py
         - /usr/lib/python3.7/site-packages/ipykernel/inprocess/__pycache__/__init__.cpython-37{,.opt-?}.pyc
         - /usr/lib/python3.7/site-packages/ipykernel/inprocess/__pycache__/blocking.cpython-37{,.opt-?}.pyc
@@ -362,6 +386,18 @@ classified:
         - /usr/lib/python3.7/site-packages/ipykernel/comm/__pycache__
         - /usr/lib/python3.7/site-packages/ipykernel/gui
         - /usr/lib/python3.7/site-packages/ipykernel/gui/__pycache__
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/__pycache__
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/fr_FR
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/fr_FR/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/ja_JP
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/ja_JP/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/nl
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/nl/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/ru_RU
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/ru_RU/LC_MESSAGES
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/zh_CN
+        - /usr/lib/python3.7/site-packages/ipykernel/i18n/zh_CN/LC_MESSAGES
         - /usr/lib/python3.7/site-packages/ipykernel/inprocess
         - /usr/lib/python3.7/site-packages/ipykernel/inprocess/__pycache__
         - /usr/lib/python3.7/site-packages/ipykernel/inprocess/tests
@@ -7559,6 +7595,18 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/comm/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/gui'
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/gui/__pycache__'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/i18n'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/i18n/__pycache__'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/i18n/fr_FR'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/i18n/fr_FR/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/i18n/ja_JP'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/i18n/ja_JP/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/i18n/nl'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/i18n/nl/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/i18n/ru_RU'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/i18n/ru_RU/LC_MESSAGES'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/i18n/zh_CN'
+    - '%dir /usr/lib/python3.7/site-packages/ipykernel/i18n/zh_CN/LC_MESSAGES'
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/inprocess'
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/inprocess/__pycache__'
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/inprocess/tests'
@@ -7568,6 +7616,21 @@ dumped:
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/resources'
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/tests'
     - '%dir /usr/lib/python3.7/site-packages/ipykernel/tests/__pycache__'
+    - '%lang(fr) /usr/lib/python3.7/site-packages/ipykernel/i18n/fr_FR/LC_MESSAGES/nbjs.mo'
+    - '%lang(fr) /usr/lib/python3.7/site-packages/ipykernel/i18n/fr_FR/LC_MESSAGES/nbui.mo'
+    - '%lang(fr) /usr/lib/python3.7/site-packages/ipykernel/i18n/fr_FR/LC_MESSAGES/notebook.mo'
+    - '%lang(ja) /usr/lib/python3.7/site-packages/ipykernel/i18n/ja_JP/LC_MESSAGES/nbjs.mo'
+    - '%lang(ja) /usr/lib/python3.7/site-packages/ipykernel/i18n/ja_JP/LC_MESSAGES/nbui.mo'
+    - '%lang(ja) /usr/lib/python3.7/site-packages/ipykernel/i18n/ja_JP/LC_MESSAGES/notebook.mo'
+    - '%lang(nl) /usr/lib/python3.7/site-packages/ipykernel/i18n/nl/LC_MESSAGES/nbjs.mo'
+    - '%lang(nl) /usr/lib/python3.7/site-packages/ipykernel/i18n/nl/LC_MESSAGES/nbui.mo'
+    - '%lang(nl) /usr/lib/python3.7/site-packages/ipykernel/i18n/nl/LC_MESSAGES/notebook.mo'
+    - '%lang(ru) /usr/lib/python3.7/site-packages/ipykernel/i18n/ru_RU/LC_MESSAGES/nbjs.mo'
+    - '%lang(ru) /usr/lib/python3.7/site-packages/ipykernel/i18n/ru_RU/LC_MESSAGES/nbui.mo'
+    - '%lang(ru) /usr/lib/python3.7/site-packages/ipykernel/i18n/ru_RU/LC_MESSAGES/notebook.mo'
+    - '%lang(zh) /usr/lib/python3.7/site-packages/ipykernel/i18n/zh_CN/LC_MESSAGES/nbjs.mo'
+    - '%lang(zh) /usr/lib/python3.7/site-packages/ipykernel/i18n/zh_CN/LC_MESSAGES/nbui.mo'
+    - '%lang(zh) /usr/lib/python3.7/site-packages/ipykernel/i18n/zh_CN/LC_MESSAGES/notebook.mo'
     - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/COPYING.md
     - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/INSTALLER
     - /usr/lib/python3.7/site-packages/ipykernel-5.2.1.dist-info/METADATA
@@ -7619,6 +7682,8 @@ dumped:
     - /usr/lib/python3.7/site-packages/ipykernel/gui/gtk3embed.py
     - /usr/lib/python3.7/site-packages/ipykernel/gui/gtkembed.py
     - /usr/lib/python3.7/site-packages/ipykernel/heartbeat.py
+    - /usr/lib/python3.7/site-packages/ipykernel/i18n/__init__.py
+    - /usr/lib/python3.7/site-packages/ipykernel/i18n/__pycache__/__init__.cpython-37{,.opt-?}.pyc
     - /usr/lib/python3.7/site-packages/ipykernel/inprocess/__init__.py
     - /usr/lib/python3.7/site-packages/ipykernel/inprocess/__pycache__/__init__.cpython-37{,.opt-?}.pyc
     - /usr/lib/python3.7/site-packages/ipykernel/inprocess/__pycache__/blocking.cpython-37{,.opt-?}.pyc
@@ -7713,6 +7778,7 @@ dumped:
     - ipykernel.gui.gtk3embed
     - ipykernel.gui.gtkembed
     - ipykernel.heartbeat
+    - ipykernel.i18n
     - ipykernel.inprocess
     - ipykernel.inprocess.blocking
     - ipykernel.inprocess.channels
@@ -15673,6 +15739,24 @@ records:
       ipykernel/gui/gtk3embed.py,sha256=mjUXqAzPxF956OcmWdWzvU2VLJoZ4ZyXrqCImJcn_Ug,3222
       ipykernel/gui/gtkembed.py,sha256=yYp-Npg8jPrfXiN6mrzFy8L6JS7JeBOHz5WxTxSdvMA,3131
       ipykernel/heartbeat.py,sha256=ZwIsWYgvjZQgFLjw6PrD9GJnN9XO1CzafUc89DEiPaA,4194
+      ipykernel/i18n/__init__.py,sha256=0000000000000000000000000000000000000000000,10
+      ipykernel/i18n/__pycache__/__init__.cpython-37.opt-1.pyc,,
+      ipykernel/i18n/__pycache__/__init__.cpython-37.pyc,,
+      ipykernel/i18n/fr_FR/LC_MESSAGES/nbjs.mo,sha256=0000000000000000000000000000000000000000000,10
+      ipykernel/i18n/fr_FR/LC_MESSAGES/nbui.mo,sha256=0000000000000000000000000000000000000000000,10
+      ipykernel/i18n/fr_FR/LC_MESSAGES/notebook.mo,sha256=0000000000000000000000000000000000000000000,10
+      ipykernel/i18n/ja_JP/LC_MESSAGES/nbjs.mo,sha256=0000000000000000000000000000000000000000000,10
+      ipykernel/i18n/ja_JP/LC_MESSAGES/nbui.mo,sha256=0000000000000000000000000000000000000000000,10
+      ipykernel/i18n/ja_JP/LC_MESSAGES/notebook.mo,sha256=0000000000000000000000000000000000000000000,10
+      ipykernel/i18n/nl/LC_MESSAGES/nbjs.mo,sha256=0000000000000000000000000000000000000000000,10
+      ipykernel/i18n/nl/LC_MESSAGES/nbui.mo,sha256=0000000000000000000000000000000000000000000,10
+      ipykernel/i18n/nl/LC_MESSAGES/notebook.mo,sha256=0000000000000000000000000000000000000000000,10
+      ipykernel/i18n/ru_RU/LC_MESSAGES/nbjs.mo,sha256=0000000000000000000000000000000000000000000,10
+      ipykernel/i18n/ru_RU/LC_MESSAGES/nbui.mo,sha256=0000000000000000000000000000000000000000000,10
+      ipykernel/i18n/ru_RU/LC_MESSAGES/notebook.mo,sha256=0000000000000000000000000000000000000000000,10
+      ipykernel/i18n/zh_CN/LC_MESSAGES/nbjs.mo,sha256=0000000000000000000000000000000000000000000,10
+      ipykernel/i18n/zh_CN/LC_MESSAGES/nbui.mo,sha256=0000000000000000000000000000000000000000000,10
+      ipykernel/i18n/zh_CN/LC_MESSAGES/notebook.mo,sha256=0000000000000000000000000000000000000000000,10
       ipykernel/inprocess/__init__.py,sha256=UrsfQEevAq5OZ3au4Fn9bu_7c6b_QqroRIE7vE4PB_o,211
       ipykernel/inprocess/__pycache__/__init__.cpython-37.pyc,,
       ipykernel/inprocess/__pycache__/blocking.cpython-37.pyc,,

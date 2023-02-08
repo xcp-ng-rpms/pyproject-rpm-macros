@@ -154,8 +154,8 @@ def add_lang_to_module(paths, module_name, path):
     Returns True if the language code detection was successful
     """
     for i, parent in enumerate(path.parents):
-        if i > 0 and parent.name == 'locale':
-            lang_country_code = path.parents[i-1].name
+        if parent.name == 'LC_MESSAGES':
+            lang_country_code = path.parents[i+1].name
             break
     else:
         return False
