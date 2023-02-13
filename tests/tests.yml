@@ -88,6 +88,9 @@
     - fake_requirements:
         dir: .
         run: ./mocktest.sh fake-requirements
+    - virtualenv:
+        dir: .
+        run: ./mocktest.sh python-virtualenv
     - escape_percentages:
         dir: .
         run: rpmbuild -ba escape_percentages.spec
