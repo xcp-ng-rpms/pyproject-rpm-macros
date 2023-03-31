@@ -77,7 +77,7 @@ def test_data(case_name, capfd, tmp_path, monkeypatch):
             expected = case['expected']
             if isinstance(expected, list):
                 # at least one of them needs to match
-                assert any(dependencies == e for e in expected)
+                assert dependencies in expected
             else:
                 assert dependencies == expected
 
