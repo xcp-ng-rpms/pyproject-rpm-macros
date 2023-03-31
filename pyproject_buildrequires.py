@@ -4,7 +4,6 @@ import os
 import sys
 import importlib.metadata
 import argparse
-import tempfile
 import traceback
 import contextlib
 import json
