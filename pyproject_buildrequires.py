@@ -5,7 +5,6 @@ import sys
 import importlib.metadata
 import argparse
 import traceback
-import contextlib
 import json
 import subprocess
 import re
@@ -45,39 +44,6 @@ except ImportError as e:
 from pyproject_convert import convert
 
 
-@contextlib.contextmanager
-def hook_call():
-    """Context manager that records all stdout content (on FD level)
-    and prints it to stderr at the end, with a 'HOOK STDOUT: ' prefix."""
-    tmpfile = io.TextIOWrapper(
-        tempfile.TemporaryFile(buffering=0),
-        encoding='utf-8',
-        errors='replace',
-        write_through=True,
-    )
-
-    stdout_fd = 1
-    stdout_fd_dup = os.dup(stdout_fd)
-    stdout_orig = sys.stdout
-
-    # begin capture
-    sys.stdout = tmpfile
-    os.dup2(tmpfile.fileno(), stdout_fd)
-
-    try:
-        yield
-    finally:
-        # end capture
-        sys.stdout = stdout_orig
-        os.dup2(stdout_fd_dup, stdout_fd)
-
-        tmpfile.seek(0)  # rewind
-        for line in tmpfile:
-            print_err('HOOK STDOUT:', line, end='')
-
-        tmpfile.close()
-
-
 def guess_reason_for_invalid_requirement(requirement_str):
     if ':' in requirement_str:
         message = (
@@ -99,10 +65,11 @@ def guess_reason_for_invalid_requirement(requirement_str):
 
 
 class Requirements:
-    """Requirement printer"""
+    """Requirement gatherer. The macro will eventually print out output_lines."""
     def __init__(self, get_installed_version, extras=None,
                  generate_extras=False, python3_pkgversion='3'):
         self.get_installed_version = get_installed_version
+        self.output_lines = []
         self.extras = set()
 
         if extras:
@@ -191,12 +158,12 @@ class Requirements:
                 together.append(convert(python3dist(name, python3_pkgversion=self.python3_pkgversion),
                                         specifier.operator, specifier.version))
             if len(together) == 0:
-                print(python3dist(name,
-                                  python3_pkgversion=self.python3_pkgversion))
+                dep = python3dist(name, python3_pkgversion=self.python3_pkgversion)
+                self.output_lines.append(dep)
             elif len(together) == 1:
-                print(together[0])
+                self.output_lines.append(together[0])
             else:
-                print(f"({' with '.join(together)})")
+                self.output_lines.append(f"({' with '.join(together)})")
 
     def check(self, *, source=None):
         """End current pass if any unsatisfied dependencies were output"""
@@ -284,8 +251,7 @@ def get_backend(requirements):
 def generate_build_requirements(backend, requirements):
     get_requires = getattr(backend, 'get_requires_for_build_wheel', None)
     if get_requires:
-        with hook_call():
-            new_reqs = get_requires()
+        new_reqs = get_requires()
         requirements.extend(new_reqs, source='get_requires_for_build_wheel')
         requirements.check(source='get_requires_for_build_wheel')
 
@@ -305,8 +271,7 @@ def generate_run_requirements_hook(backend, requirements):
             'Use the provisional -w flag to build the wheel and parse the metadata from it, '
             'or use the -R flag not to generate runtime dependencies.'
         )
-    with hook_call():
-        dir_basename = prepare_metadata('.')
+    dir_basename = prepare_metadata('.')
     with open(dir_basename + '/METADATA') as metadata_file:
         for key, requires in requires_from_metadata_file(metadata_file).items():
             requirements.extend(requires, source=f'hook generated metadata: {key}')
@@ -411,9 +376,12 @@ def python3dist(name, op=None, version=None, python3_pkgversion="3"):
 def generate_requires(
     *, include_runtime=False, build_wheel=False, wheeldir=None, toxenv=None, extras=None,
     get_installed_version=importlib.metadata.version,  # for dep injection
-    generate_extras=False, python3_pkgversion="3", requirement_files=None, use_build_system=True
+    generate_extras=False, python3_pkgversion="3", requirement_files=None, use_build_system=True,
+    output,
 ):
     """Generate the BuildRequires for the project in the current directory
+
+    The generated BuildRequires are written to the provided output.
 
     This is the main Python entry point.
     """
@@ -443,6 +411,8 @@ def generate_requires(
             generate_run_requirements(backend, requirements, build_wheel=build_wheel, wheeldir=wheeldir)
     except EndPass:
         return
+    finally:
+        output.write_text(os.linesep.join(requirements.output_lines) + os.linesep)
 
 
 def main(argv):
@@ -467,6 +437,9 @@ def main(argv):
     parser.add_argument(
         '-p', '--python3_pkgversion', metavar='PYTHON3_PKGVERSION',
         default="3", help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        '--output', type=pathlib.Path, required=True, help=argparse.SUPPRESS,
     )
     parser.add_argument(
         '--wheeldir', metavar='PATH', default=None,
@@ -538,6 +511,7 @@ def main(argv):
             python3_pkgversion=args.python3_pkgversion,
             requirement_files=args.requirement_files,
             use_build_system=args.use_build_system,
+            output=args.output,
         )
     except Exception:
         # Log the traceback explicitly (it's useful debug info)

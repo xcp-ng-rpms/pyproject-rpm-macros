@@ -21,6 +21,7 @@ def test_data(case_name, capfd, tmp_path, monkeypatch):
     monkeypatch.chdir(cwd)
     wheeldir = cwd.joinpath('wheeldir')
     wheeldir.mkdir()
+    output = tmp_path.joinpath('output.txt')
 
     if case.get('xfail'):
         pytest.xfail(case.get('xfail'))
@@ -54,6 +55,7 @@ def test_data(case_name, capfd, tmp_path, monkeypatch):
             generate_extras=case.get('generate_extras', False),
             requirement_files=requirement_files,
             use_build_system=use_build_system,
+            output=output,
         )
     except SystemExit as e:
         assert e.code == case['result']
@@ -69,14 +71,15 @@ def test_data(case_name, capfd, tmp_path, monkeypatch):
         assert 'expected' in case or 'stderr_contains' in case
 
         out, err = capfd.readouterr()
+        dependencies = output.read_text()
 
         if 'expected' in case:
             expected = case['expected']
             if isinstance(expected, list):
                 # at least one of them needs to match
-                assert any(out == e for e in expected)
+                assert any(dependencies == e for e in expected)
             else:
-                assert out == expected
+                assert dependencies == expected
 
         # stderr_contains may be a string or list of strings
         stderr_contains = case.get('stderr_contains')

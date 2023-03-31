@@ -19,6 +19,7 @@
 %_pyproject_modules %{_builddir}/%{_pyproject_files_prefix}-pyproject-modules
 %_pyproject_ghost_distinfo %{_builddir}/%{_pyproject_files_prefix}-pyproject-ghost-distinfo
 %_pyproject_record %{_builddir}/%{_pyproject_files_prefix}-pyproject-record
+%_pyproject_buildrequires %{_builddir}/%{_pyproject_files_prefix}-pyproject-buildrequires
 
 # Avoid leaking %%{_pyproject_builddir} to pytest collection
 # https://bugzilla.redhat.com/show_bug.cgi?id=1935212
@@ -169,8 +170,10 @@ fi}
 rm -rfv *.dist-info/ >&2
 if [ -f %{__python3} ]; then
   mkdir -p "%{_pyproject_builddir}"
+  echo -n > %{_pyproject_buildrequires}
   CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" TMPDIR="%{_pyproject_builddir}" \\\
-  RPM_TOXENV="%{toxenv}" HOSTNAME="rpmbuild" %{__python3} -Bs %{_rpmconfigdir}/redhat/pyproject_buildrequires.py %{?!_python_no_extras_requires:--generate-extras} --python3_pkgversion %{python3_pkgversion} --wheeldir %{_pyproject_wheeldir} %{?**}
+  RPM_TOXENV="%{toxenv}" HOSTNAME="rpmbuild" %{__python3} -Bs %{_rpmconfigdir}/redhat/pyproject_buildrequires.py %{?!_python_no_extras_requires:--generate-extras} --python3_pkgversion %{python3_pkgversion} --wheeldir %{_pyproject_wheeldir} --output %{_pyproject_buildrequires} %{?**} >&2
+  cat %{_pyproject_buildrequires}
 fi
 # Incomplete .dist-info dir might confuse importlib.metadata
 rm -rfv *.dist-info/ >&2

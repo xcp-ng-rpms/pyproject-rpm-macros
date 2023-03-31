@@ -37,6 +37,9 @@ Summary:        %{summary}
 %autosetup -p1 -n %{pypi_name}-%{version}
 # remove optional test dependencies we don't like to pull in
 sed -E -i '/mock|nose/d' setup.cfg
+# internal check for our macros: insert a subprocess echo to setup.py
+# to ensure it's not generated as BuildRequires
+echo 'import os; os.system("echo if-this-is-generated-the-build-will-fail")' >> setup.py
 
 
 %generate_buildrequires
