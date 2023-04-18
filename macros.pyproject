@@ -34,7 +34,14 @@ CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" TMPDI
 }
 
 
-%pyproject_build_lib %{expand:\\\
+%pyproject_build_lib %{!?__pyproject_build_lib_warned:%{warn:The %%{pyproject_build_lib} macro is deprecated.
+It only works with setuptools and is not build-backend-agnostic.
+The macro is not scheduled for removal, but there is a possibility of incompatibilities with future versions of setuptools.
+As a replacement for the macro for the setuptools backend on Fedora 37+, you can use $PWD/build/lib for pure Python packages,
+or $PWD/build/lib.%%{python3_platform}-cpython-%%{python3_version_nodots} for packages with extension modules.
+Other build backends and older distributions may need different paths.
+See https://lists.fedoraproject.org/archives/list/python-devel@lists.fedoraproject.org/thread/HMLOPAU3RZLXD4BOJHTIPKI3I4U6U7OE/ for details.
+}%{global __pyproject_build_lib_warned 1}}%{expand:\\\
 $(
 pyproject_build_lib=()
 if [ -d build/lib.%{python3_platform}-cpython-%{python3_version_nodots} ]; then
