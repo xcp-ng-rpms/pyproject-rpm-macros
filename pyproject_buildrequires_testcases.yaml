@@ -835,3 +835,149 @@ Stdout from wrapped subprocess does not appear in output:
     python3dist(wheel)
     python3dist(wheel)
   result: 0
+
+pyproject.toml with runtime dependencies:
+  installed:
+    setuptools: 50
+    wheel: 1
+    toml: 1
+  pyproject.toml: |
+    [build-system]
+    requires = ["setuptools"]
+    build-backend = "setuptools.build_meta"
+    [project]
+    name = "my_package"
+    version = "0.1"
+    dependencies = [
+        "foo",
+        'importlib-metadata; python_version<"3.8"',
+    ]
+  expected: |
+    python3dist(setuptools)
+    python3dist(wheel)
+    python3dist(foo)
+  result: 0
+
+pyproject.toml with runtime dependencies and partially selected extras:
+  installed:
+    setuptools: 50
+    wheel: 1
+    toml: 1
+  extras:
+    - tests
+  pyproject.toml: |
+    [build-system]
+    requires = ["setuptools"]
+    build-backend = "setuptools.build_meta"
+    [project]
+    name = "my_package"
+    version = "0.1"
+    dependencies = [
+        "foo",
+        'importlib-metadata; python_version<"3.8"',
+    ]
+    [project.optional-dependencies]
+    tests = ["pytest>=5", "pytest-mock"]
+    docs = ["sphinx", "python-docs-theme"]
+  expected: |
+    python3dist(setuptools)
+    python3dist(wheel)
+    python3dist(foo)
+    python3dist(pytest) >= 5
+    python3dist(pytest-mock)
+  result: 0
+
+pyproject.toml with runtime dependencies and self-referencing extras (sooner):
+  installed:
+    setuptools: 50
+    wheel: 1
+    toml: 1
+  extras:
+    - dev  # this is deliberately sooner in the alphabet than the referenced ones
+  pyproject.toml: |
+    [build-system]
+    requires = ["setuptools"]
+    build-backend = "setuptools.build_meta"
+    [project]
+    name = "my_package"
+    version = "0.1"
+    dependencies = [
+        "foo",
+        'importlib-metadata; python_version<"3.8"',
+    ]
+    [project.optional-dependencies]
+    tests = ["pytest>=5", "pytest-mock"]
+    docs = ["sphinx", "python-docs-theme"]
+    dev = ["my_package[docs,tests]"]
+  expected: |
+    python3dist(setuptools)
+    python3dist(wheel)
+    python3dist(foo)
+    python3dist(sphinx)
+    python3dist(python-docs-theme)
+    python3dist(pytest) >= 5
+    python3dist(pytest-mock)
+  result: 0
+
+pyproject.toml with runtime dependencies and self-referencing extras (later):
+  installed:
+    setuptools: 50
+    wheel: 1
+    toml: 1
+  extras:
+    - xdev  # this is deliberately later in the alphabet than the referenced ones
+  pyproject.toml: |
+    [build-system]
+    requires = ["setuptools"]
+    build-backend = "setuptools.build_meta"
+    [project]
+    name = "my_package"
+    version = "0.1"
+    dependencies = [
+        "foo",
+        'importlib-metadata; python_version<"3.8"',
+    ]
+    [project.optional-dependencies]
+    tests = ["pytest>=5", "pytest-mock"]
+    docs = ["sphinx", "python-docs-theme"]
+    xdev = ["my_package[docs,tests]"]
+  expected: |
+    python3dist(setuptools)
+    python3dist(wheel)
+    python3dist(foo)
+    python3dist(sphinx)
+    python3dist(python-docs-theme)
+    python3dist(pytest) >= 5
+    python3dist(pytest-mock)
+  result: 0
+
+pyproject.toml with runtime dependencies and self-referencing extras (maze):
+  installed:
+    setuptools: 50
+    wheel: 1
+    toml: 1
+  extras:
+    - start
+  pyproject.toml: |
+    [build-system]
+    requires = ["setuptools"]
+    build-backend = "setuptools.build_meta"
+    [project]
+    name = "my_package"
+    version = "0.1"
+    [project.optional-dependencies]
+    start = ["my_package[left,right]", "startdep"]
+    left = ["my_package[right,forward]", "leftdep"]
+    right = ["my_package[left,forward]", "rightdep"]
+    forward = ["my_package[backward]", "forwarddep"]
+    backward = ["my_package[left,right]", "backwarddep"]
+    never = ["my_package[forward]", "neverdep"]
+  expected: |
+    python3dist(setuptools)
+    python3dist(wheel)
+    python3dist(backwarddep)
+    python3dist(forwarddep)
+    python3dist(leftdep)
+    python3dist(rightdep)
+    python3dist(startdep)
+  result: 0

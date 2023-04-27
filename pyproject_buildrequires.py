@@ -77,6 +77,7 @@ class Requirements:
                 self.add_extras(*extra.split(','))
 
         self.missing_requirements = False
+        self.ignored_alien_requirements = []
 
         self.generate_extras = generate_extras
         self.python3_pkgversion = python3_pkgversion
@@ -96,7 +97,7 @@ class Requirements:
                 return True
         return False
 
-    def add(self, requirement_str, *, source=None):
+    def add(self, requirement_str, *, package_name=None, source=None):
         """Output a Python-style requirement string as RPM dep"""
         print_err(f'Handling {requirement_str} from {source}')
 
@@ -118,6 +119,21 @@ class Requirements:
         if (requirement.marker is not None and
                 not self.evaluate_all_environments(requirement)):
             print_err(f'Ignoring alien requirement:', requirement_str)
+            self.ignored_alien_requirements.append(requirement_str)
+            return
+
+        # Handle self-referencing requirements
+        if package_name and canonicalize_name(package_name) == name:
+            # Self-referential extras need to be handled specially
+            if requirement.extras:
+                if not (requirement.extras <= self.extras):  # only handle it if needed
+                    # let all further requirements know we want those extras
+                    self.add_extras(*requirement.extras)
+                    # re-add all of the alien requirements ignored in the past
+                    # they might no longer be alien now
+                    self.readd_ignored_alien_requirements(package_name=package_name)
+            else:
+                print_err(f'Ignoring self-referential requirement without extras:', requirement_str)
             return
 
         # We need to always accept pre-releases as satisfying the requirement
@@ -175,6 +191,12 @@ class Requirements:
         """add() several requirements"""
         for req_str in requirement_strs:
             self.add(req_str, **kwargs)
+
+    def readd_ignored_alien_requirements(self, **kwargs):
+        """add() previously ignored alien requirements again."""
+        requirements, self.ignored_alien_requirements = self.ignored_alien_requirements, []
+        kwargs.setdefault('source', 'Previously ignored alien requirements')
+        self.extend(requirements, **kwargs)
 
 
 def toml_load(opened_binary_file):
@@ -256,9 +278,23 @@ def generate_build_requirements(backend, requirements):
         requirements.check(source='get_requires_for_build_wheel')
 
 
-def requires_from_metadata_file(metadata_file):
-    message = email.parser.Parser().parse(metadata_file, headersonly=True)
+def parse_metadata_file(metadata_file):
+    return email.parser.Parser().parse(metadata_file, headersonly=True)
+
+
+def requires_from_parsed_metadata_file(message):
     return {k: message.get_all(k, ()) for k in ('Requires', 'Requires-Dist')}
+
+
+def package_name_from_parsed_metadata_file(message):
+    return message.get('name')
+
+
+def package_name_and_requires_from_metadata_file(metadata_file):
+    message = parse_metadata_file(metadata_file)
+    package_name = package_name_from_parsed_metadata_file(message)
+    requires = requires_from_parsed_metadata_file(message)
+    return package_name, requires
 
 
 def generate_run_requirements_hook(backend, requirements):
@@ -273,8 +309,11 @@ def generate_run_requirements_hook(backend, requirements):
         )
     dir_basename = prepare_metadata('.')
     with open(dir_basename + '/METADATA') as metadata_file:
-        for key, requires in requires_from_metadata_file(metadata_file).items():
-            requirements.extend(requires, source=f'hook generated metadata: {key}')
+        name, requires = package_name_and_requires_from_metadata_file(metadata_file)
+        for key, req in requires.items():
+            requirements.extend(req,
+                                package_name=name,
+                                source=f'hook generated metadata: {key} ({name})')
 
 
 def find_built_wheel(wheeldir):
@@ -304,8 +343,11 @@ def generate_run_requirements_wheel(backend, requirements, wheeldir):
         for name in wheelfile.namelist():
             if name.count('/') == 1 and name.endswith('.dist-info/METADATA'):
                 with io.TextIOWrapper(wheelfile.open(name), encoding='utf-8') as metadata_file:
-                    for key, requires in requires_from_metadata_file(metadata_file).items():
-                        requirements.extend(requires, source=f'built wheel metadata: {key}')
+                    name, requires = package_name_and_requires_from_metadata_file(metadata_file)
+                    for key, req in requires.items():
+                        requirements.extend(req,
+                                            package_name=name,
+                                            source=f'built wheel metadata: {key} ({name})')
                 break
         else:
             raise RuntimeError('Could not find *.dist-info/METADATA in built wheel.')
