@@ -837,6 +837,7 @@ Stdout from wrapped subprocess does not appear in output:
   result: 0
 
 pyproject.toml with runtime dependencies:
+  skipif: not SETUPTOOLS_60
   installed:
     setuptools: 50
     wheel: 1
@@ -859,6 +860,7 @@ pyproject.toml with runtime dependencies:
   result: 0
 
 pyproject.toml with runtime dependencies and partially selected extras:
+  skipif: not SETUPTOOLS_60
   installed:
     setuptools: 50
     wheel: 1
@@ -887,7 +889,7 @@ pyproject.toml with runtime dependencies and partially selected extras:
     python3dist(pytest-mock)
   result: 0
 
-pyproject.toml with runtime dependencies and self-referencing extras (sooner):
+Self-referencing extras (sooner):
   installed:
     setuptools: 50
     wheel: 1
@@ -898,17 +900,18 @@ pyproject.toml with runtime dependencies and self-referencing extras (sooner):
     [build-system]
     requires = ["setuptools"]
     build-backend = "setuptools.build_meta"
-    [project]
-    name = "my_package"
-    version = "0.1"
-    dependencies = [
-        "foo",
-        'importlib-metadata; python_version<"3.8"',
-    ]
-    [project.optional-dependencies]
-    tests = ["pytest>=5", "pytest-mock"]
-    docs = ["sphinx", "python-docs-theme"]
-    dev = ["my_package[docs,tests]"]
+  setup.cfg: |
+    [metadata]
+    name = my_package
+    version = 0.1
+    [options]
+    install_requires =
+        foo
+        importlib-metadata; python_version<"3.8"
+    [options.extras_require]
+    tests = pytest>=5; pytest-mock
+    docs = sphinx; python-docs-theme
+    dev = my_package[docs,tests]
   expected: |
     python3dist(setuptools)
     python3dist(wheel)
@@ -919,7 +922,7 @@ pyproject.toml with runtime dependencies and self-referencing extras (sooner):
     python3dist(pytest-mock)
   result: 0
 
-pyproject.toml with runtime dependencies and self-referencing extras (later):
+Self-referencing extras (later):
   installed:
     setuptools: 50
     wheel: 1
@@ -930,17 +933,18 @@ pyproject.toml with runtime dependencies and self-referencing extras (later):
     [build-system]
     requires = ["setuptools"]
     build-backend = "setuptools.build_meta"
-    [project]
-    name = "my_package"
-    version = "0.1"
-    dependencies = [
-        "foo",
-        'importlib-metadata; python_version<"3.8"',
-    ]
-    [project.optional-dependencies]
-    tests = ["pytest>=5", "pytest-mock"]
-    docs = ["sphinx", "python-docs-theme"]
-    xdev = ["my_package[docs,tests]"]
+  setup.cfg: |
+    [metadata]
+    name = my_package
+    version = 0.1
+    [options]
+    install_requires =
+        foo
+        importlib-metadata; python_version<"3.8"
+    [options.extras_require]
+    tests = pytest>=5; pytest-mock
+    docs = sphinx; python-docs-theme
+    xdev = my_package[docs,tests]
   expected: |
     python3dist(setuptools)
     python3dist(wheel)
@@ -951,7 +955,7 @@ pyproject.toml with runtime dependencies and self-referencing extras (later):
     python3dist(pytest-mock)
   result: 0
 
-pyproject.toml with runtime dependencies and self-referencing extras (maze):
+Self-referencing extras (maze):
   installed:
     setuptools: 50
     wheel: 1
@@ -962,16 +966,17 @@ pyproject.toml with runtime dependencies and self-referencing extras (maze):
     [build-system]
     requires = ["setuptools"]
     build-backend = "setuptools.build_meta"
-    [project]
-    name = "my_package"
-    version = "0.1"
-    [project.optional-dependencies]
-    start = ["my_package[left,right]", "startdep"]
-    left = ["my_package[right,forward]", "leftdep"]
-    right = ["my_package[left,forward]", "rightdep"]
-    forward = ["my_package[backward]", "forwarddep"]
-    backward = ["my_package[left,right]", "backwarddep"]
-    never = ["my_package[forward]", "neverdep"]
+  setup.cfg: |
+    [metadata]
+    name = my_package
+    version = 0.1
+    [options.extras_require]
+    start = my_package[left,right]; startdep
+    left = my_package[right,forward]; leftdep
+    right = my_package[left,forward]; rightdep
+    forward = my_package[backward]; forwarddep
+    backward = my_package[left,right]; backwarddep
+    never = my_package[forward]; neverdep
   expected: |
     python3dist(setuptools)
     python3dist(wheel)
