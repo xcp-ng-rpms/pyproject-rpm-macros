@@ -2,7 +2,9 @@ Name:           pyproject-rpm-macros
 Summary:        RPM macros for PEP 517 Python packages
 License:        MIT
 
-%bcond_without tests
+%bcond tests 1
+# pytest-xdist is not available in RHEL
+%bcond pytest_xdist %{undefined rhel}
 
 # The idea is to follow the spirit of semver
 # Given version X.Y.Z:
@@ -47,7 +49,9 @@ BuildArch:      noarch
 
 %if %{with tests}
 BuildRequires:  python3dist(pytest)
+%if %{with pytest_xdist}
 BuildRequires:  python3dist(pytest-xdist)
+%endif
 BuildRequires:  python3dist(pyyaml)
 BuildRequires:  python3dist(packaging)
 BuildRequires:  python3dist(pip)
@@ -128,7 +132,7 @@ test "$signature1" != ""
 
 %if %{with tests}
 export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856356
-%pytest -vv --doctest-modules -n auto
+%pytest -vv --doctest-modules %{?with_pytest_xdist:-n auto}
 
 # brp-compress is provided as an argument to get the right directory macro expansion
 %{python3} compare_mandata.py -f %{_rpmconfigdir}/brp-compress
