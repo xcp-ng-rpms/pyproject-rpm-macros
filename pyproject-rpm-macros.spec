@@ -118,8 +118,15 @@ install -pm 644 pyproject_construct_toxenv.py %{buildroot}%{_rpmconfigdir}/redha
 install -pm 644 pyproject_requirements_txt.py %{buildroot}%{_rpmconfigdir}/redhat/
 install -pm 644 pyproject_wheel.py %{buildroot}%{_rpmconfigdir}/redhat/
 
-%if %{with tests}
 %check
+# assert the two signatures of %%pyproject_buildrequires match exactly
+signature1="$(grep '^%%pyproject_buildrequires' macros.pyproject | cut -d' ' -f1)"
+signature2="$(grep '^%%pyproject_buildrequires' macros.aaa-pyproject-srpm | cut -d' ' -f1)"
+test "$signature1" == "$signature2"
+# but also assert we are not comparing empty strings
+test "$signature1" != ""
+
+%if %{with tests}
 export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856356
 %pytest -vv --doctest-modules -n auto
 
