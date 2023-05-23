@@ -3,8 +3,9 @@ Summary:        RPM macros for PEP 517 Python packages
 License:        MIT
 
 %bcond tests 1
-# pytest-xdist is not available in RHEL
+# pytest-xdist and tox are not desired in RHEL
 %bcond pytest_xdist %{undefined rhel}
+%bcond tox_tests %{undefined rhel}
 
 # The idea is to follow the spirit of semver
 # Given version X.Y.Z:
@@ -56,7 +57,9 @@ BuildRequires:  python3dist(pyyaml)
 BuildRequires:  python3dist(packaging)
 BuildRequires:  python3dist(pip)
 BuildRequires:  python3dist(setuptools)
+%if %{with tox_tests}
 BuildRequires:  python3dist(tox-current-env) >= 0.0.6
+%endif
 BuildRequires:  python3dist(wheel)
 BuildRequires:  (python3dist(toml) if python3-devel < 3.11)
 %endif
@@ -132,7 +135,7 @@ test "$signature1" != ""
 
 %if %{with tests}
 export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856356
-%pytest -vv --doctest-modules %{?with_pytest_xdist:-n auto}
+%pytest -vv --doctest-modules %{?with_pytest_xdist:-n auto} %{!?with_tox_tests:-k "not tox"}
 
 # brp-compress is provided as an argument to get the right directory macro expansion
 %{python3} compare_mandata.py -f %{_rpmconfigdir}/brp-compress
