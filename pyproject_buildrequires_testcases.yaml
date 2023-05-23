@@ -389,7 +389,7 @@ Run dependencies with extras and build wheel option:
   result: 0
   stderr_contains: "Reading metadata from {wheeldir}/pytest-6.6.6-py3-none-any.whl"
 
-Tox dependencies:
+tox dependencies:
   installed:
     setuptools: 50
     wheel: 1
@@ -433,7 +433,7 @@ Tox dependencies:
       python3dist(inst)
   result: 0
 
-Tox extras:
+tox extras:
   installed:
     setuptools: 50
     wheel: 1
@@ -497,7 +497,7 @@ Tox extras:
       python3dist(extra-dep[extra_dep])
   result: 0
 
-Tox provision unsatisfied:
+tox provision unsatisfied:
   installed:
     setuptools: 50
     wheel: 1
@@ -542,7 +542,7 @@ Tox provision unsatisfied:
       python3dist(tox) >= 3.999
   result: 0
 
-Tox provision satisfied:
+tox provision satisfied:
   installed:
     setuptools: 50
     wheel: 1
