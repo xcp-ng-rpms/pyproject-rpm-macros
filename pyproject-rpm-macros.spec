@@ -14,7 +14,7 @@ License:        MIT
 #   Increment Z when this is a bugfix or a cosmetic change
 # Dropping support for EOL Fedoras is *not* considered a breaking change
 Version:        1.8.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 # Macro files
 Source001:      macros.pyproject
@@ -161,6 +161,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 
 
 %changelog
+* Tue May 23 2023 Miro Hrončok <mhroncok@redhat.com> - 1.8.0-2
+- Rebuilt for ELN dependency changes
+
 * Thu Apr 27 2023 Miro Hrončok <mhroncok@redhat.com> - 1.8.0-1
 - %%pyproject_buildrequires: Add support for self-referential extras requirements
   Fixes: rhbz#2171343
