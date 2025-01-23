@@ -1,7 +1,7 @@
 %global package_speccommit ed24728a4f2f1fc31867e9f0fe7e79a7d5968b2e
 %global usver 1.8.0
 %global xsver 4
-%global xsrel %{xsver}%{?xscount}%{?xshash}
+%global xsrel %{xsver}.0.1%{?xscount}%{?xshash}
 Name:           pyproject-rpm-macros
 Summary:        RPM macros for PEP 517 Python packages
 License:        MIT
@@ -64,6 +64,7 @@ BuildRequires:  (python3dist(toml) if python3-devel < 3.11)
 # We build on top of those:
 BuildRequires:  python-rpm-macros
 BuildRequires:  python-srpm-macros
+BuildRequires:  epel-rpm-macros
 Requires:       python-rpm-macros
 Requires:       python-srpm-macros
 Requires:       pyproject-srpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -149,6 +150,9 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 
 
 %changelog
+* Thu Jan 23 2025 Yann Dirson <yann.dirson@vates.tech> - 1.8.0-4.0.1
+- Add missing breq on epel-rpm-macros
+
 * Fri Apr 12 2024 Bernhard Kaindl <bernhard.kaindl@cloud.com> - 1.8.0-4
 - Fix {,.opt-?} in generated file names and error from license labels
 * Thu Jun 08 2023 Tim Smith <tim.smith@citrix.com> - 1.8.0-1
