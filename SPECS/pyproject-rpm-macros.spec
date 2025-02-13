@@ -1,7 +1,7 @@
 %global package_speccommit ed24728a4f2f1fc31867e9f0fe7e79a7d5968b2e
 %global usver 1.8.0
 %global xsver 4
-%global xsrel %{xsver}.0.1%{?xscount}%{?xshash}
+%global xsrel %{xsver}.1%{?xscount}%{?xshash}
 Name:           pyproject-rpm-macros
 Summary:        RPM macros for PEP 517 Python packages
 License:        MIT
@@ -150,7 +150,7 @@ export HOSTNAME="rpmbuild"  # to speedup tox in network-less mock, see rhbz#1856
 
 
 %changelog
-* Thu Jan 23 2025 Yann Dirson <yann.dirson@vates.tech> - 1.8.0-4.0.1
+* Thu Jan 23 2025 Yann Dirson <yann.dirson@vates.tech> - 1.8.0-4.1
 - Add missing breq on epel-rpm-macros
 
 * Fri Apr 12 2024 Bernhard Kaindl <bernhard.kaindl@cloud.com> - 1.8.0-4
